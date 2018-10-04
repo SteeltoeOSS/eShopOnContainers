@@ -1,7 +1,17 @@
 # eShopOnContainers - Microservices Architecture and Containers based Reference Application (**BETA state** - Visual Studio 2017 and CLI environments compatible)
+
 Sample .NET Core reference application, powered by Microsoft, based on a simplified microservices architecture and Docker containers.
 
+---
+
+## Steeltoe Edition
+
+This fork exists to demonstrate Steeltoe libraries and eventually deployment to Pivotal Cloud Foundry. **NO CHANGES HAVE BEEN IMPLEMENTED YET**
+
+---
+
 ## IMPORTANT NOTES!
+
 **The current supported Visual Studio version for eShopOnContainers is Visual Studio 2017 15.7** ([GA/RTM since May 8th 2018](https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-relnotes)) or later version. 
 
 **Note for Pull Requests (PRs)**: We accept pull request from the community. When doing it, please do it onto the **DEV branch** which is the consolidated work-in-progress branch. Do not request it onto Master branch, if possible.
