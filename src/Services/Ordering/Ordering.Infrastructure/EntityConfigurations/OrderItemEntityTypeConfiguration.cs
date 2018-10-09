@@ -10,14 +10,13 @@ namespace Ordering.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<OrderItem> orderItemConfiguration)
         {
-            orderItemConfiguration.ToTable("orderItems", OrderingContext.DEFAULT_SCHEMA);
+            orderItemConfiguration.ToTable("orderItems");
 
             orderItemConfiguration.HasKey(o => o.Id);
 
             orderItemConfiguration.Ignore(b => b.DomainEvents);
 
-            orderItemConfiguration.Property(o => o.Id)
-                .ForSqlServerUseSequenceHiLo("orderitemseq");
+            orderItemConfiguration.Property(o => o.Id);
 
             orderItemConfiguration.Property<int>("OrderId")
                 .IsRequired();

@@ -12,7 +12,6 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API.Infrastructure.Entity
             builder.ToTable("Catalog");
 
             builder.Property(ci => ci.Id)
-                .ForSqlServerUseSequenceHiLo("catalog_hilo")
                 .IsRequired();
 
             builder.Property(ci => ci.Name)

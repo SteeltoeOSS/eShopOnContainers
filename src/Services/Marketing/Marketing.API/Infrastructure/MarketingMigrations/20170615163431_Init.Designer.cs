@@ -15,16 +15,13 @@ namespace Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Mark
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
-                .HasAnnotation("SqlServer:Sequence:.campaign_hilo", "'campaign_hilo', '', '1', '10', '', '', 'Int64', 'False'")
-                .HasAnnotation("SqlServer:Sequence:.rule_hilo", "'rule_hilo', '', '1', '10', '', '', 'Int64', 'False'")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("Microsoft.eShopOnContainers.Services.Marketing.API.Model.Campaign", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:HiLoSequenceName", "campaign_hilo")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -53,8 +50,7 @@ namespace Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Mark
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:HiLoSequenceName", "rule_hilo")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.SequenceHiLo);
+                        .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CampaignId");
 
@@ -76,7 +72,6 @@ namespace Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Mark
             modelBuilder.Entity("Microsoft.eShopOnContainers.Services.Marketing.API.Model.PurchaseHistoryRule", b =>
                 {
                     b.HasBaseType("Microsoft.eShopOnContainers.Services.Marketing.API.Model.Rule");
-
 
                     b.ToTable("PurchaseHistoryRule");
 

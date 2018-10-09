@@ -11,14 +11,13 @@ namespace Ordering.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<PaymentMethod> paymentConfiguration)
         {
-            paymentConfiguration.ToTable("paymentmethods", OrderingContext.DEFAULT_SCHEMA);
+            paymentConfiguration.ToTable("paymentmethods");
 
             paymentConfiguration.HasKey(b => b.Id);
 
             paymentConfiguration.Ignore(b => b.DomainEvents);
 
-            paymentConfiguration.Property(b => b.Id)
-                .ForSqlServerUseSequenceHiLo("paymentseq", OrderingContext.DEFAULT_SCHEMA);
+            paymentConfiguration.Property(b => b.Id);
 
             paymentConfiguration.Property<int>("BuyerId")
                 .IsRequired();

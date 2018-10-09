@@ -13,9 +13,9 @@ namespace Identity.API.Migrations.PersistedGrantDb
                 {
                     Key = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
                     ClientId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    CreationTime = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Data = table.Column<string>(type: "nvarchar(max)", maxLength: 50000, nullable: false),
-                    Expiration = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "datetime", nullable: false),
+                    Data = table.Column<string>(type: "TEXT", maxLength: 50000, nullable: false),
+                    Expiration = table.Column<DateTime>(type: "datetime", nullable: true),
                     SubjectId = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Type = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },

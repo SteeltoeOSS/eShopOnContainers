@@ -5,32 +5,33 @@
     using System.Threading.Tasks;
     using System;
     using System.Collections.Generic;
+    using MySql.Data.MySqlClient;
 
     public class OrderQueries
         : IOrderQueries
     {
-        private string _connectionString = string.Empty;
+        private MySqlConnection _connection = null;
 
-        public OrderQueries(string constr)
+        public OrderQueries(MySqlConnection connection)
         {
-            _connectionString = !string.IsNullOrWhiteSpace(constr) ? constr : throw new ArgumentNullException(nameof(constr));
+            _connection = connection ?? throw new ArgumentNullException(nameof(connection));
         }
 
 
         public async Task<Order> GetOrderAsync(int id)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (_connection)
             {
-                connection.Open();
+                _connection.Open();
 
-                var result = await connection.QueryAsync<dynamic>(
-                   @"select o.[Id] as ordernumber,o.OrderDate as date, o.Description as description,
+                var result = await _connection.QueryAsync<dynamic>(
+                   @"select o.Id as ordernumber,o.OrderDate as date, o.Description as description,
                         o.Address_City as city, o.Address_Country as country, o.Address_State as state, o.Address_Street as street, o.Address_ZipCode as zipcode,
                         os.Name as status, 
                         oi.ProductName as productname, oi.Units as units, oi.UnitPrice as unitprice, oi.PictureUrl as pictureurl
-                        FROM ordering.Orders o
-                        LEFT JOIN ordering.Orderitems oi ON o.Id = oi.orderid 
-                        LEFT JOIN ordering.orderstatus os on o.OrderStatusId = os.Id
+                        FROM orders o
+                        LEFT JOIN orderItems oi ON o.Id = oi.orderid 
+                        LEFT JOIN orderstatus os ON o.OrderStatusId = os.Id
                         WHERE o.Id=@id"
                         , new { id }
                     );
@@ -44,28 +45,28 @@
 
         public async Task<IEnumerable<OrderSummary>> GetOrdersFromUserAsync(Guid userId)
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (_connection)
             {
-                connection.Open();
+                _connection.Open();
 
-                return await connection.QueryAsync<OrderSummary>(@"SELECT o.[Id] as ordernumber,o.[OrderDate] as [date],os.[Name] as [status], SUM(oi.units*oi.unitprice) as total
-                     FROM [ordering].[Orders] o
-                     LEFT JOIN[ordering].[orderitems] oi ON  o.Id = oi.orderid 
-                     LEFT JOIN[ordering].[orderstatus] os on o.OrderStatusId = os.Id                     
-                     LEFT JOIN[ordering].[buyers] ob on o.BuyerId = ob.Id
+                return await _connection.QueryAsync<OrderSummary>(@"SELECT o.Id as ordernumber,o.OrderDate as date,os.Name as status, SUM(oi.units*oi.unitprice) as total
+                     FROM orders o
+                     LEFT JOIN orderItems oi ON  o.Id = oi.orderid 
+                     LEFT JOIN orderstatus os ON o.OrderStatusId = os.Id                     
+                     LEFT JOIN buyers ob ON o.BuyerId = ob.Id
                      WHERE ob.IdentityGuid = @userId
-                     GROUP BY o.[Id], o.[OrderDate], os.[Name] 
-                     ORDER BY o.[Id]", new { userId });
+                     GROUP BY o.Id, o.OrderDate, os.Name 
+                     ORDER BY o.Id", new { userId });
             }
         }
 
         public async Task<IEnumerable<CardType>> GetCardTypesAsync()
         {
-            using (var connection = new SqlConnection(_connectionString))
+            using (_connection)
             {
-                connection.Open();
+                _connection.Open();
 
-                return await connection.QueryAsync<CardType>("SELECT * FROM ordering.cardtypes");
+                return await _connection.QueryAsync<CardType>("SELECT * FROM cardtypes");
             }
         }
 

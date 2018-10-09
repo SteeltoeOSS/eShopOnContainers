@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Ordering.BackgroundTasks.Configuration;
 using Ordering.BackgroundTasks.Tasks;
 using RabbitMQ.Client;
+using Steeltoe.CloudFoundry.Connector.MySql;
 using System;
 
 namespace Ordering.BackgroundTasks
@@ -40,7 +41,7 @@ namespace Ordering.BackgroundTasks
                 {
                     minutes = minutesParsed;
                 }
-                checks.AddSqlCheck("OrderingDb", Configuration["ConnectionString"], TimeSpan.FromMinutes(minutes));
+                //checks.AddSqlCheck("OrderingDb", Configuration["ConnectionString"], TimeSpan.FromMinutes(minutes));
             });
 
             //configure settings
@@ -51,6 +52,8 @@ namespace Ordering.BackgroundTasks
             //configure background task
 
             services.AddSingleton<IHostedService, GracePeriodManagerService>();
+
+            services.AddMySqlConnection(Configuration);
 
             //configure event bus related services
 

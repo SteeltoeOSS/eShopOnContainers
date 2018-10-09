@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.eShopOnContainers.Services.Identity.API.Certificates;
 using Microsoft.eShopOnContainers.Services.Identity.API.Data;
 using Microsoft.eShopOnContainers.Services.Identity.API.Models;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
+using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
 using System;
 using System.Reflection;
 
@@ -37,14 +39,13 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
             RegisterAppInsights(services);
 
             // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
-             options.UseSqlServer(Configuration["ConnectionString"],
-                                     sqlServerOptionsAction: sqlOptions =>
-                                     {
-                                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                                         //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                                     }));
+            Action<MySqlDbContextOptionsBuilder> mySqlOptionsAction = (o) =>
+            {
+                o.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                o.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+            };
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration, mySqlOptionsAction));
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -89,23 +90,11 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
             .AddAspNetIdentity<ApplicationUser>()
             .AddConfigurationStore(options =>
             {
-                options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-                                    sqlServerOptionsAction: sqlOptions =>
-                                    {
-                                        sqlOptions.MigrationsAssembly(migrationsAssembly);
-                                        //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                                    });
+                options.ConfigureDbContext = builder => builder.UseMySql(Configuration, mySqlOptionsAction);
             })
             .AddOperationalStore(options =>
                 {
-                    options.ConfigureDbContext = builder => builder.UseSqlServer(connectionString,
-                                    sqlServerOptionsAction: sqlOptions =>
-                                    {
-                                        sqlOptions.MigrationsAssembly(migrationsAssembly);
-                                        //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                                    });
+                    options.ConfigureDbContext = builder => builder.UseMySql(Configuration, mySqlOptionsAction);
                 })
             .Services.AddTransient<IProfileService, ProfileService>();
 

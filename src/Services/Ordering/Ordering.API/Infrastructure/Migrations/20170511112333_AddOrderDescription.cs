@@ -10,7 +10,6 @@ namespace Ordering.API.Migrations
         {
             migrationBuilder.AddColumn<string>(
                 name: "Description",
-                schema: "ordering",
                 table: "orders",
                 nullable: true);
         }
@@ -19,7 +18,6 @@ namespace Ordering.API.Migrations
         {
             migrationBuilder.DropColumn(
                 name: "Description",
-                schema: "ordering",
                 table: "orders");
         }
     }

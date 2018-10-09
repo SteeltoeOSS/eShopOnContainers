@@ -9,12 +9,11 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API.Infrastructure.Entity
     {
         public void Configure(EntityTypeBuilder<CatalogType> builder)
         {
-            builder.ToTable("CatalogType");
+            builder.ToTable("CatalogTypes");
 
             builder.HasKey(ci => ci.Id);
 
             builder.Property(ci => ci.Id)
-               .ForSqlServerUseSequenceHiLo("catalog_type_hilo")
                .IsRequired();
 
             builder.Property(cb => cb.Type)

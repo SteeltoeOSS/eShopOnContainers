@@ -18,6 +18,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Azure.ServiceBus;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.eShopOnContainers.BuildingBlocks.EventBus;
     using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Abstractions;
     using Microsoft.eShopOnContainers.BuildingBlocks.EventBusRabbitMQ;
@@ -30,6 +31,8 @@
     using Microsoft.Extensions.Logging;
     using Ordering.Infrastructure;
     using RabbitMQ.Client;
+    using Steeltoe.CloudFoundry.Connector.MySql;
+    using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
     using Swashbuckle.AspNetCore.Swagger;
     using System;
     using System.Collections.Generic;
@@ -64,7 +67,7 @@
             container.Populate(services);
 
             container.RegisterModule(new MediatorModule());
-            container.RegisterModule(new ApplicationModule(Configuration["ConnectionString"]));
+            container.RegisterModule(new ApplicationModule());
 
             return new AutofacServiceProvider(container.Build());
         }
@@ -180,7 +183,7 @@
                 {
                     minutes = minutesParsed;
                 }
-                checks.AddSqlCheck("OrderingDb", configuration["ConnectionString"], TimeSpan.FromMinutes(minutes));
+                // checks.AddSqlCheck("OrderingDb", configuration["ConnectionString"], TimeSpan.FromMinutes(minutes));
             });
 
             return services;
@@ -188,28 +191,24 @@
 
         public static IServiceCollection AddCustomDbContext(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddEntityFrameworkSqlServer()
+            Action<MySqlDbContextOptionsBuilder> mySqlOptionsAction = (o) =>
+            {
+                o.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                o.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+            };
+            services.AddMySqlConnection(configuration);
+            services.AddEntityFrameworkMySql()
                    .AddDbContext<OrderingContext>(options =>
                    {
-                       options.UseSqlServer(configuration["ConnectionString"],
-                           sqlServerOptionsAction: sqlOptions =>
-                           {
-                               sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                               sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                           });
+                       options.UseMySql(configuration, mySqlOptionsAction);
                    },
                        ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
                    );
 
             services.AddDbContext<IntegrationEventLogContext>(options =>
             {
-                options.UseSqlServer(configuration["ConnectionString"],
-                                     sqlServerOptionsAction: sqlOptions =>
-                                     {
-                                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                                         //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                                     });
+                options.UseMySql(configuration, mySqlOptionsAction);
             });
 
             return services;

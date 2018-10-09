@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.MarketingMigrations
@@ -7,19 +8,11 @@ namespace Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Mark
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateSequence(
-                name: "campaign_hilo",
-                incrementBy: 10);
-
-            migrationBuilder.CreateSequence(
-                name: "rule_hilo",
-                incrementBy: 10);
-
             migrationBuilder.CreateTable(
                 name: "Campaign",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false).Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: false),
                     From = table.Column<DateTime>(nullable: false),
                     Name = table.Column<string>(nullable: false),
@@ -35,7 +28,7 @@ namespace Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Mark
                 name: "Rule",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false),
+                    Id = table.Column<int>(nullable: false).Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     CampaignId = table.Column<int>(nullable: false),
                     Description = table.Column<string>(nullable: false),
                     RuleTypeId = table.Column<int>(nullable: false),
@@ -65,12 +58,6 @@ namespace Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Mark
 
             migrationBuilder.DropTable(
                 name: "Campaign");
-
-            migrationBuilder.DropSequence(
-                name: "campaign_hilo");
-
-            migrationBuilder.DropSequence(
-                name: "rule_hilo");
         }
     }
 }

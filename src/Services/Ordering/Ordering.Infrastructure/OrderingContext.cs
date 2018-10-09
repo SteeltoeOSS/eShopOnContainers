@@ -14,7 +14,6 @@ namespace Microsoft.eShopOnContainers.Services.Ordering.Infrastructure
 {
     public class OrderingContext : DbContext, IUnitOfWork
     {
-        public const string DEFAULT_SCHEMA = "ordering";
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<PaymentMethod> Payments { get; set; }
@@ -63,32 +62,32 @@ namespace Microsoft.eShopOnContainers.Services.Ordering.Infrastructure
         }        
     }
 
-    public class OrderingContextDesignFactory : IDesignTimeDbContextFactory<OrderingContext>
-    {
-        public OrderingContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<OrderingContext>()
-                .UseSqlServer("Server=.;Initial Catalog=Microsoft.eShopOnContainers.Services.OrderingDb;Integrated Security=true");
+    //public class OrderingContextDesignFactory : IDesignTimeDbContextFactory<OrderingContext>
+    //{
+    //    public OrderingContext CreateDbContext(string[] args)
+    //    {
+    //        var optionsBuilder = new DbContextOptionsBuilder<OrderingContext>()
+    //            .UseMySql("Server=.;Initial Catalog=Microsoft.eShopOnContainers.Services.OrderingDb;Integrated Security=true");
 
-            return new OrderingContext(optionsBuilder.Options,new NoMediator());
-        }
+    //        return new OrderingContext(optionsBuilder.Options,new NoMediator());
+    //    }
 
-        class NoMediator : IMediator
-        {
-            public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default(CancellationToken)) where TNotification : INotification
-            {
-                return Task.CompletedTask;
-            }
+    //    class NoMediator : IMediator
+    //    {
+    //        public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default(CancellationToken)) where TNotification : INotification
+    //        {
+    //            return Task.CompletedTask;
+    //        }
 
-            public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                return Task.FromResult<TResponse>(default(TResponse));
-            }
+    //        public Task<TResponse> Send<TResponse>(IRequest<TResponse> request, CancellationToken cancellationToken = default(CancellationToken))
+    //        {
+    //            return Task.FromResult<TResponse>(default(TResponse));
+    //        }
 
-            public Task Send(IRequest request, CancellationToken cancellationToken = default(CancellationToken))
-            {
-                return Task.CompletedTask;
-            }
-        }
-    }
+    //        public Task Send(IRequest request, CancellationToken cancellationToken = default(CancellationToken))
+    //        {
+    //            return Task.CompletedTask;
+    //        }
+    //    }
+    //}
 }

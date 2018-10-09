@@ -3,10 +3,12 @@ using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Abstractions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using MySql.Data.MySqlClient;
 using Ordering.BackgroundTasks.Configuration;
 using Ordering.BackgroundTasks.IntegrationEvents;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Threading.Tasks;
@@ -19,15 +21,17 @@ namespace Ordering.BackgroundTasks.Tasks
         private readonly ILogger<GracePeriodManagerService> _logger;
         private readonly BackgroundTaskSettings _settings;
         private readonly IEventBus _eventBus;
+        private readonly MySqlConnection _dbConnection;
 
         public GracePeriodManagerService(IOptions<BackgroundTaskSettings> settings,
                                          IEventBus eventBus,
-                                         ILogger<GracePeriodManagerService> logger)
+                                         ILogger<GracePeriodManagerService> logger,
+                                         MySqlConnection dbConnection)
         {
             _settings = settings?.Value ?? throw new ArgumentNullException(nameof(settings));
             _eventBus = eventBus ?? throw new ArgumentNullException(nameof(eventBus));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-
+            _dbConnection = dbConnection ?? throw new ArgumentNullException(nameof(dbConnection));
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -68,23 +72,22 @@ namespace Ordering.BackgroundTasks.Tasks
         {
             IEnumerable<int> orderIds = new List<int>();
 
-            using (var conn = new SqlConnection(_settings.ConnectionString))
+            try
             {
-                try
-                {
-                    conn.Open();
-                    orderIds = conn.Query<int>(
-                        @"SELECT Id FROM [ordering].[orders] 
-                            WHERE DATEDIFF(minute, [OrderDate], GETDATE()) >= @GracePeriodTime
-                            AND [OrderStatusId] = 1",
-                        new { GracePeriodTime = _settings.GracePeriodTime });
-                }
-                catch (SqlException exception)
-                {
-                    _logger.LogCritical($"FATAL ERROR: Database connections could not be opened: {exception.Message}");
-                }
+                if (_dbConnection.State != ConnectionState.Open)
+                    _dbConnection.Open();
 
+                orderIds = _dbConnection.Query<int>(
+                    @"SELECT Id FROM orders
+                        WHERE TIMESTAMPDIFF(minute, OrderDate, NOW()) >= @GracePeriodTime
+                        AND OrderStatusId = 1",
+                    new { _settings.GracePeriodTime });
             }
+            catch (SqlException exception)
+            {
+                _logger.LogCritical($"FATAL ERROR: Database connections could not be opened: {exception.Message}");
+            }
+
 
             return orderIds;
         }

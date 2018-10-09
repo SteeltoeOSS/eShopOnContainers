@@ -25,8 +25,10 @@
     using Microsoft.ApplicationInsights.ServiceFabric;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.EntityFrameworkCore.Diagnostics;
+    using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Middlewares;
     using RabbitMQ.Client;
+    using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
     using Swashbuckle.AspNetCore.Swagger;
     using System;
     using System.Collections.Generic;
@@ -71,15 +73,16 @@
                 }
             });
 
+            Action<MySqlDbContextOptionsBuilder> mySqlOptionsAction = (o) =>
+            {
+                o.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
+                o.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+            };
+
             services.AddDbContext<MarketingContext>(options =>
             {
-                options.UseSqlServer(Configuration["ConnectionString"],
-                                     sqlServerOptionsAction: sqlOptions =>
-                                     {
-                                         sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                                         //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
-                                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                                     });
+                options.UseMySql(Configuration, mySqlOptionsAction);
 
                 // Changing default behavior when client evaluation occurs to throw. 
                 // Default in EF Core would be to log a warning when client evaluation is performed.

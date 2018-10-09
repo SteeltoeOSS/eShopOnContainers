@@ -13,7 +13,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Enabled = table.Column<bool>(type: "bit", nullable: false),
@@ -29,7 +29,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     AbsoluteRefreshTokenLifetime = table.Column<int>(type: "int", nullable: false),
                     AccessTokenLifetime = table.Column<int>(type: "int", nullable: false),
                     AccessTokenType = table.Column<int>(type: "int", nullable: false),
@@ -75,7 +75,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     Emphasize = table.Column<bool>(type: "bit", nullable: false),
@@ -94,7 +94,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ApiResourceId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
@@ -114,7 +114,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ApiResourceId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     DisplayName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
@@ -139,10 +139,10 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ApiResourceId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    Expiration = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Expiration = table.Column<DateTime>(type: "datetime", nullable: true),
                     Type = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Value = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true)
                 },
@@ -162,7 +162,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
@@ -183,7 +183,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     Origin = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false)
                 },
@@ -203,7 +203,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     GrantType = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
                 },
@@ -223,7 +223,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     Provider = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
@@ -243,7 +243,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     PostLogoutRedirectUri = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false)
                 },
@@ -263,7 +263,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     Key = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
                     Value = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false)
@@ -284,7 +284,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     RedirectUri = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false)
                 },
@@ -304,7 +304,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     Scope = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
@@ -324,10 +324,10 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ClientId = table.Column<int>(type: "int", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    Expiration = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Expiration = table.Column<DateTime>(type: "datetime", nullable: true),
                     Type = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: true),
                     Value = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false)
                 },
@@ -347,7 +347,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     IdentityResourceId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },
@@ -367,7 +367,7 @@ namespace Identity.API.Migrations.ConfigurationDb
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
                     ApiScopeId = table.Column<int>(type: "int", nullable: false),
                     Type = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false)
                 },

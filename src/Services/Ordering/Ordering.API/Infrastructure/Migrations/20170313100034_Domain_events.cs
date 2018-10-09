@@ -10,29 +10,25 @@ namespace Ordering.API.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_orders_buyers_BuyerId",
-                schema: "ordering",
                 table: "orders");
 
             migrationBuilder.AlterColumn<int>(
                 name: "PaymentMethodId",
-                schema: "ordering",
                 table: "orders",
                 nullable: true,
                 oldClrType: typeof(int));
 
             migrationBuilder.AlterColumn<int>(
                 name: "BuyerId",
-                schema: "ordering",
                 table: "orders",
                 nullable: true,
                 oldClrType: typeof(int));
 
             migrationBuilder.AddForeignKey(
                 name: "FK_orders_buyers_BuyerId",
-                schema: "ordering",
+
                 table: "orders",
                 column: "BuyerId",
-                principalSchema: "ordering",
                 principalTable: "buyers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
@@ -42,12 +38,10 @@ namespace Ordering.API.Migrations
         {
             migrationBuilder.DropForeignKey(
                 name: "FK_orders_buyers_BuyerId",
-                schema: "ordering",
                 table: "orders");
 
             migrationBuilder.AlterColumn<int>(
                 name: "PaymentMethodId",
-                schema: "ordering",
                 table: "orders",
                 nullable: false,
                 oldClrType: typeof(int),
@@ -55,7 +49,6 @@ namespace Ordering.API.Migrations
 
             migrationBuilder.AlterColumn<int>(
                 name: "BuyerId",
-                schema: "ordering",
                 table: "orders",
                 nullable: false,
                 oldClrType: typeof(int),
@@ -63,10 +56,9 @@ namespace Ordering.API.Migrations
 
             migrationBuilder.AddForeignKey(
                 name: "FK_orders_buyers_BuyerId",
-                schema: "ordering",
+
                 table: "orders",
                 column: "BuyerId",
-                principalSchema: "ordering",
                 principalTable: "buyers",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);

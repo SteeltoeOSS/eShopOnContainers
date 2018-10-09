@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   sql.data:
-    image: microsoft/mssql-server-linux:2017-latest
+    image: mysql:5.7.13
 
   nosql.data:
     image: mongo
@@ -216,4 +216,3 @@ services:
       - webshoppingagg
       - webshoppingapigw
       - webmarketingapigw
-

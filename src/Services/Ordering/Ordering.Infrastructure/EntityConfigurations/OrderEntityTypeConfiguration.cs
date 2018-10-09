@@ -11,14 +11,13 @@ namespace Ordering.Infrastructure.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<Order> orderConfiguration)
         {
-            orderConfiguration.ToTable("orders", OrderingContext.DEFAULT_SCHEMA);
+            orderConfiguration.ToTable("orders");
 
             orderConfiguration.HasKey(o => o.Id);
 
             orderConfiguration.Ignore(b => b.DomainEvents);
 
-            orderConfiguration.Property(o => o.Id)
-                .ForSqlServerUseSequenceHiLo("orderseq", OrderingContext.DEFAULT_SCHEMA);
+            orderConfiguration.Property(o => o.Id);
 
             //Address value object persisted as owned entity type supported since EF Core 2.0
             orderConfiguration.OwnsOne(o => o.Address);
