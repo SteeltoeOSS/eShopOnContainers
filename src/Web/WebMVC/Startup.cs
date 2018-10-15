@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Extensions.Http;
 using StackExchange.Redis;
+using Steeltoe.Management.CloudFoundry;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
@@ -42,6 +43,7 @@ namespace Microsoft.eShopOnContainers.WebMVC
                     .AddHttpClientServices(Configuration)
                     //.AddHttpClientLogging(Configuration)  //Opt-in HttpClientLogging config
                     .AddCustomAuthentication(Configuration);
+            services.AddCloudFoundryActuators(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -68,6 +70,7 @@ namespace Microsoft.eShopOnContainers.WebMVC
                 app.UsePathBase(pathBase);
             }
 
+            app.UseCloudFoundryActuators();
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             app.Map("/liveness", lapp => lapp.Run(async ctx => ctx.Response.StatusCode = 200));

@@ -16,6 +16,7 @@ using Ordering.BackgroundTasks.Configuration;
 using Ordering.BackgroundTasks.Tasks;
 using RabbitMQ.Client;
 using Steeltoe.CloudFoundry.Connector.MySql;
+using Steeltoe.Management.CloudFoundry;
 using System;
 
 namespace Ordering.BackgroundTasks
@@ -45,6 +46,7 @@ namespace Ordering.BackgroundTasks
             });
 
             //configure settings
+            services.AddCloudFoundryActuators(Configuration);
 
             services.Configure<BackgroundTaskSettings>(Configuration);
             services.AddOptions();
@@ -119,6 +121,7 @@ namespace Ordering.BackgroundTasks
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             app.Map("/liveness", lapp => lapp.Run(async ctx => ctx.Response.StatusCode = 200));
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
+            app.UseCloudFoundryActuators();
         }
 
 

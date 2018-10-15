@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Extensions.Logging;
 using System;
 using System.IO;
 
@@ -46,7 +47,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
                 .ConfigureLogging((hostingContext, builder) =>
                 {
                     builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    builder.AddConsole();
+                    builder.AddDynamicConsole();
                     builder.AddDebug();
                 })
                 .UseApplicationInsights()

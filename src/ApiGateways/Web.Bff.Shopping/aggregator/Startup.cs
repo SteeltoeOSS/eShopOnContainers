@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Polly;
 using Polly.Extensions.Http;
 using Polly.Timeout;
+using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCloudFoundryActuators(Configuration);
             services.AddCustomMvc(Configuration)
                 .AddCustomAuthentication(Configuration)
                 .AddApplicationServices();
@@ -48,7 +50,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
             }
 
             app.UseCors("CorsPolicy");
-
+            app.UseCloudFoundryActuators();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

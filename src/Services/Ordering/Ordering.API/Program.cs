@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Steeltoe.Extensions.Logging;
 using System;
 using System.IO;
 
@@ -57,7 +58,7 @@ namespace Microsoft.eShopOnContainers.Services.Ordering.API
                 .ConfigureLogging((hostingContext, builder) =>
                 {
                     builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    builder.AddConsole();
+                    builder.AddDynamicConsole();
                     builder.AddDebug();
                 })
                 .UseApplicationInsights()

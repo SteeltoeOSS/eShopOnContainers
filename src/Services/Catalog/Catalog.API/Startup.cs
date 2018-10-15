@@ -28,6 +28,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
+using Steeltoe.Management.CloudFoundry;
 using System;
 using System.Data.Common;
 using System.Reflection;
@@ -52,7 +53,7 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API
                 .AddIntegrationServices(Configuration)
                 .AddEventBus(Configuration)
                 .AddSwagger();
-
+            services.AddCloudFoundryActuators(Configuration);
             var container = new ContainerBuilder();
             container.Populate(services);
             return new AutofacServiceProvider(container.Build());
@@ -79,7 +80,7 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
             app.UseCors("CorsPolicy");
-
+            app.UseCloudFoundryActuators();
             app.UseMvcWithDefaultRoute();
 
             app.UseSwagger()

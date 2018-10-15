@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Extensions.Logging;
 
 namespace Ordering.BackgroundTasks
 {
@@ -18,8 +19,9 @@ namespace Ordering.BackgroundTasks
                 .ConfigureLogging((hostingContext, builder) =>
                 {
                     builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
+                    builder.AddDynamicConsole();
                     builder.AddDebug();
-                    builder.AddConsole();
-                }).Build();
+                })
+            .Build();
     }
 }

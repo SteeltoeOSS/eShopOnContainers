@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="1.0.163" />
+    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.1.1" />
   </ItemGroup>
 
   <ItemGroup>

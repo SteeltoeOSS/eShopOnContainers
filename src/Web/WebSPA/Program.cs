@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using System.IO;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
+using Steeltoe.Extensions.Logging;
 
 namespace eShopConContainers.WebSPA
 {
@@ -25,7 +26,7 @@ namespace eShopConContainers.WebSPA
                 .ConfigureLogging((hostingContext, builder) =>
                 {
                     builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
-                    builder.AddConsole();
+                    builder.AddDynamicConsole();
                     builder.AddDebug();
                 })
                 .UseApplicationInsights()                

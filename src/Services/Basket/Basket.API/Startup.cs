@@ -26,6 +26,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using StackExchange.Redis;
+using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
@@ -167,7 +168,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IBasketRepository, RedisBasketRepository>();
             services.AddTransient<IIdentityService, IdentityService>();
-
+            services.AddCloudFoundryActuators(Configuration);
             services.AddOptions();
 
             var container = new ContainerBuilder();
@@ -196,7 +197,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
 
             app.UseStaticFiles();          
             app.UseCors("CorsPolicy");
-
+            app.UseCloudFoundryActuators();
             ConfigureAuth(app);
 
             app.UseMvcWithDefaultRoute();

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using WebStatus.Extensions;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.ApplicationInsights.ServiceFabric;
+using Steeltoe.Management.CloudFoundry;
 
 namespace WebStatus
 {
@@ -50,6 +51,8 @@ namespace WebStatus
                 checks.AddUrlCheckIfNotNull(Configuration["spa"], TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
             });
 
+            services.AddCloudFoundryActuators(Configuration);
+
             services.AddMvc();
         }
 
@@ -74,6 +77,7 @@ namespace WebStatus
                 app.UsePathBase(pathBase);
             }
 
+            app.UseCloudFoundryActuators();
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             app.Map("/liveness", lapp => lapp.Run(async ctx => ctx.Response.StatusCode = 200));

@@ -21,6 +21,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using RabbitMQ.Client;
+using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
 using System.Collections.Generic;
@@ -94,6 +95,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
                 });
             }
 
+            services.AddCloudFoundryActuators(Configuration);
             services.AddHealthChecks(checks =>
             {
                 checks.AddValueTaskCheck("HTTP Endpoint", () => new ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
@@ -167,7 +169,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
             app.UseCors("CorsPolicy");
-
+            app.UseCloudFoundryActuators();
             ConfigureAuth(app);
 
             app.UseMvcWithDefaultRoute();

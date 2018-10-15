@@ -15,7 +15,7 @@ using Ordering.SignalrHub.IntegrationEvents;
 using Ordering.SignalrHub.IntegrationEvents.EventHandling;
 using Ordering.SignalrHub.IntegrationEvents.Events;
 using RabbitMQ.Client;
-using StackExchange.Redis;
+using Steeltoe.Management.CloudFoundry;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -101,7 +101,7 @@ namespace Ordering.SignalrHub
             RegisterEventBus(services);
 
             services.AddOptions();
-
+            services.AddCloudFoundryActuators(Configuration);
             //configure autofac
             var container = new ContainerBuilder();
             container.RegisterModule(new ApplicationModule());
@@ -128,7 +128,7 @@ namespace Ordering.SignalrHub
             }
 
             app.UseCors("CorsPolicy");
-
+            app.UseCloudFoundryActuators();
             app.UseAuthentication();
 
             app.UseSignalR(routes =>

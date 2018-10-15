@@ -19,6 +19,7 @@ using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
+using Steeltoe.Management.CloudFoundry;
 using System;
 using System.Reflection;
 
@@ -64,6 +65,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
                 .PersistKeysToRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]), "DataProtection-Keys");
             }
 
+            services.AddCloudFoundryActuators(Configuration);
             services.AddHealthChecks(checks =>
             {
                 var minutes = 1;
@@ -135,7 +137,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
             app.UseStaticFiles();
-
+            app.UseCloudFoundryActuators();
 
             // Make work identity server redirections in Edge and lastest versions of browers. WARN: Not valid in a production environment.
             app.Use(async (context, next) =>

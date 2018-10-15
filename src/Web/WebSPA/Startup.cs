@@ -11,6 +11,7 @@ using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
 using StackExchange.Redis;
+using Steeltoe.Management.CloudFoundry;
 using System;
 using System.IO;
 using WebSPA.Infrastructure;
@@ -69,7 +70,7 @@ namespace eShopConContainers.WebSPA
             }
 
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
-
+            services.AddCloudFoundryActuators(Configuration);
             services.AddMvc()
                 .AddJsonOptions(options =>
                 {
@@ -133,7 +134,7 @@ namespace eShopConContainers.WebSPA
             
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+            app.UseCloudFoundryActuators();
             app.UseMvcWithDefaultRoute();
         }
 

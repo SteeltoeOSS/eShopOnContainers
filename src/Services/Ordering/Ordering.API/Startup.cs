@@ -33,6 +33,7 @@
     using RabbitMQ.Client;
     using Steeltoe.CloudFoundry.Connector.MySql;
     using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
+    using Steeltoe.Management.CloudFoundry;
     using Swashbuckle.AspNetCore.Swagger;
     using System;
     using System.Collections.Generic;
@@ -60,7 +61,7 @@
                 .AddCustomConfiguration(Configuration)
                 .AddEventBus(Configuration)
                 .AddCustomAuthentication(Configuration);
-
+            services.AddCloudFoundryActuators(Configuration);
             //configure autofac
 
             var container = new ContainerBuilder();
@@ -90,7 +91,7 @@
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
 
             app.UseCors("CorsPolicy");
-
+            app.UseCloudFoundryActuators();
             ConfigureAuth(app);
 
             app.UseMvcWithDefaultRoute();
