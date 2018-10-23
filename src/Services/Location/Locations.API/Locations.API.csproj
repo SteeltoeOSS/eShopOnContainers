@@ -18,7 +18,7 @@
     <PackageReference Include="MongoDB.Bson" Version="2.5.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.5.0" />
-    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.1.1" />
+    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.2.0-dev-00264" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
   </ItemGroup>
   <ItemGroup>
@@ -27,6 +27,7 @@
     <ProjectReference Include="..\..\..\BuildingBlocks\EventBus\EventBus\EventBus.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\HealthChecks\src\Microsoft.AspNetCore.HealthChecks\Microsoft.AspNetCore.HealthChecks.csproj" />
     <ProjectReference Include="..\..\..\BuildingBlocks\HealthChecks\src\Microsoft.Extensions.HealthChecks\Microsoft.Extensions.HealthChecks.csproj" />
+    <ProjectReference Include="..\..\..\BuildingBlocks\WebHostCustomization\WebHost.Customization\WebHost.Customization.csproj" />
   </ItemGroup>
 
 </Project>

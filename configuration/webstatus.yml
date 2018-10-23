@@ -1,0 +1,9 @@
+---
+#OrderingUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5102
+#OrderingBackgroundTasksUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5111
+#BasketUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5103
+#CatalogUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5101
+#IdentityUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5105
+#MarketingUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5110
+#LocationsUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5109
+#PaymentUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5108

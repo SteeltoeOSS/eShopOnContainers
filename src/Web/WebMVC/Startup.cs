@@ -137,11 +137,12 @@ namespace Microsoft.eShopOnContainers.WebMVC
                     minutes = minutesParsed;
                 }
 
-                checks.AddUrlCheck(configuration["CatalogUrlHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheck(configuration["OrderingUrlHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheck(configuration["BasketUrlHC"], TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
-                checks.AddUrlCheck(configuration["IdentityUrlHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheck(configuration["MarketingUrlHC"], TimeSpan.FromMinutes(minutes));
+                var healthPath = "/management/health";
+                checks.AddUrlCheck(configuration["CatalogUrl"] + healthPath, TimeSpan.FromMinutes(minutes));
+                checks.AddUrlCheck(configuration["OrderingUrl"] + healthPath, TimeSpan.FromMinutes(minutes));
+                checks.AddUrlCheck(configuration["BasketUrl"] + healthPath, TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
+                checks.AddUrlCheck(configuration["IdentityUrl"] + healthPath, TimeSpan.FromMinutes(minutes));
+                checks.AddUrlCheck(configuration["MarketingUrl"] + healthPath, TimeSpan.FromMinutes(minutes));
             });
 
             return services;

@@ -7,15 +7,18 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Steeltoe.Extensions.Logging;
-using System;
 using System.IO;
+
 namespace Microsoft.eShopOnContainers.Services.Catalog.API
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args)
+            LoggerFactory logFactory = new LoggerFactory();
+            logFactory.AddConsole(minLevel: LogLevel.Trace);
+
+            BuildWebHost(args, logFactory)
                 .MigrateDbContext<CatalogContext>((context,services)=>
                 {
                     var env = services.GetService<IHostingEnvironment>();
@@ -25,39 +28,22 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API
                     new CatalogContextSeed()
                     .SeedAsync(context,env,settings,logger)
                     .Wait();
-
                 })
                 .MigrateDbContext<IntegrationEventLogContext>((_,__)=> { })
                 .Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost.CreateDefaultBuilder(args)
-             .UseStartup<Startup>()
+                .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .UseHealthChecks("/hc")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseWebRoot("Pics")
-                .ConfigureAppConfiguration((builderContext, config) =>
-                {
-                    var builtConfig = config.Build();
-
-                    var configurationBuilder = new ConfigurationBuilder();
-
-                    if (Convert.ToBoolean(builtConfig["UseVault"]))
-                    {
-                        configurationBuilder.AddAzureKeyVault(
-                            $"https://{builtConfig["Vault:Name"]}.vault.azure.net/",
-                            builtConfig["Vault:ClientId"],
-                            builtConfig["Vault:ClientSecret"]);
-                    }
-
-                    configurationBuilder.AddEnvironmentVariables();
-
-                    config.AddConfiguration(configurationBuilder.Build());
-                })
+                .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((hostingContext, builder) =>
                 {
+                    builder.ClearProviders();
                     builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     builder.AddDynamicConsole();
                     builder.AddDebug();

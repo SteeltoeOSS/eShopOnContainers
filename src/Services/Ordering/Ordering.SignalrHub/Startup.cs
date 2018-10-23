@@ -15,6 +15,7 @@ using Ordering.SignalrHub.IntegrationEvents;
 using Ordering.SignalrHub.IntegrationEvents.EventHandling;
 using Ordering.SignalrHub.IntegrationEvents.Events;
 using RabbitMQ.Client;
+using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 using Steeltoe.Management.CloudFoundry;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -66,34 +67,8 @@ namespace Ordering.SignalrHub
             }
             else
             {
-                services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
-                {
-                    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
-
-
-                    var factory = new ConnectionFactory()
-                    {
-                        HostName = Configuration["EventBusConnection"]
-                    };
-
-                    if (!string.IsNullOrEmpty(Configuration["EventBusUserName"]))
-                    {
-                        factory.UserName = Configuration["EventBusUserName"];
-                    }
-
-                    if (!string.IsNullOrEmpty(Configuration["EventBusPassword"]))
-                    {
-                        factory.Password = Configuration["EventBusPassword"];
-                    }
-
-                    var retryCount = 5;
-                    if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
-                    {
-                        retryCount = int.Parse(Configuration["EventBusRetryCount"]);
-                    }
-
-                    return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
-                });
+                services.AddRabbitMQConnection(Configuration);
+                services.AddSingleton<IRabbitMQPersistentConnection, DefaultRabbitMQPersistentConnection>();
             }
 
             ConfigureAuthService(services);

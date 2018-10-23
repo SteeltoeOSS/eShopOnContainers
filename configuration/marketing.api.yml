@@ -1,0 +1,11 @@
+---
+mysql:
+  client:
+    database: Microsoft.eShopOnContainers.Services.MarketingDb
+MongoConnectionString: ${ESHOP_AZURE_COSMOSDB?mongodb://nosql.data}
+MongoDatabase: MarketingDb
+PicBaseUrl: ${ESHOP_AZURE_STORAGE_MARKETING_URL?http://localhost:5110/api/v1/campaigns/[0]/pic/}
+SubscriptionClientName: Marketing
+AzureStorageAccountName: ${ESHOP_AZURE_STORAGE_MARKETING_NAME}
+AzureStorageAccountKey: ${ESHOP_AZURE_STORAGE_MARKETING_KEY}
+CampaignDetailFunctionUri: ${ESHOP_AZUREFUNC_CAMPAIGN_DETAILS_URI}

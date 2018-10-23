@@ -31,7 +31,8 @@
     <PackageReference Include="Microsoft.VisualStudio.Azure.Fabric.MSBuild" Version="1.6.5" />
     <PackageReference Include="Microsoft.Web.LibraryManager.Build" Version="1.0.163" />
     <PackageReference Include="Microsoft.Build.Utilities.Core" Version="15.5.180" />
-    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.1.1" />
+    <PackageReference Include="Pivotal.Extensions.Configuration.ConfigServerCore" Version="2.2.0-dev-00233" />
+    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.2.0-dev-00264" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">

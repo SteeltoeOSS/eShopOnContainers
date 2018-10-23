@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Pivotal.Extensions.Configuration.ConfigServer;
+using Steeltoe.Common.Configuration;
 using Steeltoe.Extensions.Logging;
 
 namespace Ordering.SignalrHub
@@ -10,13 +12,22 @@ namespace Ordering.SignalrHub
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            LoggerFactory logFactory = new LoggerFactory();
+            logFactory.AddConsole(minLevel: LogLevel.Trace);
+
+            BuildWebHost(args, logFactory).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((builderContext, config) =>
+                {
+                    config.AddConfigServer();
+                    config.AddInMemoryCollection(PropertyPlaceholderHelper.GetResolvedConfigurationPlaceholders(config.Build(), logfactory?.CreateLogger("PropertyPlaceholderHelper")));
+                })
                 .ConfigureLogging((hostingContext, builder) =>
                 {
+                    builder.ClearProviders();
                     builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     builder.AddDynamicConsole();
                     builder.AddDebug();

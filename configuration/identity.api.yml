@@ -1,0 +1,12 @@
+---
+SpaClient: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5104
+MvcClient: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5100
+LocationApiClient: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5109
+MarketingApiClient: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5110
+BasketApiClient: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5103
+OrderingApiClient: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5102
+MobileShoppingAggClient: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5120
+WebShoppingAggClient: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5121
+mysql:
+  client:
+    database: Microsoft.eShopOnContainers.Services.IdentityDb

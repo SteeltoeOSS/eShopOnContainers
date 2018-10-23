@@ -38,17 +38,17 @@ namespace WebStatus
                 {
                     minutes = minutesParsed;
                 }
-
-                checks.AddUrlCheckIfNotNull(Configuration["OrderingUrl"], TimeSpan.FromMinutes(minutes)); 
-                checks.AddUrlCheckIfNotNull(Configuration["OrderingBackgroundTasksUrl"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheckIfNotNull(Configuration["BasketUrl"], TimeSpan.Zero); //No cache for this HealthCheck, better just for demos                  
-                checks.AddUrlCheckIfNotNull(Configuration["CatalogUrl"], TimeSpan.FromMinutes(minutes)); 
-                checks.AddUrlCheckIfNotNull(Configuration["IdentityUrl"], TimeSpan.FromMinutes(minutes)); 
-                checks.AddUrlCheckIfNotNull(Configuration["LocationsUrl"], TimeSpan.FromMinutes(minutes)); 
-                checks.AddUrlCheckIfNotNull(Configuration["MarketingUrl"], TimeSpan.FromMinutes(minutes)); 
-                checks.AddUrlCheckIfNotNull(Configuration["PaymentUrl"], TimeSpan.FromMinutes(minutes)); 
-                checks.AddUrlCheckIfNotNull(Configuration["mvc"], TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
-                checks.AddUrlCheckIfNotNull(Configuration["spa"], TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
+                var healthPath = "/management/health";
+                checks.AddUrlCheckIfNotNull(Configuration["OrderingUrl"] + healthPath, TimeSpan.FromMinutes(minutes)); 
+                checks.AddUrlCheckIfNotNull(Configuration["OrderingBackgroundTasksUrl"] + healthPath, TimeSpan.FromMinutes(minutes));
+                checks.AddUrlCheckIfNotNull(Configuration["BasketUrl"] + healthPath, TimeSpan.Zero); //No cache for this HealthCheck, better just for demos                  
+                checks.AddUrlCheckIfNotNull(Configuration["CatalogUrl"] + healthPath, TimeSpan.FromMinutes(minutes)); 
+                checks.AddUrlCheckIfNotNull(Configuration["IdentityUrl"] + healthPath, TimeSpan.FromMinutes(minutes)); 
+                checks.AddUrlCheckIfNotNull(Configuration["LocationsUrl"] + healthPath, TimeSpan.FromMinutes(minutes)); 
+                checks.AddUrlCheckIfNotNull(Configuration["MarketingUrl"] + healthPath, TimeSpan.FromMinutes(minutes)); 
+                checks.AddUrlCheckIfNotNull(Configuration["PaymentUrl"] + healthPath, TimeSpan.FromMinutes(minutes)); 
+                checks.AddUrlCheckIfNotNull(Configuration["mvcUrl"] + healthPath, TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
+                checks.AddUrlCheckIfNotNull(Configuration["spaUrl"] + healthPath, TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
             });
 
             services.AddCloudFoundryActuators(Configuration);

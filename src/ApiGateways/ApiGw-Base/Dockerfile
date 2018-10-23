@@ -5,6 +5,7 @@ EXPOSE 80
 FROM microsoft/dotnet:2.1-sdk AS build
 WORKDIR /src
 COPY src/ApiGateways/ApiGw-Base/OcelotApiGw.csproj src/ApiGateways/ApiGw-Base/
+COPY NuGet.config src/ApiGateways/ApiGw-Base/
 RUN dotnet restore src/ApiGateways/ApiGw-Base/
 COPY . .
 WORKDIR /src/src/ApiGateways/ApiGw-Base/

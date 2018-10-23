@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Polly;
-using Polly.Retry;
 using System;
 using System.Data.SqlClient;
 
@@ -38,8 +37,7 @@ namespace Microsoft.AspNetCore.Hosting
                         //migration can't fail for network related exception. The retry options for DbContext only 
                         //apply to transient exceptions.
 
-                        context.Database
-                        .Migrate();
+                        context.Database.Migrate();
 
                         seeder(context, services);
                     });

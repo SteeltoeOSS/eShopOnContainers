@@ -1,0 +1,3 @@
+---
+ConnectionString: ${ESHOP_AZURE_REDIS_BASKET_DB?basket.data}
+SubscriptionClientName: Basket

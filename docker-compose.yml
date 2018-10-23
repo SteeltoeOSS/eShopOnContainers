@@ -1,6 +1,11 @@
 version: '3.4'
 
 services:
+  configserver:
+    image: steeltoeoss/configserver
+    volumes:
+     - ./configuration:/config
+
   sql.data:
     image: mysql:5.7.13
 
@@ -19,6 +24,7 @@ services:
       context: .
       dockerfile: src/Services/Identity/Identity.API/Dockerfile    
     depends_on:
+      - configserver
       - sql.data
 
   basket.api:
@@ -27,6 +33,7 @@ services:
       context: .
       dockerfile: src/Services/Basket/Basket.API/Dockerfile    
     depends_on:
+      - configserver
       - basket.data
       - identity.api
       - rabbitmq
@@ -37,6 +44,7 @@ services:
       context: .
       dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
     depends_on:
+      - configserver
       - sql.data
       - rabbitmq
 
@@ -46,6 +54,7 @@ services:
       context: .
       dockerfile: src/Services/Ordering/Ordering.API/Dockerfile    
     depends_on:
+      - configserver
       - sql.data
       - rabbitmq
 
@@ -55,6 +64,7 @@ services:
       context: .
       dockerfile: src/Services/Ordering/Ordering.BackgroundTasks/Dockerfile    
     depends_on:
+      - configserver
       - sql.data
       - rabbitmq
 
@@ -64,6 +74,7 @@ services:
       context: .
       dockerfile: src/Services/Marketing/Marketing.API/Dockerfile    
     depends_on:
+      - configserver
       - sql.data
       - nosql.data
       - identity.api
@@ -75,6 +86,7 @@ services:
       context: .
       dockerfile: src/Services/Payment/Payment.API/Dockerfile
     depends_on:
+      - configserver
       - rabbitmq    
 
   locations.api:
@@ -83,6 +95,7 @@ services:
       context: .
       dockerfile: src/Services/Location/Locations.API/Dockerfile
     depends_on:
+      - configserver
       - nosql.data
       - rabbitmq
 
@@ -182,6 +195,7 @@ services:
       context: .
       dockerfile: src/Services/Ordering/Ordering.SignalrHub/Dockerfile
     depends_on:
+      - configserver
       - nosql.data
       - sql.data
       - identity.api
@@ -196,13 +210,16 @@ services:
     build:
       context: .
       dockerfile: src/Web/WebStatus/Dockerfile
+    depends_on:
+      - configserver
 
   webspa:
     image: eshop/webspa:${TAG:-latest}
     build:
       context: .
       dockerfile: src/Web/WebSPA/Dockerfile    
-#    depends_on:
+    depends_on:
+      - configserver
 #      - webshoppingagg
 #      - webshoppingapigw
 #      - webmarketingapigw
@@ -213,6 +230,7 @@ services:
       context: .
       dockerfile: src/Web/WebMVC/Dockerfile    
     depends_on:
+      - configserver
       - webshoppingagg
       - webshoppingapigw
       - webmarketingapigw

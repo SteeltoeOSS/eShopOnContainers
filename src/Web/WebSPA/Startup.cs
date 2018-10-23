@@ -50,13 +50,14 @@ namespace eShopConContainers.WebSPA
                     minutes = minutesParsed;
                 }
 
-                checks.AddUrlCheck(Configuration["CatalogUrlHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheck(Configuration["OrderingUrlHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheck(Configuration["BasketUrlHC"], TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
-                checks.AddUrlCheck(Configuration["IdentityUrlHC"], TimeSpan.FromMinutes(minutes));
-                checks.AddUrlCheck(Configuration["MarketingUrlHC"], TimeSpan.FromMinutes(minutes));
-            
-        });
+                var healthPath = "/management/health";
+                checks.AddUrlCheck(Configuration["CatalogUrl"] + healthPath, TimeSpan.FromMinutes(minutes));
+                checks.AddUrlCheck(Configuration["OrderingUrl"] + healthPath, TimeSpan.FromMinutes(minutes));
+                checks.AddUrlCheck(Configuration["BasketUrl"] + healthPath, TimeSpan.Zero); //No cache for this HealthCheck, better just for demos 
+                checks.AddUrlCheck(Configuration["IdentityUrl"] + healthPath, TimeSpan.FromMinutes(minutes));
+                checks.AddUrlCheck(Configuration["MarketingUrl"] + healthPath, TimeSpan.FromMinutes(minutes));
+
+            });
 
             services.Configure<AppSettings>(Configuration);
 

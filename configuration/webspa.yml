@@ -1,0 +1,6 @@
+---
+IdentityUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5105              #Local: You need to open your local dev-machine firewall at range 5100-5105.  at range 5100-5105. 
+PurchaseUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5202
+MarketingUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5203   
+CallBackUrl: http://${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5104/
+ActivateCampaignDetailFunction: false

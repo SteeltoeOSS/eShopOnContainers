@@ -1,0 +1,6 @@
+---
+mysql:
+  client:
+    database: Microsoft.eShopOnContainers.Services.OrderingDb
+SubscriptionClientName: Ordering
+CheckUpdateTime: 30000

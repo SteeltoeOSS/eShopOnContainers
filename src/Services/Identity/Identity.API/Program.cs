@@ -16,7 +16,10 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args)
+            LoggerFactory logFactory = new LoggerFactory();
+            logFactory.AddConsole(minLevel: LogLevel.Trace);
+
+            BuildWebHost(args, logFactory)
                 .MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
                 .MigrateDbContext<ApplicationDbContext>((context, services) =>
                 {
@@ -38,33 +41,17 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
                 }).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseKestrel()
                 .UseHealthChecks("/hc")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
                 .UseStartup<Startup>()
-                .ConfigureAppConfiguration((builderContext, config) =>
-                {
-                    var builtConfig = config.Build();
-
-                    var configurationBuilder = new ConfigurationBuilder();
-
-                    if (Convert.ToBoolean(builtConfig["UseVault"]))
-                    {
-                        configurationBuilder.AddAzureKeyVault(
-                            $"https://{builtConfig["Vault:Name"]}.vault.azure.net/",
-                            builtConfig["Vault:ClientId"],
-                            builtConfig["Vault:ClientSecret"]);
-                    }
-
-                    configurationBuilder.AddEnvironmentVariables();
-
-                    config.AddConfiguration(configurationBuilder.Build());
-                })
+                .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((hostingContext, builder) =>
                 {
+                    builder.ClearProviders();
                     builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     builder.AddDynamicConsole();
                     builder.AddDebug();

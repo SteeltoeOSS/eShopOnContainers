@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Steeltoe.Extensions.Logging;
-using System;
 using System.IO;
 
 namespace Microsoft.eShopOnContainers.Services.Locations.API
@@ -13,34 +12,21 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            LoggerFactory logFactory = new LoggerFactory();
+            logFactory.AddConsole(minLevel: LogLevel.Trace);
+
+            BuildWebHost(args, logFactory).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseHealthChecks("/hc")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<Startup>()
-                .ConfigureAppConfiguration((builderContext, config) =>
-                {
-                    var builtConfig = config.Build();
-
-                    var configurationBuilder = new ConfigurationBuilder();
-
-                    if (Convert.ToBoolean(builtConfig["UseVault"]))
-                    {
-                        configurationBuilder.AddAzureKeyVault(
-                            $"https://{builtConfig["Vault:Name"]}.vault.azure.net/",
-                            builtConfig["Vault:ClientId"],
-                            builtConfig["Vault:ClientSecret"]);
-                    }
-
-                    configurationBuilder.AddEnvironmentVariables();
-
-                    config.AddConfiguration(configurationBuilder.Build());
-                })
+                .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((hostingContext, builder) =>
                 {
+                    builder.ClearProviders();
                     builder.AddConfiguration(hostingContext.Configuration.GetSection("Logging"));
                     builder.AddDynamicConsole();
                     builder.AddDebug();

@@ -1,0 +1,4 @@
+---
+PaymentSucceded: true
+SubscriptionClientName: Payment
+EventBusRetryCount: 5

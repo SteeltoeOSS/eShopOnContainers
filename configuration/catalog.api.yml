@@ -1,0 +1,6 @@
+---
+mySql:
+  client:
+    database: Microsoft.eShopOnContainers.Services.CatalogDb
+PicBaseUrl: ${ESHOP_AZURE_STORAGE_CATALOG_URL?http://localhost:5202/api/v1/c/catalog/items/[0]/pic/}
+SubscriptionClientName: Catalog

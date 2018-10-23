@@ -36,6 +36,9 @@ namespace Microsoft.Extensions.HealthChecks.Internal
                 }
                 catch (Exception ex)
                 {
+                    Console.WriteLine("Exception during health check for {0}!", _url);
+                    Console.WriteLine(ex.Message);
+                    Console.WriteLine(ex.StackTrace);
                     var data = new Dictionary<string, object> { { "url", _url } };
                     return HealthCheckResult.Unhealthy($"Exception during check: {ex.GetType().FullName}", data);
                 }

@@ -150,6 +150,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{C61C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "src\Services\Payment\Payment.API\Payment.API.csproj", "{0AB40131-8AD7-436F-9C6B-EDA59CFA3A84}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{A009B436-021F-4D78-A64E-6858650D3CEE}"
+	ProjectSection(SolutionItems) = preProject
+		configuration\application.yml = configuration\application.yml
+		configuration\basket.api.yml = configuration\basket.api.yml
+		configuration\catalog.api.yml = configuration\catalog.api.yml
+		configuration\identity.api.yml = configuration\identity.api.yml
+		configuration\locations.api.yml = configuration\locations.api.yml
+		configuration\marketing.api.yml = configuration\marketing.api.yml
+		configuration\ordering.api.yml = configuration\ordering.api.yml
+		configuration\ordering.backgroundtasks.yml = configuration\ordering.backgroundtasks.yml
+		configuration\ordering.signalrhub.yml = configuration\ordering.signalrhub.yml
+		configuration\payment.api.yml = configuration\payment.api.yml
+		configuration\webmvc.yml = configuration\webmvc.yml
+		configuration\webspa.yml = configuration\webspa.yml
+		configuration\webstatus.yml = configuration\webstatus.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Ad-Hoc|Any CPU = Ad-Hoc|Any CPU
