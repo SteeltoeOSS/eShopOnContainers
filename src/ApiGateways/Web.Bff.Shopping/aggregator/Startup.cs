@@ -9,9 +9,10 @@ using Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Pivotal.Discovery.Client;
 using Polly;
 using Polly.Extensions.Http;
-using Polly.Timeout;
+using Steeltoe.Common.Http.Discovery;
 using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -34,6 +35,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
             services.AddCustomMvc(Configuration)
                 .AddCustomAuthentication(Configuration)
                 .AddApplicationServices();
@@ -51,6 +53,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
 
             app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -65,8 +68,6 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
                c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Purchase BFF V1");
                //c.ConfigureOAuth2("Microsoft.eShopOnContainers.Web.Shopping.HttpAggregatorwaggerui", "", "", "Purchase BFF Swagger UI");
            });
-
-
         }
     }
 
@@ -80,7 +81,6 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
             }).AddJwtBearer(options =>
             {
                 options.Authority = identityUrl;
@@ -101,6 +101,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
 
             return services;
         }
+
         public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddOptions();
@@ -145,25 +146,30 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
 
             return services;
         }
+
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             //register delegating handlers
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+            services.AddTransient<DiscoveryHttpMessageHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //register http services
           
             services.AddHttpClient<IBasketService, BasketService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<ICatalogService, CatalogService>()
+                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<IOrderApiClient, OrderApiClient>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
@@ -179,6 +185,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
               .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
         }
+
         static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
         {
             return HttpPolicyExtensions

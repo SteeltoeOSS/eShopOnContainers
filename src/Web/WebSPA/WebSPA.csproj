@@ -94,7 +94,7 @@
     <PackageReference Include="Microsoft.AspNetCore.DataProtection.Redis" Version="0.3.3" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
     <PackageReference Include="Pivotal.Extensions.Configuration.ConfigServerCore" Version="2.2.0-dev-00233" />
-    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.2.0-dev-00264" />
+    <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.2.0-dev-00270" />
   </ItemGroup>
 
 

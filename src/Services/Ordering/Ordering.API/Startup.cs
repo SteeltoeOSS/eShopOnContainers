@@ -30,6 +30,7 @@
     using Microsoft.Extensions.HealthChecks;
     using Microsoft.Extensions.Logging;
     using Ordering.Infrastructure;
+    using Pivotal.Discovery.Client;
     using RabbitMQ.Client;
     using Steeltoe.CloudFoundry.Connector.MySql;
     using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
@@ -62,6 +63,7 @@
                 .AddEventBus(Configuration)
                 .AddCustomAuthentication(Configuration);
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
             //configure autofac
 
             var container = new ContainerBuilder();
@@ -92,6 +94,7 @@
 
             app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
             ConfigureAuth(app);
 
             app.UseMvcWithDefaultRoute();

@@ -13,8 +13,10 @@ using Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Pivotal.Discovery.Client;
 using Polly;
 using Polly.Extensions.Http;
+using Steeltoe.Common.Http.Discovery;
 using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
 
@@ -33,6 +35,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
             services.AddCustomMvc(Configuration)
                  .AddCustomAuthentication(Configuration)
                  .AddHttpServices();
@@ -51,6 +54,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
 
             app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -118,6 +122,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
 
             return services;
         }
+
         public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -145,27 +150,30 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
 
             return services;
         }
+
         public static IServiceCollection AddHttpServices(this IServiceCollection services)
         {
             //register delegating handlers
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
+            services.AddTransient<DiscoveryHttpMessageHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             //register http services
             services.AddHttpClient<IBasketService, BasketService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<ICatalogService, CatalogService>()
+                   .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
                    .AddPolicyHandler(GetRetryPolicy())
                    .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<IOrderApiClient, OrderApiClient>()
+                   .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
                    .AddPolicyHandler(GetRetryPolicy())
                    .AddPolicyHandler(GetCircuitBreakerPolicy());
-
-
 
             return services;
         }
@@ -176,7 +184,6 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
               .HandleTransientHttpError()
               .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
               .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-
         }
 
         private static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()

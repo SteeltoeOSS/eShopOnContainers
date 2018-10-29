@@ -27,6 +27,7 @@
     using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Middlewares;
+    using Pivotal.Discovery.Client;
     using RabbitMQ.Client;
     using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
     using Steeltoe.Management.CloudFoundry;
@@ -62,6 +63,7 @@
 
             ConfigureAuthService(services);
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
             services.AddHealthChecks(checks => 
             {
                 checks.AddValueTaskCheck("HTTP Endpoint", () => new ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
@@ -204,6 +206,7 @@
 
             app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
             ConfigureAuth(app);
 
             app.UseMvcWithDefaultRoute();

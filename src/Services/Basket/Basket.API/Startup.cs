@@ -24,6 +24,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Pivotal.Discovery.Client;
 using RabbitMQ.Client;
 using StackExchange.Redis;
 using Steeltoe.Management.CloudFoundry;
@@ -169,6 +170,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
             services.AddTransient<IBasketRepository, RedisBasketRepository>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
             services.AddOptions();
 
             var container = new ContainerBuilder();
@@ -198,6 +200,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
             app.UseStaticFiles();          
             app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
             ConfigureAuth(app);
 
             app.UseMvcWithDefaultRoute();

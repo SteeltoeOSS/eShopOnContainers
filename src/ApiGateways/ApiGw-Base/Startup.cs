@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using Ocelot.Provider.Eureka;
 using Steeltoe.Management.CloudFoundry;
 
 namespace OcelotApiGw
@@ -60,7 +61,8 @@ namespace OcelotApiGw
                     };
                 });
             services.AddCloudFoundryActuators(_cfg);
-            services.AddOcelot(_cfg);
+            services.AddOcelot(_cfg)
+                .AddEureka();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)

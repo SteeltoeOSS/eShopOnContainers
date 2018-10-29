@@ -19,6 +19,7 @@ using System.Threading.Tasks;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.ApplicationInsights.ServiceFabric;
 using Steeltoe.Management.CloudFoundry;
+using Pivotal.Discovery.Client;
 
 namespace Payment.API
 {
@@ -85,6 +86,7 @@ namespace Payment.API
                 checks.AddValueTaskCheck("HTTP Endpoint", () => new ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
             });
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
             RegisterEventBus(services);
 
             var container = new ContainerBuilder();
@@ -108,6 +110,7 @@ namespace Payment.API
             app.Map("/liveness", lapp => lapp.Run(async ctx => ctx.Response.StatusCode = 200));
 #pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
             ConfigureEventBus(app);
         }
 

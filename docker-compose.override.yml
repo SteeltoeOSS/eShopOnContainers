@@ -13,6 +13,10 @@ services:
     ports:
       - "8888:8888"
 
+  eurekaserver:
+    ports:
+      - "8761:8761"
+
   sql.data:
     environment:
       - MYSQL_ROOT_PASSWORD=Pass@word
@@ -50,7 +54,6 @@ services:
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
-
     ports:
       - "5103:80"   # Important: In a production environment your should remove the external port (5103) kept here for microservice debugging purposes. 
                     # The API Gateway redirects and access through the internal port (80). 
@@ -76,7 +79,6 @@ services:
     ports:
       - "5102:80"   # Important: In a production environment your should remove the external port (5102) kept here for microservice debugging purposes. 
                     # The API Gateway redirects and access through the internal port (80).
-
 
   ordering.backgroundtasks:
     environment:
@@ -125,6 +127,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
+
     ports:
       - "5200:80"   
     volumes:
@@ -134,6 +138,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
     ports:
       - "5201:80"   
     volumes:
@@ -143,6 +148,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
     ports:
       - "5202:80"   
     volumes:
@@ -152,6 +158,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
     ports:
       - "5203:80"   
     volumes:
@@ -160,10 +167,8 @@ services:
   mobileshoppingagg:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - urls__basket=http://basket.api
-      - urls__catalog=http://catalog.api
-      - urls__orders=http://ordering.api
       - urls__identity=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
     ports:
       - "5120:80"   # Important: In a production environment your should remove the external port (5120) kept here for microservice debugging purposes. 
                     # The API Gateway redirects and access through the internal port (80).
@@ -171,10 +176,8 @@ services:
   webshoppingagg:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - urls__basket=http://basket.api
-      - urls__catalog=http://catalog.api
-      - urls__orders=http://ordering.api
       - urls__identity=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
     ports:
       - "5121:80"   # Important: In a production environment your should remove the external port (5121) kept here for microservice debugging purposes. 
                     # The API Gateway redirects and access through the internal port (80).

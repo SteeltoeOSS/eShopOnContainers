@@ -20,6 +20,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
+using Pivotal.Discovery.Client;
 using RabbitMQ.Client;
 using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
@@ -96,6 +97,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
             }
 
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
             services.AddHealthChecks(checks =>
             {
                 checks.AddValueTaskCheck("HTTP Endpoint", () => new ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
@@ -170,6 +172,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
 
             app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
             ConfigureAuth(app);
 
             app.UseMvcWithDefaultRoute();

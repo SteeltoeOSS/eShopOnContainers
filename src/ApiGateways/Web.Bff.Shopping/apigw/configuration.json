@@ -3,24 +3,22 @@
     {
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "catalog.api",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "catalog.api",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/api/{version}/c/{everything}",
       "UpstreamHttpMethod": [ "GET" ]
     },
     {
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "basket.api",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "basket.api",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/api/{version}/b/{everything}",
       "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
@@ -31,12 +29,11 @@
     {
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "ordering.api",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "ordering.api",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/api/{version}/o/{everything}",
       "UpstreamHttpMethod": [],
       "AuthenticationOptions": {
@@ -47,12 +44,11 @@
     {
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "webshoppingagg",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "webshoppingagg",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/{everything}",
       "UpstreamHttpMethod": [ "POST", "PUT", "GET" ],
       "AuthenticationOptions": {
@@ -63,68 +59,66 @@
     {
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "ordering.api",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "ordering.api",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/orders-api/{everything}",
       "UpstreamHttpMethod": []
     },
     {
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "ordering.signalrhub",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "ordering.signalrhub",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/hub/{everything}",
       "UpstreamHttpMethod": []
     },
     {
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "basket.api",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "basket.api",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/basket-api/{everything}",
       "UpstreamHttpMethod": []
     },
     {
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "catalog.api",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "catalog.api",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/catalog-api/{everything}",
       "UpstreamHttpMethod": []
     },
     {
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "payment.api",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "payment.api",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/payment-api/{everything}",
       "UpstreamHttpMethod": []
     }
 
   ],
-    "GlobalConfiguration": {
-      "RequestIdKey": "OcRequestId",
-      "AdministrationPath": "/administration"
+  "GlobalConfiguration": {
+    "RequestIdKey": "OcRequestId",
+    "AdministrationPath": "/administration",
+    "ServiceDiscoveryProvider": {
+      "Type": "Eureka"
     }
   }
+}
   

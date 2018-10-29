@@ -3,24 +3,22 @@
     {
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "marketing.api",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "marketing.api",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/api/{version}/m/{everything}",
       "UpstreamHttpMethod": []
     },
     {
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
-      "DownstreamHostAndPorts": [
-        {
-          "Host": "locations.api",
-          "Port": 80
-        }
-      ],
+      "UseServiceDiscovery": true,
+      "ServiceName": "locations.api",
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      },
       "UpstreamPathTemplate": "/api/{version}/l/{everything}",
       "UpstreamHttpMethod": []
     }
@@ -28,7 +26,10 @@
   ],
   "GlobalConfiguration": {
     "RequestIdKey": "OcRequestId",
-    "AdministrationPath": "/administration"
+    "AdministrationPath": "/administration",
+    "ServiceDiscoveryProvider": {
+      "Type": "Eureka"
+    }
   }
 }
   

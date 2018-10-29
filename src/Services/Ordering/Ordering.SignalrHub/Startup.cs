@@ -14,6 +14,7 @@ using Ordering.SignalrHub.AutofacModules;
 using Ordering.SignalrHub.IntegrationEvents;
 using Ordering.SignalrHub.IntegrationEvents.EventHandling;
 using Ordering.SignalrHub.IntegrationEvents.Events;
+using Pivotal.Discovery.Client;
 using RabbitMQ.Client;
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 using Steeltoe.Management.CloudFoundry;
@@ -77,6 +78,8 @@ namespace Ordering.SignalrHub
 
             services.AddOptions();
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
+
             //configure autofac
             var container = new ContainerBuilder();
             container.RegisterModule(new ApplicationModule());
@@ -104,6 +107,7 @@ namespace Ordering.SignalrHub
 
             app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
             app.UseAuthentication();
 
             app.UseSignalR(routes =>

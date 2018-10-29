@@ -26,6 +26,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Pivotal.Discovery.Client;
 using RabbitMQ.Client;
 using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
 using Steeltoe.Management.CloudFoundry;
@@ -54,6 +55,7 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API
                 .AddEventBus(Configuration)
                 .AddSwagger();
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
             var container = new ContainerBuilder();
             container.Populate(services);
             return new AutofacServiceProvider(container.Build());
@@ -81,6 +83,7 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API
 
             app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
             app.UseMvcWithDefaultRoute();
 
             app.UseSwagger()

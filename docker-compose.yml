@@ -6,6 +6,9 @@ services:
     volumes:
      - ./configuration:/config
 
+  eurekaserver:
+    image: steeltoeoss/eurekaserver
+
   sql.data:
     image: mysql:5.7.13
 
@@ -25,6 +28,7 @@ services:
       dockerfile: src/Services/Identity/Identity.API/Dockerfile    
     depends_on:
       - configserver
+      - eurekaserver
       - sql.data
 
   basket.api:
@@ -34,6 +38,7 @@ services:
       dockerfile: src/Services/Basket/Basket.API/Dockerfile    
     depends_on:
       - configserver
+      - eurekaserver
       - basket.data
       - identity.api
       - rabbitmq
@@ -45,6 +50,7 @@ services:
       dockerfile: src/Services/Catalog/Catalog.API/Dockerfile
     depends_on:
       - configserver
+      - eurekaserver
       - sql.data
       - rabbitmq
 
@@ -55,6 +61,7 @@ services:
       dockerfile: src/Services/Ordering/Ordering.API/Dockerfile    
     depends_on:
       - configserver
+      - eurekaserver
       - sql.data
       - rabbitmq
 
@@ -75,6 +82,7 @@ services:
       dockerfile: src/Services/Marketing/Marketing.API/Dockerfile    
     depends_on:
       - configserver
+      - eurekaserver
       - sql.data
       - nosql.data
       - identity.api
@@ -87,6 +95,7 @@ services:
       dockerfile: src/Services/Payment/Payment.API/Dockerfile
     depends_on:
       - configserver
+      - eurekaserver
       - rabbitmq    
 
   locations.api:
@@ -96,6 +105,7 @@ services:
       dockerfile: src/Services/Location/Locations.API/Dockerfile
     depends_on:
       - configserver
+      - eurekaserver
       - nosql.data
       - rabbitmq
 
@@ -105,6 +115,7 @@ services:
       context: .
       dockerfile: src/ApiGateways/ApiGw-Base/Dockerfile
     depends_on:
+      - eurekaserver
       - nosql.data
       - sql.data
       - identity.api
@@ -120,6 +131,7 @@ services:
       context: .
       dockerfile: src/ApiGateways/ApiGw-Base/Dockerfile
     depends_on:
+      - eurekaserver
       - nosql.data
       - sql.data
       - identity.api
@@ -135,6 +147,7 @@ services:
       context: .
       dockerfile: src/ApiGateways/ApiGw-Base/Dockerfile
     depends_on:
+      - eurekaserver
       - nosql.data
       - sql.data
       - identity.api
@@ -150,6 +163,7 @@ services:
       context: .
       dockerfile: src/ApiGateways/ApiGw-Base/Dockerfile
     depends_on:
+      - eurekaserver
       - nosql.data
       - sql.data
       - identity.api
@@ -196,6 +210,7 @@ services:
       dockerfile: src/Services/Ordering/Ordering.SignalrHub/Dockerfile
     depends_on:
       - configserver
+      - eurekaserver
       - nosql.data
       - sql.data
       - identity.api
