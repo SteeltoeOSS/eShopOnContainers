@@ -27,7 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Web\WebMVC\WebMVC.csproj" />
-    <ProjectReference Include="..\..\Location\Locations.API\Locations.API.csproj" />
+    <ProjectReference Include="..\..\Locations\Locations.API\Locations.API.csproj" />
     <ProjectReference Include="..\Basket.API\Basket.API.csproj" />
   </ItemGroup>
 </Project>

@@ -68,7 +68,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Extensions.Health
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Location", "Location", "{41139F64-4046-4F16-96B7-D941D96FA9C6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Locations.API", "src\Services\Location\Locations.API\Locations.API.csproj", "{E7581357-FC34-474C-B8F5-307EE3CE05EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Locations.API", "src\Services\Locations\Locations.API\Locations.API.csproj", "{E7581357-FC34-474C-B8F5-307EE3CE05EF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Marketing", "Marketing", "{A5260DE0-1FDD-467E-9CC1-A028AB081CEE}"
 EndProject
@@ -126,7 +126,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.UnitTests", "src\S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catalog.FunctionalTests", "src\Services\Catalog\Catalog.FunctionalTests\Catalog.FunctionalTests.csproj", "{38107691-A437-461D-A85C-ACD3AC7ACFAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Locations.FunctionalTests", "src\Services\Location\Locations.FunctionalTests\Locations.FunctionalTests.csproj", "{16F463AA-9CF6-44DC-B18C-7310CCF663FF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Locations.FunctionalTests", "src\Services\Locations\Locations.FunctionalTests\Locations.FunctionalTests.csproj", "{16F463AA-9CF6-44DC-B18C-7310CCF663FF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ordering.FunctionalTests", "src\Services\Ordering\Ordering.FunctionalTests\Ordering.FunctionalTests.csproj", "{DA7D3E03-D0B6-4591-8143-779D3E9F3F30}"
 EndProject
