@@ -9,7 +9,7 @@ version: '3.4'
 services:
   configserver:
     environment:
-      - spring.profiles.active=native
+      - spring.cloud.config.server.git.uri=https://github.com/SteeltoeOSS/eShopOnContainers-config.git
     ports:
       - "8888:8888"
 
