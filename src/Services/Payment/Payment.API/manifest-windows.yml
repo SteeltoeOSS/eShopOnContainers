@@ -1,0 +1,13 @@
+﻿applications:
+- name: eshop.payment.api
+  buildpacks:
+    - binary_buildpack
+  memory: 384M
+  stack: windows2016
+  command: .\Payment.API
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopMQ
+  - eShopRegistry
+  - eShopConfig

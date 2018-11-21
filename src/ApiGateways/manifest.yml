@@ -1,0 +1,10 @@
+﻿applications:
+- buildpacks:
+  - dotnet_core_buildpack
+  stack: cflinuxfs3
+  memory: 384M
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+    eureka__instance__appName: ((appName))
+  services:
+  - eShopRegistry

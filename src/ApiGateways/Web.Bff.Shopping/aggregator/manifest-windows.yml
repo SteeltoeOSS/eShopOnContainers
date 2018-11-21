@@ -1,0 +1,11 @@
+﻿applications:
+- name: eshop.webshoppingagg
+  buildpacks:
+    - binary_buildpack
+  memory: 384M
+  stack: windows2016
+  command: .\Web.Shopping.HttpAggregator
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopRegistry

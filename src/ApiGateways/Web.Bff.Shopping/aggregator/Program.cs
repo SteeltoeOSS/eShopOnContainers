@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 using Steeltoe.Extensions.Logging;
 
 namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
@@ -25,6 +26,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
                         Path = "appsettings.localhost.json",
                         ReloadOnChange = false
                     });
+                    cb.AddCloudFoundry();
                 })
                 .ResolveConfigurationPlaceholders()
                 .ConfigureLogging((ctx, builder) =>

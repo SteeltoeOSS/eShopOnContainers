@@ -1,0 +1,11 @@
+﻿applications:
+- buildpacks:
+    - binary_buildpack
+  memory: 384M
+  stack: windows2016
+  command: .\OcelotApiGw
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+    eureka__instance__appName: ((appName))
+  services:
+  - eShopRegistry

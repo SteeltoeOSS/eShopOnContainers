@@ -1,0 +1,13 @@
+﻿applications:
+- name: eshop.mvc
+  buildpacks:
+    - binary_buildpack
+  memory: 384M
+  stack: windows2016
+  command: .\WebMVC
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopCache
+  - eShopRegistry
+  - eShopConfig

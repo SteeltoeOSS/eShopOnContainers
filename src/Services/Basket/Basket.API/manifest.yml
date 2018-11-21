@@ -1,0 +1,13 @@
+﻿applications:
+- name: eshop.basket.api
+  stack: cflinuxfs3
+  buildpacks:
+  - dotnet_core_buildpack
+  memory: 384M
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopMQ
+  - eShopCache
+  - eShopRegistry
+  - eShopConfig

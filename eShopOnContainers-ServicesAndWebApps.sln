@@ -83,6 +83,10 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebHost.Customization", "src\BuildingBlocks\WebHostCustomization\WebHost.Customization\WebHost.Customization.csproj", "{15F4B3AA-89B6-4A0D-9051-414305974781}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGateways", "ApiGateways", "{77849D35-37D4-4802-81DC-9477B2775A40}"
+	ProjectSection(SolutionItems) = preProject
+		src\ApiGateways\manifest-windows.yml = src\ApiGateways\manifest-windows.yml
+		src\ApiGateways\manifest.yml = src\ApiGateways\manifest.yml
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGw-Base", "ApiGw-Base", "{EC91ADE9-3D66-4AB2-9FB4-2B585E1F3531}"
 EndProject

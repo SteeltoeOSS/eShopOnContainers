@@ -1,0 +1,14 @@
+﻿applications:
+- name: eshop.location.api
+  buildpacks:
+    - binary_buildpack
+  memory: 384M
+  stack: windows2016
+  command: .\Marketing.API
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopMQ
+  - eShopDocDb
+  - eShopRegistry
+  - eShopConfig

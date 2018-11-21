@@ -1,0 +1,14 @@
+﻿applications:
+- name: eshop.identity.api
+  buildpacks:
+    - binary_buildpack
+  memory: 384M
+  stack: windows2016
+  command: .\Indentity.API
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopMySQL
+  - eShopCache
+  - eShopRegistry
+  - eShopConfig

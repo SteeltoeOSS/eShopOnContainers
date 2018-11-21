@@ -1,0 +1,13 @@
+﻿applications:
+- name: eshop.spa
+  buildpacks:
+    - binary_buildpack
+  memory: 384M
+  stack: windows2016
+  command: .\WebSPA
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopCache
+  - eShopRegistry
+  - eShopConfig

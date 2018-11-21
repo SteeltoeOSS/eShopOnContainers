@@ -1,0 +1,13 @@
+﻿applications:
+- name: eshop.ordering.backgroundtasks
+  buildpacks:
+    - binary_buildpack
+  memory: 384M
+  stack: windows2016
+  command: .\Ordering.BackgroundTasks
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopMySQL
+  - eShopMQ
+  - eShopConfig

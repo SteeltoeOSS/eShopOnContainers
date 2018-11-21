@@ -1,0 +1,10 @@
+﻿applications:
+- name: eshop.webshoppingagg
+  stack: cflinuxfs3
+  buildpacks:
+  - dotnet_core_buildpack
+  memory: 384M
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopRegistry

@@ -1,0 +1,12 @@
+﻿applications:
+- name: eshop.ordering.backgroundtasks
+  stack: cflinuxfs3
+  buildpacks:
+  - dotnet_core_buildpack
+  memory: 384M
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopMySQL
+  - eShopMQ
+  - eShopConfig

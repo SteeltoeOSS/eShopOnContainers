@@ -1,0 +1,14 @@
+﻿applications:
+- name: eshop.ordering.signalrhub
+  stack: cflinuxfs3
+  buildpacks:
+  - dotnet_core_buildpack
+  memory: 384M
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopMySQL
+  - eShopCache
+  - eShopMQ
+  - eShopRegistry
+  - eShopConfig

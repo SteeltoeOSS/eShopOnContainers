@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Steeltoe.Extensions.Configuration.CloudFoundry;
 using Steeltoe.Extensions.Logging;
 using System.IO;
 
@@ -21,6 +22,7 @@ namespace OcelotApiGw
             builder.ConfigureServices(s => s.AddSingleton(builder))
                 .ConfigureAppConfiguration(ic => {
                     ic.AddJsonFile(Path.Combine("configuration", "configuration.json"));
+                    ic.AddCloudFoundry();
                 })
                 .ConfigureLogging((ctx, loggingbuilder) =>
                 {

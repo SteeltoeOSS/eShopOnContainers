@@ -1,0 +1,14 @@
+﻿applications:
+- name: eshop.basket.api
+  buildpacks:
+    - binary_buildpack
+  memory: 384M
+  stack: windows2016
+  command: .\Basket.API
+  env:
+    ASPNETCORE_ENVIRONMENT: Production
+  services:
+  - eShopMQ
+  - eShopCache
+  - eShopRegistry
+  - eShopConfig
