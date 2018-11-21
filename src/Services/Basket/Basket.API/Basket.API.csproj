@@ -23,6 +23,7 @@
     <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.1.0" />
     <PackageReference Include="Pivotal.Discovery.ClientCore" Version="2.2.0-dev-00286" />
     <PackageReference Include="StackExchange.Redis.StrongName" Version="1.2.4" />
+    <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Version="2.2.0-dev-00301" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.2.0-dev-00270" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
   </ItemGroup>

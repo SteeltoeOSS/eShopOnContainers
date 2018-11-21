@@ -17,9 +17,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
-using StackExchange.Redis;
+using Pivotal.Discovery.Client;
 using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
+using Steeltoe.CloudFoundry.Connector.Redis;
 using Steeltoe.Management.CloudFoundry;
+using Steeltoe.Security.DataProtection;
 using System;
 using System.Reflection;
 
@@ -46,13 +48,14 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
                 //Configuring Connection Resiliency: https://docs.microsoft.com/en-us/ef/core/miscellaneous/connection-resiliency 
                 o.EnableRetryOnFailure(maxRetryCount: 15, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
             };
-            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration, mySqlOptionsAction));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseMySql(Configuration, mySqlOptionsAction), ServiceLifetime.Transient);
 
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
             services.Configure<AppSettings>(Configuration);
+            services.AddRedisConnectionMultiplexer(Configuration);
 
             services.AddMvc();
 
@@ -62,10 +65,12 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
                 {
                     opts.ApplicationDiscriminator = "eshop.identity";
                 })
-                .PersistKeysToRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]), "DataProtection-Keys");
+                .PersistKeysToRedis()
+                .SetApplicationName("DataProtection-Keys");
             }
 
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
             services.AddHealthChecks(checks =>
             {
                 var minutes = 1;
@@ -138,6 +143,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
 
             app.UseStaticFiles();
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
 
             // Make work identity server redirections in Edge and lastest versions of browers. WARN: Not valid in a production environment.
             app.Use(async (context, next) =>

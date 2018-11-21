@@ -14,11 +14,11 @@
     <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="2.1.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.AzureKeyVault" Version="2.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" Version="2.1.0" />
-    <PackageReference Include="mongocsharpdriver" Version="2.5.0" />
     <PackageReference Include="MongoDB.Bson" Version="2.5.0" />
     <PackageReference Include="MongoDB.Driver" Version="2.5.0" />
     <PackageReference Include="MongoDB.Driver.Core" Version="2.5.0" />
     <PackageReference Include="Pivotal.Discovery.ClientCore" Version="2.2.0-dev-00286" />
+    <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Version="2.2.0-dev-00303" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.2.0-dev-00270" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="3.0.0" />
   </ItemGroup>

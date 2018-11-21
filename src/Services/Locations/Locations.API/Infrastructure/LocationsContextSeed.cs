@@ -18,7 +18,9 @@
             var config = applicationBuilder
                 .ApplicationServices.GetRequiredService<IOptions<LocationSettings>>();
 
-            ctx = new LocationsContext(config);
+            var mongoClient = applicationBuilder.ApplicationServices.GetRequiredService<IMongoClient>();
+            var mongoUrl = applicationBuilder.ApplicationServices.GetRequiredService<MongoUrl>();
+            ctx = new LocationsContext(config, mongoClient, mongoUrl);
 
             if (!ctx.Locations.Database.GetCollection<Locations>(nameof(Locations)).AsQueryable().Any())
             {

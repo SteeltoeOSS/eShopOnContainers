@@ -1,22 +1,22 @@
-﻿using Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Services;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.eShopOnContainers.Services.Marketing.API.Dto;
+using Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure;
+using Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Repositories;
+using Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Services;
+using Microsoft.eShopOnContainers.Services.Marketing.API.Model;
+using Microsoft.eShopOnContainers.Services.Marketing.API.ViewModel;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace Microsoft.eShopOnContainers.Services.Marketing.API.Controllers
 {
-    using System;
-    using System.Linq;
-    using System.Collections.Generic;
-    using Infrastructure.Repositories;
-    using AspNetCore.Mvc;
-    using Infrastructure;
-    using System.Threading.Tasks;
-    using Model;
-    using EntityFrameworkCore;
-    using Dto;
-    using AspNetCore.Authorization;
-    using Extensions.Options;
-    using Microsoft.eShopOnContainers.Services.Marketing.API.ViewModel;
-    using Microsoft.AspNetCore.Http;
-    using System.Net;
 
     [Route("api/v1/[controller]")]
     [Authorize]
@@ -26,22 +26,26 @@ namespace Microsoft.eShopOnContainers.Services.Marketing.API.Controllers
         private readonly MarketingSettings _settings;
         private readonly IMarketingDataRepository _marketingDataRepository;
         private readonly IIdentityService _identityService;
+        private readonly ILogger<CampaignsController> _logger;
 
         public CampaignsController(MarketingContext context,
             IMarketingDataRepository marketingDataRepository,
              IOptionsSnapshot<MarketingSettings> settings,
-            IIdentityService identityService)
+            IIdentityService identityService,
+            ILogger<CampaignsController> logger)
         {
             _context = context;
             _marketingDataRepository = marketingDataRepository;
             _settings = settings.Value;
             _identityService = identityService;
+            _logger = logger;
         }
 
         [HttpGet]
         [ProducesResponseType(typeof(List<CampaignDTO>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetAllCampaigns()
         {
+            _logger.LogTrace("Get all campaigns");
             var campaignList = await _context.Campaigns
                 .ToListAsync();
 
@@ -60,6 +64,7 @@ namespace Microsoft.eShopOnContainers.Services.Marketing.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetCampaignById(int id)
         {
+            _logger.LogTrace("Get campaign by id {id}", id);
             var campaign = await _context.Campaigns
                 .SingleOrDefaultAsync(c => c.Id == id);
 
@@ -147,6 +152,7 @@ namespace Microsoft.eShopOnContainers.Services.Marketing.API.Controllers
         public async Task<IActionResult> GetCampaignsByUserId( int pageSize = 10, int pageIndex = 0)
         {
             var userId = _identityService.GetUserIdentity();
+            _logger.LogTrace("Get campaigns by userId {userId}", userId);
 
             var marketingData = await _marketingDataRepository.GetAsync(userId.ToString());
 

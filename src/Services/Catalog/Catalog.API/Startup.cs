@@ -27,12 +27,15 @@ using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Pivotal.Discovery.Client;
-using RabbitMQ.Client;
 using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
+using Steeltoe.CloudFoundry.Connector.RabbitMQ;
+using Steeltoe.Common.Discovery;
 using Steeltoe.Management.CloudFoundry;
 using System;
 using System.Data.Common;
+using System.Linq;
 using System.Reflection;
+using System.Threading;
 
 namespace Microsoft.eShopOnContainers.Services.Catalog.API
 {
@@ -251,34 +254,8 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API
             }
             else
             {
-                services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
-                {
-                    var settings = sp.GetRequiredService<IOptions<CatalogSettings>>().Value;
-                    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
-
-                    var factory = new ConnectionFactory()
-                    {
-                        HostName = configuration["EventBusConnection"]
-                    };
-
-                    if (!string.IsNullOrEmpty(configuration["EventBusUserName"]))
-                    {
-                        factory.UserName = configuration["EventBusUserName"];
-                    }
-
-                    if (!string.IsNullOrEmpty(configuration["EventBusPassword"]))
-                    {
-                        factory.Password = configuration["EventBusPassword"];
-                    }
-
-                    var retryCount = 5;
-                    if (!string.IsNullOrEmpty(configuration["EventBusRetryCount"]))
-                    {
-                        retryCount = int.Parse(configuration["EventBusRetryCount"]);
-                    }
-
-                    return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
-                });
+                services.AddRabbitMQConnection(configuration);
+                services.AddSingleton<IRabbitMQPersistentConnection, DefaultRabbitMQPersistentConnection>();
             }
 
             return services;

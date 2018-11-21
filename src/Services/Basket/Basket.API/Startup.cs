@@ -25,8 +25,8 @@ using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Pivotal.Discovery.Client;
-using RabbitMQ.Client;
 using StackExchange.Redis;
+using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -76,7 +76,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
             //and then creating the connection it seems reasonable to move
             //that cost to startup instead of having the first request pay the
             //penalty.
-            services.AddSingleton<ConnectionMultiplexer>(sp =>
+            services.AddSingleton(sp =>
             {
                 var settings = sp.GetRequiredService<IOptions<BasketSettings>>().Value;
                 var configuration = ConfigurationOptions.Parse(settings.ConnectionString, true);
@@ -101,33 +101,8 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
             }
             else
             {
-                services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
-                {
-                    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
-
-                    var factory = new ConnectionFactory()
-                    {
-                        HostName = Configuration["EventBusConnection"]
-                    };
-
-                    if (!string.IsNullOrEmpty(Configuration["EventBusUserName"]))
-                    {
-                        factory.UserName = Configuration["EventBusUserName"];
-                    }
-
-                    if (!string.IsNullOrEmpty(Configuration["EventBusPassword"]))
-                    {
-                        factory.Password = Configuration["EventBusPassword"];
-                    }
-
-                    var retryCount = 5;
-                    if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
-                    {
-                        retryCount = int.Parse(Configuration["EventBusRetryCount"]);
-                    }
-
-                    return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
-                });
+                services.AddRabbitMQConnection(Configuration);
+                services.AddSingleton<IRabbitMQPersistentConnection, DefaultRabbitMQPersistentConnection>();
             }
 
             RegisterEventBus(services);

@@ -19,7 +19,9 @@ namespace OcelotApiGw
         {
             IWebHostBuilder builder = WebHost.CreateDefaultBuilder(args);
             builder.ConfigureServices(s => s.AddSingleton(builder))
-                .ConfigureAppConfiguration(ic => ic.AddJsonFile(Path.Combine("configuration", "configuration.json")))
+                .ConfigureAppConfiguration(ic => {
+                    ic.AddJsonFile(Path.Combine("configuration", "configuration.json"));
+                })
                 .ConfigureLogging((ctx, loggingbuilder) =>
                 {
                     loggingbuilder.ClearProviders();
@@ -27,6 +29,7 @@ namespace OcelotApiGw
                     loggingbuilder.AddDynamicConsole();
                     loggingbuilder.AddDebug();
                 })
+                .ResolveConfigurationPlaceholders()
                 .UseStartup<Startup>();
             IWebHost host = builder.Build();
             return host;

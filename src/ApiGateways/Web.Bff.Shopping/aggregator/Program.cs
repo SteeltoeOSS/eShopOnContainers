@@ -26,6 +26,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
                         ReloadOnChange = false
                     });
                 })
+                .ResolveConfigurationPlaceholders()
                 .ConfigureLogging((ctx, builder) =>
                 {
                     builder.ClearProviders();

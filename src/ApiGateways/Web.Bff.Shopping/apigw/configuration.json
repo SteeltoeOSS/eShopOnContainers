@@ -4,7 +4,7 @@
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
       "UseServiceDiscovery": true,
-      "ServiceName": "catalog.api",
+      "ServiceName": "catalogapi",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
@@ -15,7 +15,7 @@
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
       "UseServiceDiscovery": true,
-      "ServiceName": "basket.api",
+      "ServiceName": "basketapi",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
@@ -30,7 +30,7 @@
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
       "UseServiceDiscovery": true,
-      "ServiceName": "ordering.api",
+      "ServiceName": "orderingapi",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
@@ -60,7 +60,7 @@
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "UseServiceDiscovery": true,
-      "ServiceName": "ordering.api",
+      "ServiceName": "orderingapi",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
@@ -71,7 +71,7 @@
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "UseServiceDiscovery": true,
-      "ServiceName": "ordering.signalrhub",
+      "ServiceName": "orderingsignalrhub",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
@@ -82,7 +82,7 @@
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "UseServiceDiscovery": true,
-      "ServiceName": "basket.api",
+      "ServiceName": "basketapi",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
@@ -93,7 +93,7 @@
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "UseServiceDiscovery": true,
-      "ServiceName": "catalog.api",
+      "ServiceName": "catalogapi",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
@@ -104,7 +104,7 @@
       "DownstreamPathTemplate": "/{everything}",
       "DownstreamScheme": "http",
       "UseServiceDiscovery": true,
-      "ServiceName": "payment.api",
+      "ServiceName": "paymentapi",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },

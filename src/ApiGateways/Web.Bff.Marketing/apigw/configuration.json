@@ -4,7 +4,7 @@
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
       "UseServiceDiscovery": true,
-      "ServiceName": "marketing.api",
+      "ServiceName": "marketingapi",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },
@@ -15,7 +15,7 @@
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "http",
       "UseServiceDiscovery": true,
-      "ServiceName": "locations.api",
+      "ServiceName": "locationsapi",
       "LoadBalancerOptions": {
         "Type": "RoundRobin"
       },

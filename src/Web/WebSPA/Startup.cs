@@ -10,8 +10,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Serialization;
-using StackExchange.Redis;
+using Pivotal.Discovery.Client;
+using Steeltoe.CloudFoundry.Connector.Redis;
 using Steeltoe.Management.CloudFoundry;
+using Steeltoe.Security.DataProtection;
 using System;
 using System.IO;
 using WebSPA.Infrastructure;
@@ -60,6 +62,7 @@ namespace eShopConContainers.WebSPA
             });
 
             services.Configure<AppSettings>(Configuration);
+            services.AddRedisConnectionMultiplexer(Configuration);
 
             if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
             {
@@ -67,11 +70,13 @@ namespace eShopConContainers.WebSPA
                 {
                     opts.ApplicationDiscriminator = "eshop.webspa";
                 })
-                .PersistKeysToRedis(ConnectionMultiplexer.Connect(Configuration["DPConnectionString"]), "DataProtection-Keys");
+                .PersistKeysToRedis()
+                .SetApplicationName("DataProtection-Keys");
             }
 
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
             services.AddCloudFoundryActuators(Configuration);
+            services.AddDiscoveryClient(Configuration);
             services.AddMvc()
                 .AddJsonOptions(options =>
                 {
@@ -136,6 +141,7 @@ namespace eShopConContainers.WebSPA
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
             app.UseMvcWithDefaultRoute();
         }
 

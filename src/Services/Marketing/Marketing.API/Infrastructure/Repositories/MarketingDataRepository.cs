@@ -10,9 +10,9 @@ namespace Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Repo
     {
         private readonly MarketingReadDataContext _context;
 
-        public MarketingDataRepository(IOptions<MarketingSettings> settings)
+        public MarketingDataRepository(IOptions<MarketingSettings> settings, IMongoClient mongoClient, MongoUrl mongoUrl)
         {
-            _context = new MarketingReadDataContext(settings);
+            _context = new MarketingReadDataContext(settings, mongoClient, mongoUrl);
         }
 
         public async Task<MarketingData> GetAsync(string userId)

@@ -3,16 +3,19 @@
     using Microsoft.eShopOnContainers.Services.Locations.API.Model;
     using Microsoft.Extensions.Options;
     using MongoDB.Driver;
+    using System;
 
     public class LocationsContext
     {
         private readonly IMongoDatabase _database = null;
 
-        public LocationsContext(IOptions<LocationSettings> settings)
+        public LocationsContext(IOptions<LocationSettings> settings, IMongoClient mongoClient, MongoUrl mongoUrl)
         {
-            var client = new MongoClient(settings.Value.ConnectionString);
-            if (client != null)
-                _database = client.GetDatabase(settings.Value.Database);
+            if (mongoClient != null)
+            {
+                Console.WriteLine($"Connecting to: {mongoClient.Settings.Server.Host}:{mongoClient.Settings.Server.Port}/{mongoUrl.DatabaseName}");
+                _database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
+            }
         }
 
         public IMongoCollection<UserLocation> UserLocation

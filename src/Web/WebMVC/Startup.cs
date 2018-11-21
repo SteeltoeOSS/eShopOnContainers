@@ -6,19 +6,27 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.eShopOnContainers.WebMVC.Services;
 using Microsoft.eShopOnContainers.WebMVC.ViewModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
+using Pivotal.Discovery.Client;
+using Pivotal.Discovery.Eureka;
 using Polly;
 using Polly.Extensions.Http;
-using StackExchange.Redis;
+using Steeltoe.CloudFoundry.Connector.Redis;
+using Steeltoe.Common.Discovery;
+using Steeltoe.Common.Http.Discovery;
 using Steeltoe.Management.CloudFoundry;
+using Steeltoe.Security.DataProtection;
 using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using WebMVC.Infrastructure;
 using WebMVC.Infrastructure.Middlewares;
 using WebMVC.Services;
@@ -39,7 +47,9 @@ namespace Microsoft.eShopOnContainers.WebMVC
         {
             services.AddAppInsight(Configuration)
                     .AddHealthChecks(Configuration)
+                    .AddRedisConnectionMultiplexer(Configuration)
                     .AddCustomMvc(Configuration)
+                    .AddDiscoveryClient(Configuration)
                     .AddHttpClientServices(Configuration)
                     //.AddHttpClientLogging(Configuration)  //Opt-in HttpClientLogging config
                     .AddCustomAuthentication(Configuration);
@@ -71,6 +81,7 @@ namespace Microsoft.eShopOnContainers.WebMVC
             }
 
             app.UseCloudFoundryActuators();
+            app.UseDiscoveryClient();
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
             app.Map("/liveness", lapp => lapp.Run(async ctx => ctx.Response.StatusCode = 200));
@@ -163,7 +174,8 @@ namespace Microsoft.eShopOnContainers.WebMVC
                 {
                     opts.ApplicationDiscriminator = "eshop.webmvc";
                 })
-                .PersistKeysToRedis(ConnectionMultiplexer.Connect(configuration["DPConnectionString"]), "DataProtection-Keys");
+                .PersistKeysToRedis()
+                .SetApplicationName("DataProtection-Keys");
             }
             return services;
         }
@@ -176,36 +188,42 @@ namespace Microsoft.eShopOnContainers.WebMVC
             //register delegating handlers
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
             services.AddTransient<HttpClientRequestIdDelegatingHandler>();
+            services.AddTransient<DiscoveryHttpMessageHandler>();
 
             //set 5 min as the lifetime for each HttpMessageHandler int the pool
             services.AddHttpClient("extendedhandlerlifetime").SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
             //add http client services
             services.AddHttpClient<IBasketService, BasketService>()
-                   .SetHandlerLifetime(TimeSpan.FromMinutes(5))  //Sample. Default lifetime is 2 minutes
-                   .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                   .AddPolicyHandler(GetRetryPolicy())
-                   .AddPolicyHandler(GetCircuitBreakerPolicy());
+                .SetHandlerLifetime(TimeSpan.FromMinutes(5))  //Sample. Default lifetime is 2 minutes
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<ICatalogService, CatalogService>()
-                   .AddPolicyHandler(GetRetryPolicy())
-                   .AddPolicyHandler(GetCircuitBreakerPolicy());
+                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<IOrderingService, OrderingService>()
-                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                 .AddHttpMessageHandler<HttpClientRequestIdDelegatingHandler>()
-                 .AddPolicyHandler(GetRetryPolicy())
-                 .AddPolicyHandler(GetCircuitBreakerPolicy());
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddHttpMessageHandler<HttpClientRequestIdDelegatingHandler>()
+                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<ICampaignService, CampaignService>()
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<ILocationService, LocationService>()
-               .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-               .AddPolicyHandler(GetRetryPolicy())
-               .AddPolicyHandler(GetCircuitBreakerPolicy());
+                .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
+                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             //add custom application services
             services.AddTransient<IIdentityParser<ApplicationUser>, IdentityParser>();

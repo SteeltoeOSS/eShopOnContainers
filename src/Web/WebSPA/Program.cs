@@ -26,7 +26,7 @@ namespace eShopConContainers.WebSPA
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .ConfigureAppConfiguration((builderContext, config) =>
                 {
-                    config.AddConfigServer();
+                    config.AddConfigServer(builderContext.HostingEnvironment, logfactory);
                     config.AddInMemoryCollection(PropertyPlaceholderHelper.GetResolvedConfigurationPlaceholders(config.Build(), logfactory?.CreateLogger("PropertyPlaceholderHelper")));
                 })
                 .ConfigureLogging((hostingContext, builder) =>

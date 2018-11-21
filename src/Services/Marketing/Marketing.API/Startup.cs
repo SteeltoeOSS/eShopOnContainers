@@ -27,9 +27,13 @@
     using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure.Middlewares;
+    using Microsoft.Extensions.DependencyInjection.Extensions;
+    using MongoDB.Driver;
     using Pivotal.Discovery.Client;
     using RabbitMQ.Client;
+    using Steeltoe.CloudFoundry.Connector.MongoDb;
     using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
+    using Steeltoe.CloudFoundry.Connector.RabbitMQ;
     using Steeltoe.Management.CloudFoundry;
     using Swashbuckle.AspNetCore.Swagger;
     using System;
@@ -93,6 +97,8 @@
                 //Check Client vs. Server evaluation: https://docs.microsoft.com/en-us/ef/core/querying/client-eval
             });
 
+            services.AddMongoClient(Configuration);
+
             if (Configuration.GetValue<bool>("AzureServiceBusEnabled"))
             {
                 services.AddSingleton<IServiceBusPersisterConnection>(sp =>
@@ -107,34 +113,9 @@
             }
             else
             {
-                services.AddSingleton<IRabbitMQPersistentConnection>(sp =>
-                {
-                    var logger = sp.GetRequiredService<ILogger<DefaultRabbitMQPersistentConnection>>();
-
-                    var factory = new ConnectionFactory()
-                    {
-                        HostName = Configuration["EventBusConnection"]
-                    };
-
-                    if (!string.IsNullOrEmpty(Configuration["EventBusUserName"]))
-                    {
-                        factory.UserName = Configuration["EventBusUserName"];
-                    }
-
-                    if (!string.IsNullOrEmpty(Configuration["EventBusPassword"]))
-                    {
-                        factory.Password = Configuration["EventBusPassword"];
-                    }
-
-                    var retryCount = 5;
-                    if (!string.IsNullOrEmpty(Configuration["EventBusRetryCount"]))
-                    {
-                        retryCount = int.Parse(Configuration["EventBusRetryCount"]);
-                    }
-
-                    return new DefaultRabbitMQPersistentConnection(factory, logger, retryCount);
-                });
-            }            
+                services.AddRabbitMQConnection(Configuration);
+                services.AddSingleton<IRabbitMQPersistentConnection, DefaultRabbitMQPersistentConnection>();
+            }
 
             // Add framework services.
             services.AddSwaggerGen(options =>

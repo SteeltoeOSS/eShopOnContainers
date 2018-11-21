@@ -78,8 +78,6 @@ namespace OcelotApiGw
                 app.UseDeveloperExceptionPage();
             }
 
-            loggerFactory.AddConsole(_cfg.GetSection("Logging"));
-
             app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();
             app.UseOcelot().Wait();

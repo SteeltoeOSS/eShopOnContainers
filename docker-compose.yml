@@ -100,7 +100,7 @@ services:
     image: eshop/locations.api:${TAG:-latest}
     build:
       context: .
-      dockerfile: src/Services/Location/Locations.API/Dockerfile
+      dockerfile: src/Services/Locations/Locations.API/Dockerfile
     depends_on:
       - configserver
       - eurekaserver

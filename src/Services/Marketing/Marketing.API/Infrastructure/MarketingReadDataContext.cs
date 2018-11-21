@@ -1,5 +1,6 @@
 ﻿namespace Microsoft.eShopOnContainers.Services.Marketing.API.Infrastructure
 {
+    using System;
     using Microsoft.eShopOnContainers.Services.Marketing.API.Model;
     using Microsoft.Extensions.Options;
     using MongoDB.Driver;
@@ -8,13 +9,12 @@
     {
         private readonly IMongoDatabase _database = null;
 
-        public MarketingReadDataContext(IOptions<MarketingSettings> settings)
+        public MarketingReadDataContext(IOptions<MarketingSettings> settings, IMongoClient mongoClient, MongoUrl mongoUrl)
         {
-            var client = new MongoClient(settings.Value.MongoConnectionString);
-
-            if (client != null)
+            if (mongoClient != null)
             {
-                _database = client.GetDatabase(settings.Value.MongoDatabase);
+                Console.WriteLine($"Connecting to: {mongoClient.Settings.Server.Host}:{mongoClient.Settings.Server.Port}/{mongoUrl.DatabaseName}");
+                _database = mongoClient.GetDatabase(mongoUrl.DatabaseName);
             }
         }
 

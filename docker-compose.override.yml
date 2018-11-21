@@ -128,7 +128,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
-
+      - spring__application__name=mobileshoppingapigw
+      - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5200
     ports:
       - "5200:80"   
     volumes:
@@ -139,6 +140,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
+      - spring__application__name=mobilemarketingapigw
+      - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5201
     ports:
       - "5201:80"   
     volumes:
@@ -149,6 +152,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
+      - spring__application__name=webshoppingapigw
+      - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5202
     ports:
       - "5202:80"   
     volumes:
@@ -159,6 +164,8 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
+      - spring__application__name=webmarketingapigw
+      - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5203
     ports:
       - "5203:80"   
     volumes:

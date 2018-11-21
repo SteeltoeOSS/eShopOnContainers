@@ -14,9 +14,9 @@
     {
         private readonly LocationsContext _context;       
 
-        public LocationsRepository(IOptions<LocationSettings> settings)
+        public LocationsRepository(IOptions<LocationSettings> settings, IMongoClient mongoClient, MongoUrl mongoUrl)
         {
-            _context = new LocationsContext(settings);
+            _context = new LocationsContext(settings, mongoClient, mongoUrl);
         }        
         
         public async Task<Locations> GetAsync(int locationId)

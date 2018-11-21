@@ -9,7 +9,7 @@ projectList=(
     "../src/Services/Catalog/Catalog.API"
     "../src/Services/Ordering/Ordering.API"
     "../src/Services/Basket/Basket.API"
-    "../src/Services/Location/Locations.API"
+    "../src/Services/Locations/Locations.API"
     "../src/Services/Marketing/Marketing.API"
     "../src/Services/Payment/Payment.API"
     "../src/Web/WebStatus"

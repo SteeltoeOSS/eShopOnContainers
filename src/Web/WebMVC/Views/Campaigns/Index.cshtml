@@ -9,7 +9,7 @@
     </div>
 </section>
 
-@Html.Partial("_Header", new List<Header>() {
+@await Html.PartialAsync("_Header", new List<Header>() {
     new Header() { Controller = "Catalog", Text = "Back to catalog" } })
 
 <div class="container">
@@ -58,12 +58,12 @@
                 @foreach (var catalogItem in Model.CampaignItems)
                 {
                     <div class="esh-campaigns-item col-md-4">
-                        @Html.Partial("_campaign", catalogItem)
+                        @await Html.PartialAsync("_campaign", catalogItem)
                     </div>
                 }
             </div>
 
-            @Html.Partial("_pagination", Model.PaginationInfo)
+            @await Html.PartialAsync("_pagination", Model.PaginationInfo)
         }
         else
         {

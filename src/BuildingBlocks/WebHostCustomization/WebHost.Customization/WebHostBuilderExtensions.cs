@@ -25,7 +25,13 @@ namespace Microsoft.AspNetCore.Hosting
                         configurationBuilder.AddEnvironmentVariables();
                         config.AddConfiguration(configurationBuilder.Build());
                     }
+                }).ResolveConfigurationPlaceholders(loggerFactory);
+        }
 
+        public static IWebHostBuilder ResolveConfigurationPlaceholders(this IWebHostBuilder hostBuilder, LoggerFactory loggerFactory = null)
+        {
+            return hostBuilder.ConfigureAppConfiguration((builderContext, config) =>
+                {
                     config.AddInMemoryCollection(PropertyPlaceholderHelper.GetResolvedConfigurationPlaceholders(config.Build(), loggerFactory?.CreateLogger("Steeltoe.Configuration.PropertyPlaceholderHelper")));
                 });
         }

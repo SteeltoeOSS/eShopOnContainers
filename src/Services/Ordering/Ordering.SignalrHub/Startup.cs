@@ -15,7 +15,6 @@ using Ordering.SignalrHub.IntegrationEvents;
 using Ordering.SignalrHub.IntegrationEvents.EventHandling;
 using Ordering.SignalrHub.IntegrationEvents.Events;
 using Pivotal.Discovery.Client;
-using RabbitMQ.Client;
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 using Steeltoe.Management.CloudFoundry;
 using System;

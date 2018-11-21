@@ -13,7 +13,7 @@ declare -a projectList=(
     "$path/Services/Basket/Basket.API"
     "$path/Services/Ordering/Ordering.API"
     "$path/Services/Identity/Identity.API"
-    "$path/Services/Location/Locations.API"
+    "$path/Services/Locations/Locations.API"
     "$path/Services/Marketing/Marketing.API"
     "$path/Services/Payment/Payment.API"
     "$path/Web/WebMVC"

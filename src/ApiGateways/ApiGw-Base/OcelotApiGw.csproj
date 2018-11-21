@@ -14,4 +14,8 @@
     <PackageReference Include="Ocelot.Provider.Eureka" Version="0.1.2" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.2.0-dev-00270" />
   </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\WebHostCustomization\WebHost.Customization\WebHost.Customization.csproj" />
+  </ItemGroup>
 </Project>
