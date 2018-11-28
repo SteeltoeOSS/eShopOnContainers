@@ -1,3 +1,7 @@
+Param(
+    [bool]$waitForCreation = $true
+)
+
 Write-Host "Provisioning Config Server..."
 & cf create-service p-config-server standard eShopConfig -c '{\""git\"":{\""uri\"":\""https://github.com/SteeltoeOSS/eShopOnContainers-config\"",\""cloneOnStart\"":\""true\""}}'
 
@@ -17,14 +21,16 @@ Write-Host "Provisioning RabbitMQ..."
 Write-Host "Provisioning Redis..."
 & cf create-service p-redis shared-vm eShopCache
 
-$servicesToMonitor = "eShopConfig", "eShopRegistry", "eShopDocDb", "eShopMySQL", "eShopMQ", "eShopCache"
-$waitCounter = "."
-while ((& cf services | Out-String) -Match "in progress"){
-    foreach ($_ in $servicesToMonitor){
-        if ((& cf service $_ | Out-String) -Match "in progress"){
-            Write-Host "Still waiting for $($_)$($waitCounter)"
+if ($waitForCreation) {
+    $servicesToMonitor = "eShopConfig", "eShopRegistry", "eShopDocDb", "eShopMySQL", "eShopMQ", "eShopCache"
+    $waitCounter = "."
+    while ((& cf services | Out-String) -Match "in progress"){
+        foreach ($_ in $servicesToMonitor){
+            if ((& cf service $_ | Out-String) -Match "in progress"){
+                Write-Host "Still waiting for $($_)$($waitCounter)"
+            }
         }
+        $waitCounter += "."
+        Start-Sleep -Seconds 5
     }
-    $waitCounter += "."
-    Start-Sleep -Seconds 5
 }

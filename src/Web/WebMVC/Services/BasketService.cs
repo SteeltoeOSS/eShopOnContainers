@@ -1,4 +1,5 @@
 ﻿using Microsoft.eShopOnContainers.WebMVC.ViewModels;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System.Collections.Generic;
@@ -16,13 +17,13 @@ namespace Microsoft.eShopOnContainers.WebMVC.Services
         private readonly HttpClient _apiClient;
         private readonly string _basketByPassUrl;
         private readonly string _purchaseUrl;
+        private readonly ILogger<BasketService> _logger;
 
-        private readonly string _bffUrl;
-
-        public BasketService(HttpClient httpClient, IOptions<AppSettings> settings)
+        public BasketService(HttpClient httpClient, IOptions<AppSettings> settings, ILogger<BasketService> logger)
         {
             _apiClient = httpClient;
             _settings = settings;
+            _logger = logger;
 
             _basketByPassUrl = $"{_settings.Value.PurchaseUrl}/api/v1/b/basket";
             _purchaseUrl = $"{_settings.Value.PurchaseUrl}/api/v1";
@@ -30,8 +31,9 @@ namespace Microsoft.eShopOnContainers.WebMVC.Services
 
         public async Task<Basket> GetBasket(ApplicationUser user)
         {
+            _logger.LogTrace("Get basket for {user}", user.Name);
             var uri = API.Basket.GetBasket(_basketByPassUrl, user.Id);
-
+            _logger.LogTrace("With uri {uri}", uri);
             var responseString = await _apiClient.GetStringAsync(uri);
 
             return string.IsNullOrEmpty(responseString) ?

@@ -64,10 +64,11 @@
             }).AddControllersAsServices();  //Injecting Controllers themselves thru DIFor further info see: http://docs.autofac.org/en/latest/integration/aspnetcore.html#controllers-as-services
 
             services.Configure<MarketingSettings>(Configuration);
-
-            ConfigureAuthService(services);
-            services.AddCloudFoundryActuators(Configuration);
             services.AddDiscoveryClient(Configuration);
+
+            var identityServerUrl = services.GetExternalIdentityUrl();
+            ConfigureAuthService(services, identityServerUrl);
+            services.AddCloudFoundryActuators(Configuration);
             services.AddHealthChecks(checks => 
             {
                 checks.AddValueTaskCheck("HTTP Endpoint", () => new ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
@@ -133,8 +134,8 @@
                 {
                     Type = "oauth2",
                     Flow = "implicit",
-                    AuthorizationUrl = $"{Configuration.GetValue<string>("IdentityUrlExternal")}/connect/authorize",
-                    TokenUrl = $"{Configuration.GetValue<string>("IdentityUrlExternal")}/connect/token",
+                    AuthorizationUrl = $"{identityServerUrl}/connect/authorize",
+                    TokenUrl = $"{identityServerUrl}/connect/token",
                     Scopes = new Dictionary<string, string>()
                     {
                         { "marketing", "Marketing API" }
@@ -196,7 +197,7 @@
                .UseSwaggerUI(c =>
                {
                    c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Marketing.API V1");
-                   c.OAuthClientId("marketingswaggerui");
+                   c.OAuthClientId("MarketingApi");
                    c.OAuthAppName("Marketing Swagger UI");
                });            
 
@@ -221,7 +222,7 @@
             }
         }
 
-        private void ConfigureAuthService(IServiceCollection services)
+        private void ConfigureAuthService(IServiceCollection services, string identityServerUrl)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -233,7 +234,7 @@
 
             }).AddJwtBearer(options =>
                 {
-                    options.Authority = Configuration.GetValue<string>("IdentityUrl");
+                    options.Authority = identityServerUrl;
                     options.Audience = "marketing";
                     options.RequireHttpsMetadata = false;
                 });

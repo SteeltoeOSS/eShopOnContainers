@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using Steeltoe.Extensions.Logging;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Microsoft.eShopOnContainers.Services.Basket.API
@@ -14,7 +16,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
         public static void Main(string[] args)
         {
             LoggerFactory logFactory = new LoggerFactory();
-            logFactory.AddConsole(minLevel: LogLevel.Trace);
+            logFactory.AddConsole(new ConsoleLoggerSettings { DisableColors = true, Switches = new Dictionary<string, LogLevel> { { "Default", LogLevel.Information } } });
 
             BuildWebHost(args, logFactory).Run();
         }

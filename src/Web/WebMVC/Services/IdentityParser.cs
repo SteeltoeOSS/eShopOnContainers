@@ -1,10 +1,8 @@
 ﻿using Microsoft.eShopOnContainers.WebMVC.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Security.Principal;
-using System.Threading.Tasks;
 
 namespace Microsoft.eShopOnContainers.WebMVC.Services
 {
@@ -36,6 +34,7 @@ namespace Microsoft.eShopOnContainers.WebMVC.Services
                     ZipCode = claims.Claims.FirstOrDefault(x => x.Type == "address_zip_code")?.Value ?? ""
                 };
             }
+            
             throw new ArgumentException(message: "The principal must be a ClaimsPrincipal", paramName: nameof(principal));
         }
     }

@@ -3,6 +3,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Azure.ServiceBus;
+using Microsoft.eShopOnContainers;
 using Microsoft.eShopOnContainers.BuildingBlocks.EventBus;
 using Microsoft.eShopOnContainers.BuildingBlocks.EventBus.Abstractions;
 using Microsoft.eShopOnContainers.BuildingBlocks.EventBusRabbitMQ;
@@ -15,7 +16,9 @@ using Ordering.SignalrHub.IntegrationEvents;
 using Ordering.SignalrHub.IntegrationEvents.EventHandling;
 using Ordering.SignalrHub.IntegrationEvents.Events;
 using Pivotal.Discovery.Client;
+using StackExchange.Redis;
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
+using Steeltoe.CloudFoundry.Connector.Redis;
 using Steeltoe.Management.CloudFoundry;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -45,8 +48,9 @@ namespace Ordering.SignalrHub
             if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
             {
                 services
+                    .AddRedisConnectionMultiplexer(Configuration)
                     .AddSignalR()
-                    .AddRedis(Configuration["SignalrStoreConnectionString"]);
+                    .AddRedis();
             }
             else
             {
@@ -70,14 +74,15 @@ namespace Ordering.SignalrHub
                 services.AddRabbitMQConnection(Configuration);
                 services.AddSingleton<IRabbitMQPersistentConnection, DefaultRabbitMQPersistentConnection>();
             }
+            services.AddDiscoveryClient(Configuration);
+            var identityServerUrl = services.GetExternalIdentityUrl();
 
-            ConfigureAuthService(services);
+            ConfigureAuthService(services, identityServerUrl);
 
             RegisterEventBus(services);
 
             services.AddOptions();
             services.AddCloudFoundryActuators(Configuration);
-            services.AddDiscoveryClient(Configuration);
 
             //configure autofac
             var container = new ContainerBuilder();
@@ -130,12 +135,10 @@ namespace Ordering.SignalrHub
             eventBus.Subscribe<OrderStatusChangedToSubmittedIntegrationEvent, OrderStatusChangedToSubmittedIntegrationEventHandler>();  
         }
 
-        private void ConfigureAuthService(IServiceCollection services)
+        private void ConfigureAuthService(IServiceCollection services, string identityServerUrl)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
-
-            var identityUrl = Configuration.GetValue<string>("IdentityUrl");
 
             services.AddAuthentication(options =>
             {
@@ -144,7 +147,7 @@ namespace Ordering.SignalrHub
 
             }).AddJwtBearer(options =>
             {
-                options.Authority = identityUrl;
+                options.Authority = identityServerUrl;
                 options.RequireHttpsMetadata = false;
                 options.Audience = "orders.signalrhub";
             });

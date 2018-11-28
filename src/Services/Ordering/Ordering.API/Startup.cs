@@ -27,11 +27,9 @@
     using Microsoft.eShopOnContainers.BuildingBlocks.IntegrationEventLogEF.Services;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.HealthChecks;
     using Microsoft.Extensions.Logging;
     using Ordering.Infrastructure;
     using Pivotal.Discovery.Client;
-    using RabbitMQ.Client;
     using Steeltoe.CloudFoundry.Connector.MySql;
     using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
     using Steeltoe.CloudFoundry.Connector.RabbitMQ;
@@ -54,17 +52,20 @@
 
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddDiscoveryClient(Configuration);
+
+            var identityServerUrl = services.GetExternalIdentityUrl();
+
             services.AddApplicationInsights(Configuration)
                 .AddCustomMvc()
                 .AddHealthChecks(Configuration)
                 .AddCustomDbContext(Configuration)
-                .AddCustomSwagger(Configuration)
+                .AddCustomSwagger(Configuration, identityServerUrl)
                 .AddCustomIntegrations(Configuration)
                 .AddCustomConfiguration(Configuration)
                 .AddEventBus(Configuration)
-                .AddCustomAuthentication(Configuration);
+                .AddCustomAuthentication(identityServerUrl);
             services.AddCloudFoundryActuators(Configuration);
-            services.AddDiscoveryClient(Configuration);
             //configure autofac
 
             var container = new ContainerBuilder();
@@ -104,7 +105,7 @@
                .UseSwaggerUI(c =>
                {
                    c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Ordering.API V1");
-                   c.OAuthClientId("orderingswaggerui");
+                   c.OAuthClientId("OrderingApi");
                    c.OAuthAppName("Ordering Swagger UI");
                });
 
@@ -219,7 +220,7 @@
             return services;
         }
 
-        public static IServiceCollection AddCustomSwagger(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomSwagger(this IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             services.AddSwaggerGen(options =>
             {
@@ -236,8 +237,8 @@
                 {
                     Type = "oauth2",
                     Flow = "implicit",
-                    AuthorizationUrl = $"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/authorize",
-                    TokenUrl = $"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/token",
+                    AuthorizationUrl = $"{identityServerUrl}/connect/authorize",
+                    TokenUrl = $"{identityServerUrl}/connect/token",
                     Scopes = new Dictionary<string, string>()
                     {
                         { "orders", "Ordering API" }
@@ -346,12 +347,10 @@
             return services;
         }
 
-        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, string identityServerUrl)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
-
-            var identityUrl = configuration.GetValue<string>("IdentityUrl");
 
             services.AddAuthentication(options =>
             {
@@ -360,7 +359,7 @@
 
             }).AddJwtBearer(options =>
             {
-                options.Authority = identityUrl;
+                options.Authority = identityServerUrl;
                 options.RequireHttpsMetadata = false;
                 options.Audience = "orders";
             });

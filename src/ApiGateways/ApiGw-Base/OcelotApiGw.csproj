@@ -12,10 +12,12 @@
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Ocelot" Version="12.0.1" />
     <PackageReference Include="Ocelot.Provider.Eureka" Version="0.1.2" />
+    <PackageReference Include="Pivotal.Discovery.ClientCore" Version="2.2.0-dev-00286" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.2.0-dev-00270" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\Common\Common\Common.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\WebHostCustomization\WebHost.Customization\WebHost.Customization.csproj" />
   </ItemGroup>
 </Project>

@@ -194,6 +194,17 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API
         public static IServiceCollection AddCustomOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<CatalogSettings>(configuration);
+            services.PostConfigure<CatalogSettings>(settings =>
+            {
+                // when deployed to cloud foundry, use the external url of this service for image links
+                if (Steeltoe.Common.Platform.IsCloudFoundry && !settings.AzureStorageEnabled)
+                {
+                    var sp = services.BuildServiceProvider();
+                    var discoverer = sp.GetService<IDiscoveryClient>();
+                    var gatewayUrl = discoverer.GetExternalUrlForApplication("webshoppingapigw", sp.GetService<ILogger<IDiscoveryClient>>());
+                    settings.PicBaseUrl = settings.PicBaseUrl.Replace("http://localhost:5202", gatewayUrl);
+                }
+            });
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.InvalidModelStateResponseFactory = context =>

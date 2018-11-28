@@ -5,9 +5,10 @@ using Microsoft.eShopOnContainers.Services.Identity.API.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 using Steeltoe.Extensions.Logging;
-using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Microsoft.eShopOnContainers.Services.Identity.API
@@ -17,7 +18,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
         public static void Main(string[] args)
         {
             LoggerFactory logFactory = new LoggerFactory();
-            logFactory.AddConsole(minLevel: LogLevel.Trace);
+            logFactory.AddConsole(new ConsoleLoggerSettings { DisableColors = true, Switches = new Dictionary<string, LogLevel> { { "Default", LogLevel.Trace } } });
 
             BuildWebHost(args, logFactory)
                 .MigrateDbContext<PersistedGrantDbContext>((_, __) => { })
@@ -31,14 +32,16 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
                         .SeedAsync(context, env, logger, settings)
                         .Wait();
                 })
-                .MigrateDbContext<ConfigurationDbContext>((context,services)=> 
+                .MigrateDbContext<ConfigurationDbContext>((context, services) => 
                 {
                     var configuration = services.GetService<IConfiguration>();
 
                     new ConfigurationDbContextSeed()
                         .SeedAsync(context, configuration)
                         .Wait();
-                }).Run();
+                })
+                .UpdateIdentityClientsFromEureka(new List<string> { "WebMvc", "WebSpa", "LocationsApi", "MarketingApi", "BasketApi", "OrderingApi", "MobileShoppingAgg", "WebShoppingAgg" }, logFactory)
+                .Run();
         }
 
         public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>

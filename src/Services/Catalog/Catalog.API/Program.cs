@@ -5,8 +5,10 @@ using Microsoft.eShopOnContainers.Services.Catalog.API.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
 using Steeltoe.Extensions.Logging;
+using System.Collections.Generic;
 using System.IO;
 
 namespace Microsoft.eShopOnContainers.Services.Catalog.API
@@ -16,7 +18,7 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API
         public static void Main(string[] args)
         {
             LoggerFactory logFactory = new LoggerFactory();
-            logFactory.AddConsole(minLevel: LogLevel.Trace);
+            logFactory.AddConsole(new ConsoleLoggerSettings { DisableColors = true, Switches = new Dictionary<string, LogLevel> { { "Default", LogLevel.Information } } });
 
             BuildWebHost(args, logFactory)
                 .MigrateDbContext<CatalogContext>((context,services)=>

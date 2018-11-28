@@ -6,6 +6,7 @@ using Microsoft.ApplicationInsights.ServiceFabric;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -84,9 +85,6 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
             services.AddTransient<ILoginService<ApplicationUser>, EFLoginService>();
             services.AddTransient<IRedirectService, RedirectService>();
 
-            var connectionString = Configuration["ConnectionString"];
-            var migrationsAssembly = typeof(Startup).GetTypeInfo().Assembly.GetName().Name;
-
             // Adds IdentityServer
             services.AddIdentityServer(x =>
             {
@@ -114,8 +112,6 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
             loggerFactory.AddAzureWebAppDiagnostics();
             loggerFactory.AddApplicationInsights(app.ApplicationServices, LogLevel.Trace);
 
@@ -128,6 +124,11 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedProto
+            });
 
             var pathBase = Configuration["PATH_BASE"];
             if (!string.IsNullOrEmpty(pathBase))
@@ -152,7 +153,6 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
                 await next();
             });
 
-            app.UseForwardedHeaders();
             // Adds IdentityServer
             app.UseIdentityServer();
 

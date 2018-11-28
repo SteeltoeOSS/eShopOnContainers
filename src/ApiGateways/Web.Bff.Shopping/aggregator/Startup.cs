@@ -36,8 +36,9 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
         {
             services.AddCloudFoundryActuators(Configuration);
             services.AddDiscoveryClient(Configuration);
-            services.AddCustomMvc(Configuration)
-                .AddCustomAuthentication(Configuration)
+            var identityServerUrl = services.GetExternalIdentityUrl();
+            services.AddCustomMvc(Configuration, identityServerUrl)
+                .AddCustomAuthentication(Configuration, identityServerUrl)
                 .AddApplicationServices();
         }
 
@@ -73,17 +74,16 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            var identityUrl = configuration.GetValue<string>("urls:identity");
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
-                options.Authority = identityUrl;
+                options.Authority = identityServerUrl;
                 options.RequireHttpsMetadata = false;
                 options.Audience = "webshoppingagg";
                 options.Events = new JwtBearerEvents()
@@ -102,7 +102,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
             return services;
         }
 
-        public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             services.AddOptions();
             services.Configure<UrlsConfig>(configuration.GetSection("urls"));
@@ -124,8 +124,8 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
                 {
                     Type = "oauth2",
                     Flow = "implicit",
-                    AuthorizationUrl = $"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/authorize",
-                    TokenUrl = $"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/token",
+                    AuthorizationUrl = $"{identityServerUrl}/connect/authorize",
+                    TokenUrl = $"{identityServerUrl}/connect/token",
                     Scopes = new Dictionary<string, string>()
                     {
                         { "webshoppingagg", "Shopping Aggregator for Web Clients" }

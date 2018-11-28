@@ -35,7 +35,7 @@
     <PackageReference Include="Pivotal.Extensions.Configuration.ConfigServerCore" Version="2.2.0-dev-00233" />
     <PackageReference Include="Steeltoe.Management.CloudFoundryCore" Version="2.2.0-dev-00270" />
     <PackageReference Include="Steeltoe.CloudFoundry.ConnectorCore" Version="2.2.0-dev-00303" />
-    <PackageReference Include="Steeltoe.Security.DataProtection.RedisCore" Version= "2.1.0"/>
+    <PackageReference Include="Steeltoe.Security.DataProtection.RedisCore" Version="2.1.0" />
   </ItemGroup>
 
   <Target Name="PrepublishScript" BeforeTargets="PrepareForPublish">
@@ -47,6 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\Common\Common\Common.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\HealthChecks\src\Microsoft.AspNetCore.HealthChecks\Microsoft.AspNetCore.HealthChecks.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\HealthChecks\src\Microsoft.Extensions.HealthChecks\Microsoft.Extensions.HealthChecks.csproj" />
   </ItemGroup>

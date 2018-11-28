@@ -36,8 +36,9 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
         {
             services.AddCloudFoundryActuators(Configuration);
             services.AddDiscoveryClient(Configuration);
-            services.AddCustomMvc(Configuration)
-                 .AddCustomAuthentication(Configuration)
+            var identityServerUrl = services.GetExternalIdentityUrl();
+            services.AddCustomMvc(Configuration, identityServerUrl)
+                 .AddCustomAuthentication(Configuration, identityServerUrl)
                  .AddHttpServices();
         }
 
@@ -68,7 +69,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
            {
                c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Purchase BFF V1");
 
-               c.OAuthClientId("Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregatorwaggerui");
+               c.OAuthClientId("MobileShoppingAgg");
                c.OAuthClientSecret(string.Empty);
                c.OAuthRealm(string.Empty);
                c.OAuthAppName("Purchase BFF Swagger UI");
@@ -78,7 +79,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
 
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             services.AddOptions();
             services.Configure<UrlsConfig>(configuration.GetSection("urls"));
@@ -100,8 +101,8 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
                 {
                     Type = "oauth2",
                     Flow = "implicit",
-                    AuthorizationUrl = $"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/authorize",
-                    TokenUrl = $"{configuration.GetValue<string>("IdentityUrlExternal")}/connect/token",
+                    AuthorizationUrl = $"{identityServerUrl}/connect/authorize",
+                    TokenUrl = $"{identityServerUrl}/connect/token",
                     Scopes = new Dictionary<string, string>()
                     {
                         { "mobileshoppingagg", "Shopping Aggregator for Mobile Clients" }
@@ -123,10 +124,9 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
             return services;
         }
 
-        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            var identityUrl = configuration.GetValue<string>("urls:identity");
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -134,7 +134,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
 
             }).AddJwtBearer(options =>
             {
-                options.Authority = identityUrl;
+                options.Authority = identityServerUrl;
                 options.RequireHttpsMetadata = false;
                 options.Audience = "mobileshoppingagg";
                 options.Events = new JwtBearerEvents()

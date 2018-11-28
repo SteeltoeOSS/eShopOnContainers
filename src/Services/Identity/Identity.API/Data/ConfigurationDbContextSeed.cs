@@ -15,19 +15,20 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API.Data
     {
         public async Task SeedAsync(ConfigurationDbContext context,IConfiguration configuration)
         {
-           
-            //callbacks urls from config:
-            var clientUrls = new Dictionary<string, string>();
 
-            clientUrls.Add("Mvc", configuration.GetValue<string>("MvcClient"));
-            clientUrls.Add("Spa", configuration.GetValue<string>("SpaClient"));
-            clientUrls.Add("Xamarin", configuration.GetValue<string>("XamarinCallback"));
-            clientUrls.Add("LocationsApi", configuration.GetValue<string>("LocationApiClient"));
-            clientUrls.Add("MarketingApi", configuration.GetValue<string>("MarketingApiClient"));
-            clientUrls.Add("BasketApi", configuration.GetValue<string>("BasketApiClient"));
-            clientUrls.Add("OrderingApi", configuration.GetValue<string>("OrderingApiClient"));
-            clientUrls.Add("MobileShoppingAgg", configuration.GetValue<string>("MobileShoppingAggClient"));
-            clientUrls.Add("WebShoppingAgg", configuration.GetValue<string>("WebShoppingAggClient"));
+            //callbacks urls from config:
+            var clientUrls = new Dictionary<string, string>
+            {
+                { "WebMvc", configuration.GetValue<string>("MvcClient") },
+                { "WebSpa", configuration.GetValue<string>("SpaClient") },
+                { "Xamarin", configuration.GetValue<string>("XamarinCallback") },
+                { "LocationsApi", configuration.GetValue<string>("LocationApiClient") },
+                { "MarketingApi", configuration.GetValue<string>("MarketingApiClient") },
+                { "BasketApi", configuration.GetValue<string>("BasketApiClient") },
+                { "OrderingApi", configuration.GetValue<string>("OrderingApiClient") },
+                { "MobileShoppingAgg", configuration.GetValue<string>("MobileShoppingAggClient") },
+                { "WebShoppingAgg", configuration.GetValue<string>("WebShoppingAggClient") }
+            };
 
             if (!context.Clients.Any())
             {

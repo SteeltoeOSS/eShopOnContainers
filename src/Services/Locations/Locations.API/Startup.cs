@@ -50,7 +50,10 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
             }).AddControllersAsServices();
 
-            ConfigureAuthService(services);
+            services.AddDiscoveryClient(Configuration);
+            var identityServerUrl = services.GetExternalIdentityUrl();
+
+            ConfigureAuthService(services, identityServerUrl);
 
             services.Configure<LocationSettings>(Configuration);
 
@@ -75,7 +78,6 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
             services.AddMongoClient(Configuration);
 
             services.AddCloudFoundryActuators(Configuration);
-            services.AddDiscoveryClient(Configuration);
             services.AddHealthChecks(checks =>
             {
                 checks.AddValueTaskCheck("HTTP Endpoint", () => new ValueTask<IHealthCheckResult>(HealthCheckResult.Healthy("Ok")));
@@ -99,8 +101,8 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
                 {
                     Type = "oauth2",
                     Flow = "implicit",
-                    AuthorizationUrl = $"{Configuration.GetValue<string>("IdentityUrlExternal")}/connect/authorize",
-                    TokenUrl = $"{Configuration.GetValue<string>("IdentityUrlExternal")}/connect/token",
+                    AuthorizationUrl = $"{identityServerUrl}/connect/authorize",
+                    TokenUrl = $"{identityServerUrl}/connect/token",
                     Scopes = new Dictionary<string, string>()
                     {
                         { "locations", "Locations API" }
@@ -159,7 +161,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
               .UseSwaggerUI(c =>
               {
                   c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Locations.API V1");
-                  c.OAuthClientId("locationsswaggerui");
+                  c.OAuthClientId("LocationsApi");
                   c.OAuthAppName("Locations Swagger UI");
               });
 
@@ -185,7 +187,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
             }
         }
 
-        private void ConfigureAuthService(IServiceCollection services)
+        private void ConfigureAuthService(IServiceCollection services, string identityServerUrl)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -197,7 +199,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
             })
             .AddJwtBearer(options =>
             {
-                options.Authority = Configuration.GetValue<string>("IdentityUrl");
+                options.Authority = identityServerUrl;
                 options.Audience = "locations";
                 options.RequireHttpsMetadata = false;
             });

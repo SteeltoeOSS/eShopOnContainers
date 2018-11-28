@@ -7,7 +7,6 @@
   env:
     ASPNETCORE_ENVIRONMENT: Production
   services:
-  - eShopMySQL
   - eShopCache
   - eShopMQ
   - eShopRegistry

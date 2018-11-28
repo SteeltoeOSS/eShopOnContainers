@@ -24,9 +24,7 @@ using Steeltoe.Management.CloudFoundry;
 using Steeltoe.Security.DataProtection;
 using System;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Net.Http;
-using System.Threading;
 using WebMVC.Infrastructure;
 using WebMVC.Infrastructure.Middlewares;
 using WebMVC.Services;
@@ -72,6 +70,11 @@ namespace Microsoft.eShopOnContainers.WebMVC
             {
                 app.UseExceptionHandler("/Error");
             }
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedProto
+            });
 
             var pathBase = Configuration["PATH_BASE"];
             if (!string.IsNullOrEmpty(pathBase))
@@ -249,24 +252,28 @@ namespace Microsoft.eShopOnContainers.WebMVC
 
         public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration)
         {
+            var identityUrl = services.GetExternalIdentityUrl();
+            Console.WriteLine("Using {0} as the OpenIdConnect Authority", identityUrl);
             var useLoadTest = configuration.GetValue<bool>("UseLoadTest");
-            var identityUrl = configuration.GetValue<string>("IdentityUrl");
-            var callBackUrl = configuration.GetValue<string>("CallBackUrl");
-
+            var callBackUrl = configuration.GetValue<string>("eureka:instance:metadataMap:externalUrl");
+            if (!callBackUrl.StartsWith("http"))
+            {
+                callBackUrl = "https://" + callBackUrl;
+            }
+            
             // Add Authentication services          
-
             services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddCookie(setup=>setup.ExpireTimeSpan = TimeSpan.FromHours(2))
+            .AddCookie(setup => setup.ExpireTimeSpan = TimeSpan.FromHours(2))
             .AddOpenIdConnect(options =>
             {
                 options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.Authority = identityUrl.ToString();
+                options.Authority = identityUrl;
                 options.SignedOutRedirectUri = callBackUrl.ToString();
-                options.ClientId = useLoadTest ? "mvctest" : "mvc";
+                options.ClientId = useLoadTest ? "mvctest" : "WebMvc";
                 options.ClientSecret = "secret";
                 options.ResponseType = useLoadTest ? "code id_token token" : "code id_token";
                 options.SaveTokens = true;
@@ -279,7 +286,7 @@ namespace Microsoft.eShopOnContainers.WebMVC
                 options.Scope.Add("marketing");
                 options.Scope.Add("locations");
                 options.Scope.Add("webshoppingagg");
-                options.Scope.Add("orders.signalrhub");       
+                options.Scope.Add("orders.signalrhub");
             });
 
             return services;
@@ -293,6 +300,7 @@ namespace Microsoft.eShopOnContainers.WebMVC
               .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
 
         }
+
         static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
         {
             return HttpPolicyExtensions

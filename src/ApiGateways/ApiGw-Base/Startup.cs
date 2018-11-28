@@ -1,12 +1,20 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.eShopOnContainers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using Ocelot.Provider.Eureka;
+using Pivotal.Discovery.Client;
 using Steeltoe.Management.CloudFoundry;
+using System;
+using System.Threading.Tasks;
 
 namespace OcelotApiGw
 {
@@ -22,7 +30,9 @@ namespace OcelotApiGw
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var identityUrl = _cfg.GetValue<string>("IdentityUrl");
+            services.AddDiscoveryClient(_cfg);
+            var identityServerUrl = services.GetExternalIdentityUrl();
+            Console.WriteLine("Using {0} as the identity server url", identityServerUrl);
             var authenticationProviderKey = "IdentityApiKey";
 
             services.AddCors(options =>
@@ -34,26 +44,28 @@ namespace OcelotApiGw
                     .AllowCredentials());
             });
 
-            services.AddAuthentication()
+           // services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            services
+                .AddAuthentication(options => { options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme; })
                 .AddJwtBearer(authenticationProviderKey, x =>
                 {
-                    x.Authority = identityUrl;
+                    x.Authority = identityServerUrl;
                     x.RequireHttpsMetadata = false;
-                    x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters()
+                    x.TokenValidationParameters = new TokenValidationParameters()
                     {
                         ValidAudiences = new[] { "orders", "basket", "locations", "marketing", "mobileshoppingagg", "webshoppingagg" }
                     };
-                    x.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents()
+                    x.Events = new JwtBearerEvents()
                     {
                         OnAuthenticationFailed = async ctx =>
                         {
-                            int i = 0;
+                            await Task.Run(() => Console.WriteLine("OnAuthenticationFailed: {0}", ctx.Exception));
                         },
                         OnTokenValidated = async ctx =>
                         {
                             int i = 0;
                         },
-
                         OnMessageReceived = async ctx =>
                         {
                             int i = 0;
@@ -77,6 +89,8 @@ namespace OcelotApiGw
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedProto });
 
             app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();

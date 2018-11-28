@@ -27,6 +27,7 @@ using Microsoft.Extensions.Options;
 using Pivotal.Discovery.Client;
 using StackExchange.Redis;
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
+using Steeltoe.CloudFoundry.Connector.Redis;
 using Steeltoe.Management.CloudFoundry;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
@@ -59,7 +60,11 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
 
             }).AddControllersAsServices();
 
-            ConfigureAuthService(services);
+            services.AddDiscoveryClient(Configuration);
+            var identityServerUrl = services.GetExternalIdentityUrl();
+
+            // instead of relying on Configuration.GetValue<string>("IdentityUrlExternal"), discover the identity server address 
+            ConfigureAuthService(services, identityServerUrl);
 
             services.AddHealthChecks(checks =>
             {
@@ -68,24 +73,9 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
                                         );
             });
 
-            services.Configure<BasketSettings>(Configuration);            
+            services.Configure<BasketSettings>(Configuration);
 
-            //By connecting here we are making sure that our service
-            //cannot start until redis is ready. This might slow down startup,
-            //but given that there is a delay on resolving the ip address
-            //and then creating the connection it seems reasonable to move
-            //that cost to startup instead of having the first request pay the
-            //penalty.
-            services.AddSingleton(sp =>
-            {
-                var settings = sp.GetRequiredService<IOptions<BasketSettings>>().Value;
-                var configuration = ConfigurationOptions.Parse(settings.ConnectionString, true);
-
-                configuration.ResolveDns = true;
-
-                return ConnectionMultiplexer.Connect(configuration);
-            });
-
+            services.AddRedisConnectionMultiplexer(Configuration);
 
             if (Configuration.GetValue<bool>("AzureServiceBusEnabled"))
             {
@@ -122,8 +112,8 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
                 {
                     Type = "oauth2",
                     Flow = "implicit",
-                    AuthorizationUrl = $"{Configuration.GetValue<string>("IdentityUrlExternal")}/connect/authorize",
-                    TokenUrl = $"{Configuration.GetValue<string>("IdentityUrlExternal")}/connect/token",
+                    AuthorizationUrl = $"{identityServerUrl}/connect/authorize",
+                    TokenUrl = $"{identityServerUrl}/connect/token",
                     Scopes = new Dictionary<string, string>()
                     {
                         { "basket", "Basket API" }
@@ -145,7 +135,6 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
             services.AddTransient<IBasketRepository, RedisBasketRepository>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddCloudFoundryActuators(Configuration);
-            services.AddDiscoveryClient(Configuration);
             services.AddOptions();
 
             var container = new ContainerBuilder();
@@ -184,7 +173,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
                .UseSwaggerUI(c =>
                {
                    c.SwaggerEndpoint($"{ (!string.IsNullOrEmpty(pathBase) ? pathBase : string.Empty) }/swagger/v1/swagger.json", "Basket.API V1");
-                   c.OAuthClientId ("basketswaggerui");
+                   c.OAuthClientId ("BasketApi");
                    c.OAuthAppName("Basket Swagger UI");
                });
 
@@ -210,13 +199,11 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
             }
         }
 
-        private void ConfigureAuthService(IServiceCollection services)
+        private void ConfigureAuthService(IServiceCollection services, string identityServerUrl)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
 
-            var identityUrl = Configuration.GetValue<string>("IdentityUrl"); 
-                
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -224,7 +211,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
 
             }).AddJwtBearer(options =>
             {
-                options.Authority = identityUrl;
+                options.Authority = identityServerUrl;
                 options.RequireHttpsMetadata = false;
                 options.Audience = "basket";
             });

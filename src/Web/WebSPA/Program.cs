@@ -6,6 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Steeltoe.Extensions.Logging;
 using Pivotal.Extensions.Configuration.ConfigServer;
 using Steeltoe.Common.Configuration;
+using System.Collections.Generic;
+using Microsoft.Extensions.Logging.Console;
 
 namespace eShopConContainers.WebSPA
 {
@@ -14,7 +16,7 @@ namespace eShopConContainers.WebSPA
         public static void Main(string[] args)
         {
             LoggerFactory logFactory = new LoggerFactory();
-            logFactory.AddConsole(minLevel: LogLevel.Trace);
+            logFactory.AddConsole(new ConsoleLoggerSettings { DisableColors = true, Switches = new Dictionary<string, LogLevel> { { "Default", LogLevel.Information } } });
 
             BuildWebHost(args, logFactory).Run();
         }
