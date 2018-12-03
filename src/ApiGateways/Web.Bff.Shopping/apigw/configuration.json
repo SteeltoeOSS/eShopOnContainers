@@ -76,7 +76,7 @@
         "Type": "RoundRobin"
       },
       "UpstreamPathTemplate": "/hub/{everything}",
-      "UpstreamHttpMethod": []
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT", "DELETE", "OPTIONS" ]
     },
     {
       "DownstreamPathTemplate": "/{everything}",

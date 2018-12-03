@@ -46,8 +46,8 @@ namespace Microsoft.eShopOnContainers.WebMVC
             services.AddAppInsight(Configuration)
                     .AddHealthChecks(Configuration)
                     .AddRedisConnectionMultiplexer(Configuration)
-                    .AddCustomMvc(Configuration)
                     .AddDiscoveryClient(Configuration)
+                    .AddCustomMvc(Configuration)
                     .AddHttpClientServices(Configuration)
                     //.AddHttpClientLogging(Configuration)  //Opt-in HttpClientLogging config
                     .AddCustomAuthentication(Configuration);
@@ -166,6 +166,18 @@ namespace Microsoft.eShopOnContainers.WebMVC
         {
             services.AddOptions();
             services.Configure<AppSettings>(configuration);
+
+            services.PostConfigure<AppSettings>(settings =>
+            {
+                // when deployed to cloud foundry, use the external url of the signalr hub
+                if (Steeltoe.Common.Platform.IsCloudFoundry)
+                {
+                    var sp = services.BuildServiceProvider();
+                    var discoverer = sp.GetService<IDiscoveryClient>();
+                    var gatewayUrl = discoverer.GetExternalUrlForApplication("webshoppingapigw", sp.GetService<ILogger<IDiscoveryClient>>());
+                    settings.SignalrHubUrl = settings.SignalrHubUrl.Replace("http://:5202", gatewayUrl);
+                }
+            });
 
             services.AddMvc();
 

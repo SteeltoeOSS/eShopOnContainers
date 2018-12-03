@@ -19,9 +19,14 @@ using Pivotal.Discovery.Client;
 using StackExchange.Redis;
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 using Steeltoe.CloudFoundry.Connector.Redis;
+using Steeltoe.Common.Discovery;
 using Steeltoe.Management.CloudFoundry;
 using System;
+using System.Linq;
 using System.IdentityModel.Tokens.Jwt;
+using System.Collections.Generic;
+using Steeltoe.CloudFoundry.Connector.Services;
+using Steeltoe.CloudFoundry.Connector;
 
 namespace Ordering.SignalrHub
 {
@@ -36,21 +41,49 @@ namespace Ordering.SignalrHub
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public IServiceProvider ConfigureServices(IServiceCollection services)
         {
+            services.AddDiscoveryClient(Configuration);
+            var identityServerUrl = services.GetExternalIdentityUrl();
+
+            var servpro = services.BuildServiceProvider();
+            var discoverer = servpro.GetService<IDiscoveryClient>();
+            var discoLogger = servpro.GetService<ILogger<IDiscoveryClient>>();
+
+            var allowedUrls = new List<string> 
+            {
+                discoverer.GetExternalUrlForApplication("webmvc", discoLogger),
+                discoverer.GetExternalUrlForApplication("webspa", discoLogger)
+            };
+            discoLogger.LogInformation("Found web client urls: {mvcUrl} and {spaUrl}", allowedUrls[0], allowedUrls[1]);
+
+            if (Steeltoe.Common.Platform.IsCloudFoundry)
+            {
+                allowedUrls.Add(Configuration.GetValue<string>("vcap:application:cf_api").Replace("api", "apps"));
+                discoLogger.LogInformation("Adding platform url {platformUrl}", allowedUrls[2]);
+            }
+
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
-                    builder => builder.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    .AllowCredentials());
+                    builder => builder
+                        .WithOrigins(allowedUrls.ToArray())
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
             });
 
             if (Configuration.GetValue<string>("IsClusterEnv") == bool.TrueString)
             {
+                // get service binding
+                RedisServiceInfo info = Configuration.GetSingletonServiceInfo<RedisServiceInfo>();
+                // get redis settings from base app config
+                RedisCacheConnectorOptions redisConfig = new RedisCacheConnectorOptions(Configuration);
+                RedisCacheConfigurer configurer = new RedisCacheConfigurer();
+                // apply service binding to redis config
+                configurer.Configure(info, redisConfig);
+
                 services
-                    .AddRedisConnectionMultiplexer(Configuration)
                     .AddSignalR()
-                    .AddRedis();
+                    .AddRedis(redisConfig.ToString());
             }
             else
             {
@@ -74,8 +107,6 @@ namespace Ordering.SignalrHub
                 services.AddRabbitMQConnection(Configuration);
                 services.AddSingleton<IRabbitMQPersistentConnection, DefaultRabbitMQPersistentConnection>();
             }
-            services.AddDiscoveryClient(Configuration);
-            var identityServerUrl = services.GetExternalIdentityUrl();
 
             ConfigureAuthService(services, identityServerUrl);
 
@@ -97,6 +128,7 @@ namespace Ordering.SignalrHub
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
         {
+            app.UseCors("CorsPolicy");
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
             loggerFactory.AddAzureWebAppDiagnostics();
@@ -109,7 +141,6 @@ namespace Ordering.SignalrHub
                 app.UsePathBase(pathBase);
             }
 
-            app.UseCors("CorsPolicy");
             app.UseCloudFoundryActuators();
             app.UseDiscoveryClient();
             app.UseAuthentication();
@@ -141,16 +172,16 @@ namespace Ordering.SignalrHub
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
 
             services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-
-            }).AddJwtBearer(options =>
-            {
-                options.Authority = identityServerUrl;
-                options.RequireHttpsMetadata = false;
-                options.Audience = "orders.signalrhub";
-            });
+                {
+                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                })
+                .AddJwtBearer(options =>
+                {
+                    options.Authority = identityServerUrl;
+                    options.RequireHttpsMetadata = false;
+                    options.Audience = "orders.signalrhub";
+                });
         }
 
         private void RegisterEventBus(IServiceCollection services)
