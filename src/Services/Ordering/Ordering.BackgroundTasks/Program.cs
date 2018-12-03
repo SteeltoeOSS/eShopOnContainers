@@ -24,11 +24,7 @@ namespace Ordering.BackgroundTasks
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseHealthChecks("/hc")
-                .ConfigureAppConfiguration((builderContext, config) =>
-                {
-                    config.AddConfigServer(builderContext.HostingEnvironment, logfactory);
-                    config.AddInMemoryCollection(PropertyPlaceholderHelper.GetResolvedConfigurationPlaceholders(config.Build(), logfactory?.CreateLogger("PropertyPlaceholderHelper")));
-                })
+                .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((hostingContext, builder) =>
                 {
                     builder.ClearProviders();

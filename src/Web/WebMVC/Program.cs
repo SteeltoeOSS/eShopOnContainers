@@ -24,13 +24,8 @@ namespace Microsoft.eShopOnContainers.WebMVC
         public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseHealthChecks("/hc")
+                .AddExternalConfigSources(logfactory)
                 .UseStartup<Startup>()
-                .ConfigureAppConfiguration((builderContext, config) =>
-                {
-                    config.AddConfigServer(builderContext.HostingEnvironment, logfactory);
-                    config.AddInMemoryCollection(PropertyPlaceholderHelper.GetResolvedConfigurationPlaceholders(config.Build(), logfactory?.CreateLogger("PropertyPlaceholderHelper")));
-                })
                 .ConfigureLogging((hostingContext, builder) =>
                 {
                     builder.ClearProviders();
@@ -38,6 +33,7 @@ namespace Microsoft.eShopOnContainers.WebMVC
                     builder.AddDynamicConsole();
                     builder.AddDebug();
                 })
+                .UseHealthChecks("/hc")
                 .UseApplicationInsights()
                 .Build();
     }

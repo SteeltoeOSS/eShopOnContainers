@@ -34,6 +34,7 @@
     using Steeltoe.CloudFoundry.Connector.MongoDb;
     using Steeltoe.CloudFoundry.Connector.MySql.EFCore;
     using Steeltoe.CloudFoundry.Connector.RabbitMQ;
+    using Steeltoe.Common.Discovery;
     using Steeltoe.Management.CloudFoundry;
     using Swashbuckle.AspNetCore.Swagger;
     using System;
@@ -64,6 +65,19 @@
             }).AddControllersAsServices();  //Injecting Controllers themselves thru DIFor further info see: http://docs.autofac.org/en/latest/integration/aspnetcore.html#controllers-as-services
 
             services.Configure<MarketingSettings>(Configuration);
+            services.PostConfigure<MarketingSettings>(settings =>
+            {
+                // when deployed to cloud foundry, use the external url of this service for image links
+                if (Steeltoe.Common.Platform.IsCloudFoundry && !settings.AzureStorageEnabled)
+                {
+                    var externalUrl = Configuration.GetValue<string>("eureka:instance:metadataMap:externalUrl");
+                    if (!externalUrl.StartsWith("http")) {
+                        externalUrl = $"https://{externalUrl}";
+                    }
+
+                    settings.PicBaseUrl = settings.PicBaseUrl.Replace("http://localhost:5110", externalUrl);
+                }
+            });
             services.AddDiscoveryClient(Configuration);
 
             var identityServerUrl = services.GetExternalIdentityUrl();

@@ -1,6 +1,5 @@
 ﻿applications:
 - name: eshop.marketing.api
-  path: bin/Debug/netcoreapp2.1/ubuntu.16.04-x64/publish
   stack: cflinuxfs3
   buildpacks:
     - dotnet_core_buildpack

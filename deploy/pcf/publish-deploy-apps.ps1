@@ -85,7 +85,7 @@ If ((Test-Path -Path "src/Services")) {
                     ForEach ($__ in "Marketing Shopping".Split(' ')) {
                         If ((Test-Path -Path "$_.Bff.$__/apigw")) {
                             Write-Host "Copy-Item ""$_.Bff.$__/apigw/configuration.json"" ""publish/configuration/configuration.json"" -Force"
-                            Copy-Item "$_.Bff.$__/apigw/configuration.json" "publish/configuration/configuration.json" -Force
+                            Copy-Item "$_.Bff.$__/apigw/configuration.https.json" "publish/configuration/configuration.json" -Force
                             Push "publish" "eshop.$($_)$($__)ApiGw" $false "--var appName=$($_)$($__)apigw"
                         }
                     }

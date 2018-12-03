@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using System.IO;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
-using Steeltoe.Extensions.Logging;
-using Pivotal.Extensions.Configuration.ConfigServer;
-using Steeltoe.Common.Configuration;
-using System.Collections.Generic;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Pivotal.Extensions.Configuration.ConfigServer;
+using Steeltoe.Extensions.Logging;
+using System.Collections.Generic;
+using System.IO;
 
 namespace eShopConContainers.WebSPA
 {
@@ -26,11 +25,7 @@ namespace eShopConContainers.WebSPA
              .UseStartup<Startup>()
                 .UseHealthChecks("/hc")
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .ConfigureAppConfiguration((builderContext, config) =>
-                {
-                    config.AddConfigServer(builderContext.HostingEnvironment, logfactory);
-                    config.AddInMemoryCollection(PropertyPlaceholderHelper.GetResolvedConfigurationPlaceholders(config.Build(), logfactory?.CreateLogger("PropertyPlaceholderHelper")));
-                })
+                .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((hostingContext, builder) =>
                 {
                     builder.ClearProviders();

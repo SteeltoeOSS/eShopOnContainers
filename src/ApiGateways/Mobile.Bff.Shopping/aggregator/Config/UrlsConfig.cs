@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator.Config
 {
@@ -24,8 +21,8 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator.Config
             public static string GetOrderDraft() => "/api/v1/orders/draft";
         }
 
-        public string Basket { get; set; }
-        public string Catalog { get; set; }
-        public string Orders { get; set; }
+        public string BasketUrl { get; set; }
+        public string CatalogUrl { get; set; }
+        public string OrdersUrl { get; set; }
     }
 }

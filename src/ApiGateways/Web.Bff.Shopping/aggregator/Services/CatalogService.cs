@@ -25,7 +25,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator.Services
 
         public async Task<CatalogItem> GetCatalogItem(int id)
         {
-            var stringContent = await _httpClient.GetStringAsync(_urls.Catalog + UrlsConfig.CatalogOperations.GetItemById(id));
+            var stringContent = await _httpClient.GetStringAsync(_urls.CatalogUrl + UrlsConfig.CatalogOperations.GetItemById(id));
             var catalogItem = JsonConvert.DeserializeObject<CatalogItem>(stringContent);
 
             return catalogItem;
@@ -33,7 +33,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator.Services
 
         public async Task<IEnumerable<CatalogItem>> GetCatalogItems(IEnumerable<int> ids)
         {
-            var stringContent = await _httpClient.GetStringAsync(_urls.Catalog + UrlsConfig.CatalogOperations.GetItemsById(ids));
+            var stringContent = await _httpClient.GetStringAsync(_urls.CatalogUrl + UrlsConfig.CatalogOperations.GetItemsById(ids));
             var catalogItems = JsonConvert.DeserializeObject<CatalogItem[]>(stringContent);
 
             return catalogItems;

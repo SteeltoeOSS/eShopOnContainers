@@ -113,6 +113,7 @@ services:
       context: .
       dockerfile: src/ApiGateways/ApiGw-Base/Dockerfile
     depends_on:
+      - configserver
       - eurekaserver
       - nosql.data
       - sql.data
@@ -129,6 +130,7 @@ services:
       context: .
       dockerfile: src/ApiGateways/ApiGw-Base/Dockerfile
     depends_on:
+      - configserver
       - eurekaserver
       - nosql.data
       - sql.data
@@ -145,6 +147,7 @@ services:
       context: .
       dockerfile: src/ApiGateways/ApiGw-Base/Dockerfile
     depends_on:
+      - configserver
       - eurekaserver
       - nosql.data
       - sql.data
@@ -161,6 +164,7 @@ services:
       context: .
       dockerfile: src/ApiGateways/ApiGw-Base/Dockerfile
     depends_on:
+      - configserver
       - eurekaserver
       - nosql.data
       - sql.data
@@ -177,6 +181,8 @@ services:
       context: .
       dockerfile: src/ApiGateways/Mobile.Bff.Shopping/aggregator/Dockerfile
     depends_on:
+      - configserver
+      - eurekaserver
       - nosql.data
       - sql.data
       - identity.api
@@ -192,6 +198,8 @@ services:
       context: .
       dockerfile: src/ApiGateways/Web.Bff.Shopping/aggregator/Dockerfile
     depends_on:
+      - configserver
+      - eurekaserver
       - nosql.data
       - sql.data
       - identity.api

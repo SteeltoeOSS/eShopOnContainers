@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Pivotal.Extensions.Configuration.ConfigServer;
-using Steeltoe.Common.Configuration;
 using Steeltoe.Extensions.Logging;
 using System.Collections.Generic;
 
@@ -22,11 +21,7 @@ namespace Ordering.SignalrHub
 
         public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost.CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration((builderContext, config) =>
-                {
-                    config.AddConfigServer(builderContext.HostingEnvironment, logfactory);
-                    config.AddInMemoryCollection(PropertyPlaceholderHelper.GetResolvedConfigurationPlaceholders(config.Build(), logfactory?.CreateLogger("PropertyPlaceholderHelper")));
-                })
+                .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((hostingContext, builder) =>
                 {
                     builder.ClearProviders();

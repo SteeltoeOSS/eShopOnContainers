@@ -127,7 +127,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
-      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
+      - spring__cloud__config__uri=http://configserver:8888
       - spring__application__name=mobileshoppingapigw
       - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5200
     ports:
@@ -139,7 +139,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
-      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
+      - spring__cloud__config__uri=http://configserver:8888
       - spring__application__name=mobilemarketingapigw
       - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5201
     ports:
@@ -151,7 +151,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
-      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
+      - spring__cloud__config__uri=http://configserver:8888
       - spring__application__name=webshoppingapigw
       - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5202
     ports:
@@ -163,7 +163,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
-      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
+      - spring__cloud__config__uri=http://configserver:8888
       - spring__application__name=webmarketingapigw
       - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5203
     ports:
@@ -175,7 +175,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - urls__identity=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
-      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
+      - spring__cloud__config__uri=http://configserver:8888
     ports:
       - "5120:80"   # Important: In a production environment your should remove the external port (5120) kept here for microservice debugging purposes. 
                     # The API Gateway redirects and access through the internal port (80).
@@ -184,7 +184,7 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - urls__identity=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
-      - eureka__client__serviceUrl=http://eurekaserver:8761/eureka/
+      - spring__cloud__config__uri=http://configserver:8888
     ports:
       - "5121:80"   # Important: In a production environment your should remove the external port (5121) kept here for microservice debugging purposes. 
                     # The API Gateway redirects and access through the internal port (80).

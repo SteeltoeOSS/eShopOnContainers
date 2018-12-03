@@ -24,7 +24,8 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator.Services
 
         public async Task<OrderData> GetOrderDraftFromBasket(BasketData basket)
         {
-            var url = _urls.Orders + UrlsConfig.OrdersOperations.GetOrderDraft();
+            var url = _urls.OrderingUrl + UrlsConfig.OrdersOperations.GetOrderDraft();
+            _logger.LogTrace("Making request to Order api at {url}", url);
             var content = new StringContent(JsonConvert.SerializeObject(basket), System.Text.Encoding.UTF8, "application/json");
             var response = await _apiClient.PostAsync(url, content);
 

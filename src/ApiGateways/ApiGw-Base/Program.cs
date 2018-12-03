@@ -3,8 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Steeltoe.Extensions.Configuration.CloudFoundry;
+using Microsoft.Extensions.Logging.Console;
 using Steeltoe.Extensions.Logging;
+using System.Collections.Generic;
 using System.IO;
 
 namespace OcelotApiGw
@@ -13,17 +14,19 @@ namespace OcelotApiGw
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            LoggerFactory logFactory = new LoggerFactory();
+            logFactory.AddConsole(new ConsoleLoggerSettings { DisableColors = true, Switches = new Dictionary<string, LogLevel> { { "Default", LogLevel.Information } } });
+            BuildWebHost(args, logFactory).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args)
+        public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory)
         {
             IWebHostBuilder builder = WebHost.CreateDefaultBuilder(args);
             builder.ConfigureServices(s => s.AddSingleton(builder))
                 .ConfigureAppConfiguration(ic => {
                     ic.AddJsonFile(Path.Combine("configuration", "configuration.json"));
-                    ic.AddCloudFoundry();
                 })
+                .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((ctx, loggingbuilder) =>
                 {
                     loggingbuilder.ClearProviders();

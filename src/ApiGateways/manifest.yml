@@ -5,6 +5,8 @@
   memory: 384M
   env:
     ASPNETCORE_ENVIRONMENT: Production
+    spring__cloud__config__name: ((appName))
     eureka__instance__appName: ((appName))
   services:
   - eShopRegistry
+  - eShopConfig

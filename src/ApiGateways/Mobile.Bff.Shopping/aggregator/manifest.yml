@@ -8,3 +8,4 @@
     ASPNETCORE_ENVIRONMENT: Production
   services:
   - eShopRegistry
+  - eShopConfig

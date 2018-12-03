@@ -23,7 +23,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator.Services
 
         public async Task<OrderData> GetOrderDraftFromBasket(BasketData basket)
         {
-            var uri = _urls.Orders + UrlsConfig.OrdersOperations.GetOrderDraft();
+            var uri = _urls.OrdersUrl + UrlsConfig.OrdersOperations.GetOrderDraft();
             var content = new StringContent(JsonConvert.SerializeObject(basket), System.Text.Encoding.UTF8, "application/json");
             var response = await _apiClient.PostAsync(uri, content);
 

@@ -29,6 +29,7 @@ namespace WebMVC.Services
         public async Task CreateOrUpdateUserLocation(LocationDTO location)
         {
             var uri = API.Locations.CreateOrUpdateUserLocation(_remoteServiceBaseUrl);
+            _logger.LogTrace("Making request to location api at {url}", uri);
             var locationContent = new StringContent(JsonConvert.SerializeObject(location), System.Text.Encoding.UTF8, "application/json");
 
             var response = await _httpClient.PostAsync(uri, locationContent);

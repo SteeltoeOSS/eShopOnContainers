@@ -24,7 +24,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator.Services
 
         public async Task<BasketData> GetById(string id)
         {
-            var data = await _apiClient.GetStringAsync(_urls.Basket +  UrlsConfig.BasketOperations.GetItemById(id));
+            var data = await _apiClient.GetStringAsync(_urls.BasketUrl +  UrlsConfig.BasketOperations.GetItemById(id));
             var basket = !string.IsNullOrEmpty(data) ? JsonConvert.DeserializeObject<BasketData>(data) : null;
             return basket;
         }
@@ -33,7 +33,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator.Services
         {
             var basketContent = new StringContent(JsonConvert.SerializeObject(currentBasket), System.Text.Encoding.UTF8, "application/json");
 
-            var data = await _apiClient.PostAsync(_urls.Basket + UrlsConfig.BasketOperations.UpdateBasket(), basketContent);
+            var data = await _apiClient.PostAsync(_urls.BasketUrl + UrlsConfig.BasketOperations.UpdateBasket(), basketContent);
         }
     }
 }

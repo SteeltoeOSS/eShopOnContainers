@@ -16,7 +16,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
         public static void Main(string[] args)
         {
             LoggerFactory logFactory = new LoggerFactory();
-            logFactory.AddConsole(new ConsoleLoggerSettings { DisableColors = true, Switches = new Dictionary<string, LogLevel> { { "Default", LogLevel.Information } } });
+            logFactory.AddConsole(new ConsoleLoggerSettings { DisableColors = true, Switches = new Dictionary<string, LogLevel> { { "Default", LogLevel.Trace } } });
 
             BuildWebHost(args, logFactory).Run();
         }

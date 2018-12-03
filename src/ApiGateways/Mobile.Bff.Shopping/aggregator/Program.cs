@@ -2,8 +2,9 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Steeltoe.Extensions.Configuration.CloudFoundry;
+using Microsoft.Extensions.Logging.Console;
 using Steeltoe.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
 {
@@ -11,24 +12,15 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
     {
         public static void Main(string[] args)
         {
-            BuildWebHost(args).Run();
+            LoggerFactory logFactory = new LoggerFactory();
+            logFactory.AddConsole(new ConsoleLoggerSettings { DisableColors = true, Switches = new Dictionary<string, LogLevel> { { "Default", LogLevel.Information } } });
+            BuildWebHost(args, logFactory).Run();
         }
 
-        public static IWebHost BuildWebHost(string[] args) =>
+        public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost
                 .CreateDefaultBuilder(args)
-                .ConfigureAppConfiguration(cb =>
-                {
-                    var sources = cb.Sources;
-                    sources.Insert(3, new Microsoft.Extensions.Configuration.Json.JsonConfigurationSource()
-                    {
-                        Optional = true,
-                        Path = "appsettings.localhost.json",
-                        ReloadOnChange = false
-                    });
-                    cb.AddCloudFoundry();
-                })
-                .ResolveConfigurationPlaceholders()
+                .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((ctx, builder) =>
                 {
                     builder.ClearProviders();

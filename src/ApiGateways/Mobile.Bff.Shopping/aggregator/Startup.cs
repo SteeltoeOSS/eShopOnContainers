@@ -82,7 +82,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
         public static IServiceCollection AddCustomMvc(this IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             services.AddOptions();
-            services.Configure<UrlsConfig>(configuration.GetSection("urls"));
+            services.Configure<UrlsConfig>(configuration);
 
             services.AddMvc();
 
