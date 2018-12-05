@@ -25,6 +25,7 @@ namespace Payment.API
             WebHost.CreateDefaultBuilder(args)
                 .UseHealthChecks("/hc")
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseCloudFoundryHosting()
                 .UseStartup<Startup>()
                 .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((hostingContext, builder) =>

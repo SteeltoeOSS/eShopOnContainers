@@ -4,7 +4,7 @@
     - binary_buildpack
   memory: 384M
   stack: windows2016
-  command: .\Indentity.API
+  command: .\Identity.API
   env:
     ASPNETCORE_ENVIRONMENT: Production
   services:

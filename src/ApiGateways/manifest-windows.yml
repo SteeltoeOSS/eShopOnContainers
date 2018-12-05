@@ -9,4 +9,4 @@
     eureka__instance__appName: ((appName))
   services:
   - eShopRegistry
-    - eShopConfig
+  - eShopConfig

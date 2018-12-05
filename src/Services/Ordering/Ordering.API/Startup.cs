@@ -64,7 +64,7 @@
                 .AddCustomIntegrations(Configuration)
                 .AddCustomConfiguration(Configuration)
                 .AddEventBus(Configuration)
-                .AddCustomAuthentication(identityServerUrl);
+                .AddCustomAuthentication(Configuration, identityServerUrl);
             services.AddCloudFoundryActuators(Configuration);
             //configure autofac
 
@@ -347,7 +347,7 @@
             return services;
         }
 
-        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, string identityServerUrl)
+        public static IServiceCollection AddCustomAuthentication(this IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
@@ -362,6 +362,7 @@
                 options.Authority = identityServerUrl;
                 options.RequireHttpsMetadata = false;
                 options.Audience = "orders";
+                options.SetBackChannelCertificateValidation(bool.Parse(configuration["validateCertificates"]));
             });
 
             return services;

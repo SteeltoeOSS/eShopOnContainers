@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Pivotal.Extensions.Configuration.ConfigServer;
 using Steeltoe.Extensions.Logging;
 using System.Collections.Generic;
 using System.IO;
@@ -34,7 +35,7 @@ namespace OcelotApiGw
                     loggingbuilder.AddDynamicConsole();
                     loggingbuilder.AddDebug();
                 })
-                .ResolveConfigurationPlaceholders()
+                .UseCloudFoundryHosting()
                 .UseStartup<Startup>();
             IWebHost host = builder.Build();
             return host;

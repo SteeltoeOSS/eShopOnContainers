@@ -108,7 +108,7 @@ namespace Ordering.SignalrHub
                 services.AddSingleton<IRabbitMQPersistentConnection, DefaultRabbitMQPersistentConnection>();
             }
 
-            ConfigureAuthService(services, identityServerUrl);
+            ConfigureAuthService(services, Configuration, identityServerUrl);
 
             RegisterEventBus(services);
 
@@ -166,7 +166,7 @@ namespace Ordering.SignalrHub
             eventBus.Subscribe<OrderStatusChangedToSubmittedIntegrationEvent, OrderStatusChangedToSubmittedIntegrationEventHandler>();  
         }
 
-        private void ConfigureAuthService(IServiceCollection services, string identityServerUrl)
+        private void ConfigureAuthService(IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
@@ -181,6 +181,7 @@ namespace Ordering.SignalrHub
                     options.Authority = identityServerUrl;
                     options.RequireHttpsMetadata = false;
                     options.Audience = "orders.signalrhub";
+                    options.SetBackChannelCertificateValidation(bool.Parse(configuration["validateCertificates"]));
                 });
         }
 

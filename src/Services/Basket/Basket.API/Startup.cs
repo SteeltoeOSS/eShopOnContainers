@@ -23,9 +23,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.HealthChecks;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Pivotal.Discovery.Client;
-using StackExchange.Redis;
 using Steeltoe.CloudFoundry.Connector.RabbitMQ;
 using Steeltoe.CloudFoundry.Connector.Redis;
 using Steeltoe.Management.CloudFoundry;
@@ -64,7 +62,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
             var identityServerUrl = services.GetExternalIdentityUrl();
 
             // instead of relying on Configuration.GetValue<string>("IdentityUrlExternal"), discover the identity server address 
-            ConfigureAuthService(services, identityServerUrl);
+            ConfigureAuthService(services, Configuration, identityServerUrl);
 
             services.AddHealthChecks(checks =>
             {
@@ -199,7 +197,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
             }
         }
 
-        private void ConfigureAuthService(IServiceCollection services, string identityServerUrl)
+        private void ConfigureAuthService(IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -214,6 +212,7 @@ namespace Microsoft.eShopOnContainers.Services.Basket.API
                 options.Authority = identityServerUrl;
                 options.RequireHttpsMetadata = false;
                 options.Audience = "basket";
+                options.SetBackChannelCertificateValidation(bool.Parse(configuration["validateCertificates"]));
             });
         }
 

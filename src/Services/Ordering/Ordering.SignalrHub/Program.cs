@@ -29,6 +29,7 @@ namespace Ordering.SignalrHub
                     builder.AddDynamicConsole();
                     builder.AddDebug();
                 })
+                .UseCloudFoundryHosting()
                 .UseStartup<Startup>()
                 .Build();
     }

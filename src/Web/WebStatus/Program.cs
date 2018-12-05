@@ -23,6 +23,7 @@ namespace WebStatus
         public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseCloudFoundryHosting()
                 .UseStartup<Startup>()
                 .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((hostingContext, builder) =>

@@ -22,7 +22,8 @@ namespace eShopConContainers.WebSPA
 
         public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost.CreateDefaultBuilder(args)
-             .UseStartup<Startup>()
+                .UseCloudFoundryHosting()
+                .UseStartup<Startup>()
                 .UseHealthChecks("/hc")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .AddExternalConfigSources(logfactory)

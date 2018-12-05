@@ -53,7 +53,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
             services.AddDiscoveryClient(Configuration);
             var identityServerUrl = services.GetExternalIdentityUrl();
 
-            ConfigureAuthService(services, identityServerUrl);
+            ConfigureAuthService(services, Configuration, identityServerUrl);
 
             services.Configure<LocationSettings>(Configuration);
 
@@ -187,7 +187,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
             }
         }
 
-        private void ConfigureAuthService(IServiceCollection services, string identityServerUrl)
+        private void ConfigureAuthService(IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -202,6 +202,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
                 options.Authority = identityServerUrl;
                 options.Audience = "locations";
                 options.RequireHttpsMetadata = false;
+                options.SetBackChannelCertificateValidation(bool.Parse(configuration["validateCertificates"]));
             });
         }
 

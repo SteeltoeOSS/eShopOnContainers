@@ -3,6 +3,7 @@
     {
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "https",
+      "DangerousAcceptAnyServerCertificateValidator": true,
       "UseServiceDiscovery": true,
       "ServiceName": "marketingapi",
       "LoadBalancerOptions": {
@@ -14,6 +15,7 @@
     {
       "DownstreamPathTemplate": "/api/{version}/{everything}",
       "DownstreamScheme": "https",
+      "DangerousAcceptAnyServerCertificateValidator": true,
       "UseServiceDiscovery": true,
       "ServiceName": "locationsapi",
       "LoadBalancerOptions": {

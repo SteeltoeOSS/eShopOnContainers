@@ -92,21 +92,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ApiGw-Base", "ApiGw-Base", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile.Bff.Marketing", "Mobile.Bff.Marketing", "{DB813A36-11BA-41FE-B258-CA9A7152247B}"
 	ProjectSection(SolutionItems) = preProject
+		src\ApiGateways\Mobile.Bff.Marketing\apigw\configuration.https.json = src\ApiGateways\Mobile.Bff.Marketing\apigw\configuration.https.json
 		src\ApiGateways\Mobile.Bff.Marketing\apigw\configuration.json = src\ApiGateways\Mobile.Bff.Marketing\apigw\configuration.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile.Bff.Shopping", "Mobile.Bff.Shopping", "{0189E4FB-6E2B-4F2E-9B1D-5473D23FC6DB}"
 	ProjectSection(SolutionItems) = preProject
+		src\ApiGateways\Mobile.Bff.Shopping\apigw\configuration.https.json = src\ApiGateways\Mobile.Bff.Shopping\apigw\configuration.https.json
 		src\ApiGateways\Mobile.Bff.Shopping\apigw\configuration.json = src\ApiGateways\Mobile.Bff.Shopping\apigw\configuration.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web.Bff.Marketing", "Web.Bff.Marketing", "{F8F0921C-EE5D-4AED-A4D6-5BF5FAE02CB5}"
 	ProjectSection(SolutionItems) = preProject
+		src\ApiGateways\Web.Bff.Marketing\apigw\configuration.https.json = src\ApiGateways\Web.Bff.Marketing\apigw\configuration.https.json
 		src\ApiGateways\Web.Bff.Marketing\apigw\configuration.json = src\ApiGateways\Web.Bff.Marketing\apigw\configuration.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web.Bff.Shopping", "Web.Bff.Shopping", "{28C0F5C8-4849-4035-80AB-45639424E73F}"
 	ProjectSection(SolutionItems) = preProject
+		src\ApiGateways\Web.Bff.Shopping\apigw\configuration.https.json = src\ApiGateways\Web.Bff.Shopping\apigw\configuration.https.json
 		src\ApiGateways\Web.Bff.Shopping\apigw\configuration.json = src\ApiGateways\Web.Bff.Shopping\apigw\configuration.json
 	EndProjectSection
 EndProject
@@ -154,7 +158,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Payment", "Payment", "{C61C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Payment.API", "src\Services\Payment\Payment.API\Payment.API.csproj", "{0AB40131-8AD7-436F-9C6B-EDA59CFA3A84}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "src\BuildingBlocks\Common\Common\Common.csproj", "{78BF1623-7F8C-4445-B4A4-3C4B0AE8924C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "src\BuildingBlocks\Common\Common\Common.csproj", "{78BF1623-7F8C-4445-B4A4-3C4B0AE8924C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

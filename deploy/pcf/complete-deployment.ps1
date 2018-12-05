@@ -1,6 +1,6 @@
 Param(
     [string]$os = "ubuntu.18.04-x64",
-    $fanOutProcessing = $false
+    [bool]$fanOutProcessing = $false
 )
 # time the whole operation
 $TotalTime = New-Object -TypeName System.Diagnostics.Stopwatch

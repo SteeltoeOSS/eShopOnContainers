@@ -25,7 +25,7 @@ function Publish {
     param([string]$outputPath)
     $op = OutputPathOrDefault $outputPath
     Write-Host "dotnet publish -f $framework -r $os -o $op"
-    & dotnet publish -f $framework -r $os -o $outputPath
+    & dotnet publish -f $framework -r $os -o $outputPath --force
 }
 function Push {
     param([string]$outputPath, [string]$appName, [bool]$openNewWindow = $false, [string]$pushArgs)

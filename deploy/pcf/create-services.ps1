@@ -35,6 +35,7 @@ CreateService p-rabbitmq standard eShopMQ
 Write-Host "Provisioning Redis..."
 CreateService p-redis shared-vm eShopCache
 
+Write-Host "Waiting a few seconds before polling for service status..."
 Start-Sleep -Seconds 5
 if ($waitForCreation) {
     $servicesToMonitor = "eShopConfig", "eShopRegistry", "eShopDocDb", "eShopMySQL", "eShopMQ", "eShopCache"

@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
+using Pivotal.Extensions.Configuration.ConfigServer;
 using Steeltoe.Extensions.Logging;
 using System.Collections.Generic;
 using System.IO;
@@ -37,6 +38,7 @@ namespace Microsoft.eShopOnContainers.Services.Catalog.API
 
         public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseCloudFoundryHosting()
                 .UseStartup<Startup>()
                 .UseApplicationInsights()
                 .UseHealthChecks("/hc")

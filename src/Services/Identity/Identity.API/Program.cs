@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Microsoft.Extensions.Options;
+using Pivotal.Extensions.Configuration.ConfigServer;
 using Steeltoe.Extensions.Logging;
 using System.Collections.Generic;
 using System.IO;
@@ -50,6 +51,7 @@ namespace Microsoft.eShopOnContainers.Services.Identity.API
                 .UseHealthChecks("/hc")
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseIISIntegration()
+                .UseCloudFoundryHosting()
                 .UseStartup<Startup>()
                 .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((hostingContext, builder) =>

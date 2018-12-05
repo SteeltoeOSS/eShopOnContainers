@@ -6,7 +6,7 @@ Sample .NET Core reference application, powered by Microsoft, based on a simplif
 
 ## Steeltoe Edition
 
-This fork exists to demonstrate Steeltoe libraries and eventually deployment to Pivotal Cloud Foundry.
+This fork exists to demonstrate Steeltoe libraries and deployment to Pivotal Cloud Foundry.
 
 Changes to date include:
 
@@ -15,6 +15,8 @@ Changes to date include:
 - Added Steeltoe Management actuators
 - Centralized configuration with Spring Cloud Config Server (and Steeltoe Configuration)
 - Implemented service discovery with Eureka Server (and Steeltoe Discovery)
+- Added manifest files and Cloud Foundry deployment scripts
+  - See [the deployment readme](./deploy/readme.md) for more
 
 ---
 

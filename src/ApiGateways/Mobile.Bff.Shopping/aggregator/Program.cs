@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Pivotal.Extensions.Configuration.ConfigServer;
 using Steeltoe.Extensions.Logging;
 using System.Collections.Generic;
 
@@ -28,6 +29,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
                     builder.AddDynamicConsole();
                     builder.AddDebug();
                 })
+                .UseCloudFoundryHosting()
                 .UseStartup<Startup>()
                 .Build();
     }

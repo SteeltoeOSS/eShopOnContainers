@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
+using Pivotal.Extensions.Configuration.ConfigServer;
 using Steeltoe.Extensions.Logging;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,7 @@ namespace Microsoft.eShopOnContainers.Services.Locations.API
             WebHost.CreateDefaultBuilder(args)
                 .UseHealthChecks("/hc")
                 .UseContentRoot(Directory.GetCurrentDirectory())
+                .UseCloudFoundryHosting()
                 .UseStartup<Startup>()
                 .AddExternalConfigSources(logfactory)
                 .ConfigureLogging((hostingContext, builder) =>

@@ -39,7 +39,7 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
             var identityServerUrl = services.GetExternalIdentityUrl();
             services.AddCustomMvc(Configuration, identityServerUrl)
                  .AddCustomAuthentication(Configuration, identityServerUrl)
-                 .AddHttpServices();
+                 .AddHttpServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -146,34 +146,40 @@ namespace Microsoft.eShopOnContainers.Mobile.Shopping.HttpAggregator
                     {
                     }
                 };
+                options.SetBackChannelCertificateValidation(bool.Parse(configuration["validateCertificates"]));
             });
 
             return services;
         }
 
-        public static IServiceCollection AddHttpServices(this IServiceCollection services)
+        public static IServiceCollection AddHttpServices(this IServiceCollection services, IConfiguration configuration)
         {
             //register delegating handlers
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
             services.AddTransient<DiscoveryHttpMessageHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            bool.TryParse(configuration["validateCertificates"], out bool validateCertificates);
+
             //register http services
             services.AddHttpClient<IBasketService, BasketService>()
+                .SetCertificateValidation(validateCertificates)
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddServiceDiscovery()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<ICatalogService, CatalogService>()
-                   .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
-                   .AddPolicyHandler(GetRetryPolicy())
-                   .AddPolicyHandler(GetCircuitBreakerPolicy());
+                .SetCertificateValidation(validateCertificates)
+                .AddServiceDiscovery()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<IOrderApiClient, OrderApiClient>()
-                   .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
-                   .AddPolicyHandler(GetRetryPolicy())
-                   .AddPolicyHandler(GetCircuitBreakerPolicy());
+                .SetCertificateValidation(validateCertificates)
+                .AddServiceDiscovery()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             return services;
         }

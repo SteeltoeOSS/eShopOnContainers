@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Pivotal.Extensions.Configuration.ConfigServer;
-using Steeltoe.Common.Configuration;
 using Steeltoe.Extensions.Logging;
 using System.Collections.Generic;
 using System.IO;
@@ -25,6 +24,7 @@ namespace Microsoft.eShopOnContainers.WebMVC
             WebHost.CreateDefaultBuilder(args)
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .AddExternalConfigSources(logfactory)
+                .UseCloudFoundryHosting()
                 .UseStartup<Startup>()
                 .ConfigureLogging((hostingContext, builder) =>
                 {

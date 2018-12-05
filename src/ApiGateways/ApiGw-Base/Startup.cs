@@ -72,6 +72,7 @@ namespace OcelotApiGw
                             int i = 0;
                         }
                     };
+                    x.SetBackChannelCertificateValidation(bool.Parse(_cfg["validateCertificates"]));
                 });
             services.AddCloudFoundryActuators(_cfg);
             services.AddOcelot(_cfg)

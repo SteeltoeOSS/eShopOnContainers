@@ -81,7 +81,7 @@
             services.AddDiscoveryClient(Configuration);
 
             var identityServerUrl = services.GetExternalIdentityUrl();
-            ConfigureAuthService(services, identityServerUrl);
+            ConfigureAuthService(services, Configuration, identityServerUrl);
             services.AddCloudFoundryActuators(Configuration);
             services.AddHealthChecks(checks => 
             {
@@ -236,7 +236,7 @@
             }
         }
 
-        private void ConfigureAuthService(IServiceCollection services, string identityServerUrl)
+        private void ConfigureAuthService(IServiceCollection services, IConfiguration configuration, string identityServerUrl)
         {
             // prevent from mapping "sub" claim to nameidentifier.
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
@@ -251,6 +251,7 @@
                     options.Authority = identityServerUrl;
                     options.Audience = "marketing";
                     options.RequireHttpsMetadata = false;
+                    options.SetBackChannelCertificateValidation(bool.Parse(configuration["validateCertificates"]));
                 });
         }
 

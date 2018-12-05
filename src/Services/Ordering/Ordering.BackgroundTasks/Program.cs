@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Console;
 using Pivotal.Extensions.Configuration.ConfigServer;
-using Steeltoe.Common.Configuration;
 using Steeltoe.Extensions.Logging;
 using System.Collections.Generic;
 
@@ -22,6 +21,7 @@ namespace Ordering.BackgroundTasks
 
         public static IWebHost BuildWebHost(string[] args, LoggerFactory logfactory) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseCloudFoundryHosting()
                 .UseStartup<Startup>()
                 .UseHealthChecks("/hc")
                 .AddExternalConfigSources(logfactory)

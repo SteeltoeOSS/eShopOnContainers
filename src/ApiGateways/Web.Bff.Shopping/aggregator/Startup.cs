@@ -39,7 +39,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
             var identityServerUrl = services.GetExternalIdentityUrl();
             services.AddCustomMvc(Configuration, identityServerUrl)
                 .AddCustomAuthentication(Configuration, identityServerUrl)
-                .AddApplicationServices();
+                .AddApplicationServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -97,6 +97,7 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
                         int i = 0;
                     }
                 };
+                options.SetBackChannelCertificateValidation(bool.Parse(configuration["validateCertificates"]));
             });
 
             return services;
@@ -147,29 +148,34 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
             return services;
         }
 
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             //register delegating handlers
             services.AddTransient<HttpClientAuthorizationDelegatingHandler>();
             services.AddTransient<DiscoveryHttpMessageHandler>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
+            bool.TryParse(configuration["validateCertificates"], out bool validateCertificates);
+
             //register http services
-          
+
             services.AddHttpClient<IBasketService, BasketService>()
+                .SetCertificateValidation(validateCertificates)
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddServiceDiscovery()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<ICatalogService, CatalogService>()
-                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .SetCertificateValidation(validateCertificates)
+                .AddServiceDiscovery()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<IOrderApiClient, OrderApiClient>()
+                .SetCertificateValidation(validateCertificates)
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddServiceDiscovery()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
@@ -183,7 +189,6 @@ namespace Microsoft.eShopOnContainers.Web.Shopping.HttpAggregator
               .HandleTransientHttpError()
               .OrResult(msg => msg.StatusCode == System.Net.HttpStatusCode.NotFound)
               .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
-
         }
 
         static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()

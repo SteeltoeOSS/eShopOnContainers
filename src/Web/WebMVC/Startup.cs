@@ -208,35 +208,42 @@ namespace Microsoft.eShopOnContainers.WebMVC
             //set 5 min as the lifetime for each HttpMessageHandler int the pool
             services.AddHttpClient("extendedhandlerlifetime").SetHandlerLifetime(TimeSpan.FromMinutes(5));
 
+            bool.TryParse(configuration["validateCertificates"], out bool validateCertificates);
+
             //add http client services
             services.AddHttpClient<IBasketService, BasketService>()
                 .SetHandlerLifetime(TimeSpan.FromMinutes(5))  //Sample. Default lifetime is 2 minutes
+                .SetCertificateValidation(validateCertificates)
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddServiceDiscovery()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<ICatalogService, CatalogService>()
-                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .SetCertificateValidation(validateCertificates)
+                .AddServiceDiscovery()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<IOrderingService, OrderingService>()
+                .SetCertificateValidation(validateCertificates)
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
                 .AddHttpMessageHandler<HttpClientRequestIdDelegatingHandler>()
-                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddServiceDiscovery()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<ICampaignService, CampaignService>()
+                .SetCertificateValidation(validateCertificates)
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddServiceDiscovery()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddHttpClient<ILocationService, LocationService>()
+                .SetCertificateValidation(validateCertificates)
                 .AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>()
-                .AddHttpMessageHandler<DiscoveryHttpMessageHandler>()
+                .AddServiceDiscovery()
                 .AddPolicyHandler(GetRetryPolicy())
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
@@ -299,6 +306,7 @@ namespace Microsoft.eShopOnContainers.WebMVC
                 options.Scope.Add("locations");
                 options.Scope.Add("webshoppingagg");
                 options.Scope.Add("orders.signalrhub");
+                options.SetBackChannelCertificateValidation(bool.Parse(configuration["validateCertificates"]));
             });
 
             return services;

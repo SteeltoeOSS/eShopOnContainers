@@ -18,7 +18,7 @@ namespace Microsoft.eShopOnContainers
         {
             while (!client.GetInstances(appName).Any())
             {
-                logger.LogDebug("Discovery client didn't find {0} registered, trying again shortly", appName);
+                logger.LogWarning("Discovery client didn't find {0} registered, trying again shortly", appName);
                 Thread.Sleep(5000);
             }
             var serviceEntry = client.GetInstances(appName).FirstOrDefault();
