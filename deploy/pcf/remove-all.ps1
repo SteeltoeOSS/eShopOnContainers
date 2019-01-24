@@ -24,6 +24,6 @@ foreach ($_ in "MobileMarketingApiGw MobileShoppingApiGw WebMarketingApiGw WebSh
 
 # backing services
 foreach ($_ in "eShopConfig eShopRegistry eShopDocDb eShopMySQL eShopMQ eShopCache".Split('')) {
-   $commandArgs = "delete-service eshop.$_ -f"
+   $commandArgs = "delete-service $_ -f"
    Start-Process -FilePath "cf.exe" -ArgumentList $commandArgs
 }
