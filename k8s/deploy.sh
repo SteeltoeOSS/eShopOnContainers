@@ -142,38 +142,38 @@ echo "#################### Creating application configuration ##################
 
 # urls configmap
 kubectl create configmap urls \
-    "--from-literal=BasketUrl=http://basket" \
-    "--from-literal=BasketHealthCheckUrl=http://basket/hc" \
+    "--from-literal=BasketUrl=https://basket" \
+    "--from-literal=BasketHealthCheckUrl=https://basket/hc" \
     "--from-literal=CatalogUrl=http://$externalDns/catalog-api" \
-    "--from-literal=CatalogHealthCheckUrl=http://catalog/hc" \
+    "--from-literal=CatalogHealthCheckUrl=https://catalog/hc" \
     "--from-literal=PicBaseUrl=http://$externalDns/catalog-api/api/v1/catalog/items/[0]/pic/" \
     "--from-literal=Marketing_PicBaseUrl=http://$externalDns/marketing-api/api/v1/campaigns/[0]/pic/" \
     "--from-literal=IdentityUrl=http://$externalDns/identity" \
-    "--from-literal=IdentityHealthCheckUrl=http://identity/hc" \
-    "--from-literal=OrderingUrl=http://ordering" \
-    "--from-literal=OrderingHealthCheckUrl=http://ordering/hc" \
+    "--from-literal=IdentityHealthCheckUrl=https://identity/hc" \
+    "--from-literal=OrderingUrl=https://ordering" \
+    "--from-literal=OrderingHealthCheckUrl=https://ordering/hc" \
     "--from-literal=MvcClientExternalUrl=http://$externalDns/webmvc" \
-    "--from-literal=WebMvcHealthCheckUrl=http://webmvc/hc" \
-    "--from-literal=MvcClientOrderingUrl=http://ordering" \
-    "--from-literal=MvcClientCatalogUrl=http://catalog" \
-    "--from-literal=MvcClientBasketUrl=http://basket" \
-    "--from-literal=MvcClientMarketingUrl=http://marketing" \
-    "--from-literal=MvcClientLocationsUrl=http://locations" \
-    "--from-literal=MarketingHealthCheckUrl=http://marketing/hc" \
-    "--from-literal=WebSpaHealthCheckUrl=http://webspa/hc" \
+    "--from-literal=WebMvcHealthCheckUrl=https://webmvc/hc" \
+    "--from-literal=MvcClientOrderingUrl=https://ordering" \
+    "--from-literal=MvcClientCatalogUrl=https://catalog" \
+    "--from-literal=MvcClientBasketUrl=https://basket" \
+    "--from-literal=MvcClientMarketingUrl=https://marketing" \
+    "--from-literal=MvcClientLocationsUrl=https://locations" \
+    "--from-literal=MarketingHealthCheckUrl=https://marketing/hc" \
+    "--from-literal=WebSpaHealthCheckUrl=https://webspa/hc" \
     "--from-literal=SpaClientMarketingExternalUrl=http://$externalDns/marketing-api" \
     "--from-literal=SpaClientOrderingExternalUrl=http://$externalDns/ordering-api" \
     "--from-literal=SpaClientCatalogExternalUrl=http://$externalDns/catalog-api" \
     "--from-literal=SpaClientBasketExternalUrl=http://$externalDns/basket-api" \
     "--from-literal=SpaClientIdentityExternalUrl=http://$externalDns/identity" \
     "--from-literal=SpaClientLocationsUrl=http://$externalDns/locations-api" \
-    "--from-literal=LocationsHealthCheckUrl=http://locations/hc" \
+    "--from-literal=LocationsHealthCheckUrl=https://locations/hc" \
     "--from-literal=SpaClientExternalUrl=http://$externalDns" \
     "--from-literal=LocationApiClient=http://$externalDns/locations-api" \
     "--from-literal=MarketingApiClient=http://$externalDns/marketing-api" \
     "--from-literal=BasketApiClient=http://$externalDns/basket-api" \
     "--from-literal=OrderingApiClient=http://$externalDns/ordering-api" \
-    "--from-literal=PaymentHealthCheckUrl=http://payment/hc"
+    "--from-literal=PaymentHealthCheckUrl=https://payment/hc"
 
 kubectl label configmap urls app=eshop
 
