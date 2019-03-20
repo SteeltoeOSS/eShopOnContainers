@@ -79,7 +79,7 @@ namespace Microsoft.eShopWeb.Services
             var baseUri = _settings.Value.CatalogBaseUrl;                      
             items.ForEach(x =>
             {
-                x.PictureUri = x.PictureUri.Replace("http://catalogbaseurltobereplaced", baseUri);
+                x.PictureUri = x.PictureUri.Replace("https://catalogbaseurltobereplaced", baseUri);
             });
 
             return items;

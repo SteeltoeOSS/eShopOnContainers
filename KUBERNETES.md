@@ -47,7 +47,7 @@ Kubernetes's built-in DNS service resolves Service names to cluster-internal IP 
 >`nginx.conf`
 >```
 >location /basket-api {
->    proxy_pass http://basket;
+>    proxy_pass https://basket;
 >```
 The frontend Pod is different in that it needs to be exposed outside the cluster. This is accomplished with another Service:
 >`frontend.yaml`

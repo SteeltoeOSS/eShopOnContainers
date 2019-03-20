@@ -3382,7 +3382,7 @@ RSAKey.prototype.decryptOAEP = RSADecryptOAEP;
 // Copyright (c) 2010-2013 Kenji Urushima (kenji.urushima@gmail.com)
 //
 // This software is licensed under the terms of the MIT License.
-// http://kjur.github.com/jsrsasign/license/
+// https://kjur.github.com/jsrsasign/license/
 //
 // The above copyright and license notice shall be 
 // included in all copies or substantial portions of the Software.
@@ -3403,7 +3403,7 @@ RSAKey.prototype.decryptOAEP = RSADecryptOAEP;
  * @name rsapem-1.1.js
  * @author Kenji Urushima kenji.urushima@gmail.com
  * @version 1.1
- * @license <a href="http://kjur.github.io/jsrsasign/license/">MIT License</a>
+ * @license <a href="https://kjur.github.io/jsrsasign/license/">MIT License</a>
  */
 function _rsapem_pemToBase64(sPEMPrivateKey) {
   var s = sPEMPrivateKey;
@@ -3484,7 +3484,7 @@ var _RE_HEXDECONLY=new RegExp("");_RE_HEXDECONLY.compile("[^0-9a-f]","gi");funct
  * Copyright (c) 2010-2014 Kenji Urushima (kenji.urushima@gmail.com)
  *
  * This software is licensed under the terms of the MIT License.
- * http://kjur.github.com/jsrsasign/license/
+ * https://kjur.github.com/jsrsasign/license/
  *
  * The above copyright and license notice shall be 
  * included in all copies or substantial portions of the Software.
@@ -3495,7 +3495,7 @@ var _RE_HEXDECONLY=new RegExp("");_RE_HEXDECONLY.compile("[^0-9a-f]","gi");funct
  * @name asn1hex-1.1.js
  * @author Kenji Urushima kenji.urushima@gmail.com
  * @version asn1hex 1.1.5 (2014-May-25)
- * @license <a href="http://kjur.github.io/jsrsasign/license/">MIT License</a>
+ * @license <a href="https://kjur.github.io/jsrsasign/license/">MIT License</a>
  */
 
 /*
@@ -3823,7 +3823,7 @@ ASN1HEX.hextooidstr = function(hex) {
  * Copyright (c) 2010-2014 Kenji Urushima (kenji.urushima@gmail.com)
  *
  * This software is licensed under the terms of the MIT License.
- * http://kjur.github.com/jsrsasign/license
+ * https://kjur.github.com/jsrsasign/license
  *
  * The above copyright and license notice shall be 
  * included in all copies or substantial portions of the Software.
@@ -3835,7 +3835,7 @@ ASN1HEX.hextooidstr = function(hex) {
  * @author Kenji Urushima kenji.urushima@gmail.com
  * @version x509 1.1.3 (2014-May-17)
  * @since jsrsasign 1.x.x
- * @license <a href="http://kjur.github.io/jsrsasign/license/">MIT License</a>
+ * @license <a href="https://kjur.github.io/jsrsasign/license/">MIT License</a>
  */
 
 /*
@@ -3854,7 +3854,7 @@ ASN1HEX.hextooidstr = function(hex) {
  * @property {String} hex hexacedimal string for X.509 certificate.
  * @author Kenji Urushima
  * @version 1.0.1 (08 May 2012)
- * @see <a href="http://kjur.github.com/jsrsasigns/">'jwrsasign'(RSA Sign JavaScript Library) home page http://kjur.github.com/jsrsasign/</a>
+ * @see <a href="https://kjur.github.com/jsrsasigns/">'jwrsasign'(RSA Sign JavaScript Library) home page https://kjur.github.com/jsrsasign/</a>
  */
 function X509() {
     this.subjectPublicKeyRSA = null;
@@ -4194,7 +4194,7 @@ X509.getPublicKeyInfoPropOfCertPEM = function(sCertPEM) {
  * Copyright (c) 2013 Kenji Urushima (kenji.urushima@gmail.com)
  *
  * This software is licensed under the terms of the MIT License.
- * http://kjur.github.com/jsrsasign/license
+ * https://kjur.github.com/jsrsasign/license
  *
  * The above copyright and license notice shall be 
  * included in all copies or substantial portions of the Software.
@@ -4206,7 +4206,7 @@ X509.getPublicKeyInfoPropOfCertPEM = function(sCertPEM) {
  * @author Kenji Urushima kenji.urushima@gmail.com
  * @version 1.1.5 (2013-Oct-06)
  * @since jsrsasign 2.2
- * @license <a href="http://kjur.github.io/jsrsasign/license/">MIT License</a>
+ * @license <a href="https://kjur.github.io/jsrsasign/license/">MIT License</a>
  */
 
 /** 
@@ -4493,15 +4493,15 @@ KJUR.crypto.Util = new function() {
  * </ul>
  * @example
  * // CryptoJS provider sample
- * &lt;script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/core.js"&gt;&lt;/script&gt;
- * &lt;script src="http://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/sha1.js"&gt;&lt;/script&gt;
+ * &lt;script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/core.js"&gt;&lt;/script&gt;
+ * &lt;script src="https://crypto-js.googlecode.com/svn/tags/3.1.2/build/components/sha1.js"&gt;&lt;/script&gt;
  * &lt;script src="crypto-1.0.js"&gt;&lt;/script&gt;
  * var md = new KJUR.crypto.MessageDigest({alg: "sha1", prov: "cryptojs"});
  * md.updateString('aaa')
  * var mdHex = md.digest()
  *
  * // SJCL(Stanford JavaScript Crypto Library) provider sample
- * &lt;script src="http://bitwiseshiftleft.github.io/sjcl/sjcl.js"&gt;&lt;/script&gt;
+ * &lt;script src="https://bitwiseshiftleft.github.io/sjcl/sjcl.js"&gt;&lt;/script&gt;
  * &lt;script src="crypto-1.0.js"&gt;&lt;/script&gt;
  * var md = new KJUR.crypto.MessageDigest({alg: "sha256", prov: "sjcl"}); // sjcl supports sha256 only
  * md.updateString('aaa')
@@ -5333,7 +5333,7 @@ KJUR.crypto.OID = new function() {
  * Copyright (c) 2012-2014 Kenji Urushima (kenji.urushima@gmail.com)
  *
  * This software is licensed under the terms of the MIT License.
- * http://kjur.github.com/jsjws/license/
+ * https://kjur.github.com/jsjws/license/
  *
  * The above copyright and license notice shall be 
  * included in all copies or substantial portions of the Software.
@@ -5363,8 +5363,8 @@ KJUR.crypto.OID = new function() {
  * @author Kenji Urushima
  * @version 1.1 (07 May 2012)
  * @requires base64.js
- * @see <a href="http://kjur.github.com/jsjws/">'jwjws'(JWS JavaScript Library) home page http://kjur.github.com/jsjws/</a>
- * @see <a href="http://kjur.github.com/jsrsasigns/">'jwrsasign'(RSA Sign JavaScript Library) home page http://kjur.github.com/jsrsasign/</a>
+ * @see <a href="https://kjur.github.com/jsjws/">'jwjws'(JWS JavaScript Library) home page https://kjur.github.com/jsjws/</a>
+ * @see <a href="https://kjur.github.com/jsrsasigns/">'jwrsasign'(RSA Sign JavaScript Library) home page https://kjur.github.com/jsrsasign/</a>
  */
 function Base64x() {
 }
@@ -5721,7 +5721,7 @@ function newline_toDos(s) {
 // This source code is free for use in the public domain.
 // NO WARRANTY EXPRESSED OR IMPLIED. USE AT YOUR OWN RISK.
 
-// http://code.google.com/p/json-sans-eval/
+// https://code.google.com/p/json-sans-eval/
 
 /**
  * Parses a string of well-formed JSON text.
@@ -5914,7 +5914,7 @@ var jsonParse = (function () {
     }
 
     if (opt_reviver) {
-      // Based on walk as implemented in http://www.json.org/json2.js
+      // Based on walk as implemented in https://www.json.org/json2.js
       var walk = function (holder, key) {
         var value = holder[key];
         if (value && typeof value === 'object') {
@@ -5967,7 +5967,7 @@ var jsonParse = (function () {
  * Copyright (c) 2010-2013 Kenji Urushima (kenji.urushima@gmail.com)
  *
  * This software is licensed under the terms of the MIT License.
- * http://kjur.github.com/jsjws/license/
+ * https://kjur.github.com/jsjws/license/
  *
  * The above copyright and license notice shall be 
  * included in all copies or substantial portions of the Software.
@@ -5979,7 +5979,7 @@ var jsonParse = (function () {
  * @author Kenji Urushima kenji.urushima@gmail.com
  * @version 3.0.1 (2013-Sep-24)
  * @since jsjws 1.0
- * @license <a href="http://kjur.github.io/jsjws/license/">MIT License</a>
+ * @license <a href="https://kjur.github.io/jsjws/license/">MIT License</a>
  */
 
 if (typeof KJUR == "undefined" || !KJUR) KJUR = {};
@@ -6001,9 +6001,9 @@ if (typeof KJUR.jws == "undefined" || !KJUR.jws) KJUR.jws = {};
  * @property {String} parsedJWS_headS string of decoded JWS Header
  * @property {String} parsedJWS_headS string of decoded JWS Payload
  * @requires base64x.js, json-sans-eval.js and jsrsasign library
- * @see <a href="http://kjur.github.com/jsjws/">'jwjws'(JWS JavaScript Library) home page http://kjur.github.com/jsjws/</a>
- * @see <a href="http://kjur.github.com/jsrsasigns/">'jwrsasign'(RSA Sign JavaScript Library) home page http://kjur.github.com/jsrsasign/</a>
- * @see <a href="http://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-14">IETF I-D JSON Web Algorithms (JWA)</a>
+ * @see <a href="https://kjur.github.com/jsjws/">'jwjws'(JWS JavaScript Library) home page https://kjur.github.com/jsjws/</a>
+ * @see <a href="https://kjur.github.com/jsrsasigns/">'jwrsasign'(RSA Sign JavaScript Library) home page https://kjur.github.com/jsrsasign/</a>
+ * @see <a href="https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-14">IETF I-D JSON Web Algorithms (JWA)</a>
  * @since jsjws 1.0
  * @description
  * <h4>Supported Algorithms</h4>
@@ -6329,8 +6329,8 @@ KJUR.jws.JWS = function() {
  * @param {String} pass (OPTION)passcode to use encrypted private key 
  * @return {String} JWS signature string
  * @since jws 3.0.0
- * @see <a href="http://kjur.github.io/jsrsasign/api/symbols/KJUR.crypto.Signature.html">jsrsasign KJUR.crypto.Signature method</a>
- * @see <a href="http://kjur.github.io/jsrsasign/api/symbols/KJUR.crypto.Mac.html">jsrsasign KJUR.crypto.Mac method</a>
+ * @see <a href="https://kjur.github.io/jsrsasign/api/symbols/KJUR.crypto.Signature.html">jsrsasign KJUR.crypto.Signature method</a>
+ * @see <a href="https://kjur.github.io/jsrsasign/api/symbols/KJUR.crypto.Mac.html">jsrsasign KJUR.crypto.Mac method</a>
  * @description
  * This method supports following algorithms.
  * <table>
@@ -6352,7 +6352,7 @@ KJUR.jws.JWS = function() {
  * <dl>
  * <dt>NOTE1:
  * <dd>salt length of RSAPSS signature is the same as the hash algorithm length
- * because of <a href="http://www.ietf.org/mail-archive/web/jose/current/msg02901.html">IETF JOSE ML discussion</a>.
+ * because of <a href="https://www.ietf.org/mail-archive/web/jose/current/msg02901.html">IETF JOSE ML discussion</a>.
  * <dt>NOTE2:
  * <dd>The reason of HS384 unsupport is  
  * <a href="https://code.google.com/p/crypto-js/issues/detail?id=84">CryptoJS HmacSHA384 bug</a>.
@@ -6426,8 +6426,8 @@ KJUR.jws.JWS.sign = function(alg, sHeader, sPayload, key, pass) {
  * @param {String} key string of public key, certificate or key object to verify
  * @return {Boolean} true if the signature is valid otherwise false
  * @since jws 3.0.0
- * @see <a href="http://kjur.github.io/jsrsasign/api/symbols/KJUR.crypto.Signature.html">jsrsasign KJUR.crypto.Signature method</a>
- * @see <a href="http://kjur.github.io/jsrsasign/api/symbols/KJUR.crypto.Mac.html">jsrsasign KJUR.crypto.Mac method</a>
+ * @see <a href="https://kjur.github.io/jsrsasign/api/symbols/KJUR.crypto.Signature.html">jsrsasign KJUR.crypto.Signature method</a>
+ * @see <a href="https://kjur.github.io/jsrsasign/api/symbols/KJUR.crypto.Mac.html">jsrsasign KJUR.crypto.Mac method</a>
  */
 KJUR.jws.JWS.verify = function(sJWS, key) {
     var jws = KJUR.jws.JWS;

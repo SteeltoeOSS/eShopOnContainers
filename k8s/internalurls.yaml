@@ -6,28 +6,28 @@ metadata:
     app: eshop  
 data:
 # Internal Services & healthchecks
-  basket: http://basket
-  basket__hc: http://basket/hc
-  catalog: http://catalog
-  catalog__hc: http://catalog/hc
-  identity: http://identity
-  identity__hc: http://identity/hc
-  ordering: http://ordering
-  ordering__hc: http://ordering/hc
-  ordering-background: http://ordering-background
-  ordering-background__hc: http://ordering-background/hc
-  marketing: http://marketing
-  marketing__hc: http://marketing/hc
-  locations: http://locations
-  locations__hc: http://locations/hc
-  payment__hc: http://payment/hc
-  mvc__hc: http://webmvc/hc
-  spa__hc: http://webspa/hc
+  basket: https://basket
+  basket__hc: https://basket/hc
+  catalog: https://catalog
+  catalog__hc: https://catalog/hc
+  identity: https://identity
+  identity__hc: https://identity/hc
+  ordering: https://ordering
+  ordering__hc: https://ordering/hc
+  ordering-background: https://ordering-background
+  ordering-background__hc: https://ordering-background/hc
+  marketing: https://marketing
+  marketing__hc: https://marketing/hc
+  locations: https://locations
+  locations__hc: https://locations/hc
+  payment__hc: https://payment/hc
+  mvc__hc: https://webmvc/hc
+  spa__hc: https://webspa/hc
 # Aggreggators
-  mobileshoppingagg: http://mobileshoppingagg
-  webshoppingagg: http://webshoppingagg
+  mobileshoppingagg: https://mobileshoppingagg
+  webshoppingagg: https://webshoppingagg
 # API GWs
-  apigwmm: http://ocelotapigw-mm
-  apigwms: http://ocelotapigw-ms
-  apigwwm: http://ocelotapigw-wm
-  apigwws: http://ocelotapigw-ws
+  apigwmm: https://ocelotapigw-mm
+  apigwms: https://ocelotapigw-ms
+  apigwwm: https://ocelotapigw-wm
+  apigwws: https://ocelotapigw-ws

@@ -121,7 +121,7 @@
                 Description = "FakeCampaignDescription",
                 From = DateTime.Now,
                 To = DateTime.Now.AddDays(7),
-                PictureUri = "http://externalcatalogbaseurltobereplaced/api/v1/campaigns/0/pic"
+                PictureUri = "https://externalcatalogbaseurltobereplaced/api/v1/campaigns/0/pic"
             }; 
         }
     }

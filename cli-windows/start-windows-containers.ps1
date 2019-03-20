@@ -21,8 +21,8 @@ if ($buildBits) {
 
 
 $env:ESHOP_EXTERNAL_DNS_NAME_OR_IP = "10.0.75.1"
-$env:ESHOP_AZURE_STORAGE_CATALOG_URL ="http://10.0.75.1:5101/api/v1/catalog/items/[0]/pic/"
-$env:ESHOP_AZURE_STORAGE_MARKETING_URL ="http://10.0.75.1:5110/api/v1/campaigns/[0]/pic/"
+$env:ESHOP_AZURE_STORAGE_CATALOG_URL ="https://10.0.75.1:5101/api/v1/catalog/items/[0]/pic/"
+$env:ESHOP_AZURE_STORAGE_MARKETING_URL ="https://10.0.75.1:5110/api/v1/campaigns/[0]/pic/"
 
 if (-Not $customEventBusLoginPassword) {
     docker-compose -f "$rootPath\docker-compose-windows.yml" -f "$rootPath\docker-compose.override.yml" -f "$rootPath\docker-compose.override.windows.yml" up

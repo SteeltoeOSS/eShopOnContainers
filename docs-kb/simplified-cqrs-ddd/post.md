@@ -63,7 +63,7 @@ Queries, on the other hand, just return whatever the UI needs, could be a domain
 **IOrderQueries:**  
 ![](devenv_2018-05-22_18-40-25.png)
 
-And they are implemented as plain SQL queries, in this case using [Dapper](http://dapper-tutorial.net/ as the ORM.
+And they are implemented as plain SQL queries, in this case using [Dapper](https://dapper-tutorial.net/ as the ORM.
 
 **OrderQueries:**  
 ![](devenv_2018-05-22_18-48-36.png)

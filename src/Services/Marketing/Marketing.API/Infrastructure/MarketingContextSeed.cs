@@ -37,7 +37,7 @@
                     Description = "Campaign Description 1",
                     From = DateTime.Now,
                     To = DateTime.Now.AddDays(7),
-                    PictureUri = "http://externalcatalogbaseurltobereplaced/api/v1/campaigns/1/pic",
+                    PictureUri = "https://externalcatalogbaseurltobereplaced/api/v1/campaigns/1/pic",
                     PictureName = "1.png",
                     Rules = new List<Rule>
                     {
@@ -54,7 +54,7 @@
                     Description = "Campaign Description 2",
                     From = DateTime.Now.AddDays(-7),
                     To = DateTime.Now.AddDays(14),
-                    PictureUri = "http://externalcatalogbaseurltobereplaced/api/v1/campaigns/2/pic",
+                    PictureUri = "https://externalcatalogbaseurltobereplaced/api/v1/campaigns/2/pic",
                     PictureName = "2.png",
                     Rules = new List<Rule>
                     {

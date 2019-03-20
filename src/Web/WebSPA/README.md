@@ -41,6 +41,6 @@ Deploy/run the Docker containers with <b>"docker-compose up"</b> as explained in
 ### Test the SPA web application
 
 Test the SPA app by running the following URL in a browser:
-<b> http://TBD</b>
+<b> https://TBD</b>
 
 

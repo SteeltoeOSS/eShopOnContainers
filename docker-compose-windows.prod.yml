@@ -16,9 +16,9 @@ services:
   basket.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ConnectionString=${ESHOP_AZURE_REDIS_BASKET_DB:-basket.data}
-      - identityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - identityUrl=https://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - IdentityUrlExternal=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5105
       - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
       - AzureServiceBusEnabled=False
@@ -28,7 +28,7 @@ services:
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ConnectionString=${ESHOP_AZURE_CATALOG_DB:-Server=sql.data;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word}
       - PicBaseUrl=${ESHOP_AZURE_STORAGE_CATALOG:-http://localhost:5101/api/v1/catalog/items/[0]/pic/}   #Local: You need to open your local dev-machine firewall at range 5100-5110.  
       - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
@@ -43,7 +43,7 @@ services:
   identity.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - SpaClient=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5104
       - XamarinCallback=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5105/xamarincallback
       - ConnectionStrings__DefaultConnection=${ESHOP_AZURE_IDENTITY_DB:-Server=sql.data;Database=Microsoft.eShopOnContainers.Service.IdentityDb;User Id=sa;Password=Pass@word}       
@@ -59,9 +59,9 @@ services:
   ordering.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ConnectionString=${ESHOP_AZURE_ORDERING_DB:-Server=sql.data;Database=Microsoft.eShopOnContainers.Services.OrderingDb;User Id=sa;Password=Pass@word}
-      - identityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - identityUrl=https://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - IdentityUrlExternal=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5105
       - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
       - UseCustomizationData=True
@@ -72,7 +72,7 @@ services:
   ordering.backgroundtasks:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ConnectionString=${ESHOP_AZURE_ORDERING_DB:-Server=sql.data;Database=Microsoft.eShopOnContainers.Services.OrderingDb;User Id=sa;Password=Pass@word}
       - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
       - UseCustomizationData=True
@@ -83,17 +83,17 @@ services:
   webspa:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0
+      - ASPNETCORE_URLS=https://0.0.0.0
       - CatalogUrl=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5101
       - OrderingUrl=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5102
       - IdentityUrl=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5105              #Local: You need to open your host's firewall at range 5100-5110. 
       - BasketUrl=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5103
       - MarketingUrl=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5110
-      - CatalogUrlHC=http://catalog.api/hc
-      - OrderingUrlHC=http://ordering.api/hc
-      - IdentityUrlHC=http://identity.api/hc     #Local: Use ${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}, if using external IP or DNS name from browser.          
-      - BasketUrlHC=http://basket.api/hc
-      - MarketingUrlHC=http://marketing.api/hc
+      - CatalogUrlHC=https://catalog.api/hc
+      - OrderingUrlHC=https://ordering.api/hc
+      - IdentityUrlHC=https://identity.api/hc     #Local: Use ${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}, if using external IP or DNS name from browser.          
+      - BasketUrlHC=https://basket.api/hc
+      - MarketingUrlHC=https://marketing.api/hc
       - UseCustomizationData=True         
     ports:
       - "5104:80"
@@ -101,12 +101,12 @@ services:
   webmvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0:80
-      - CatalogUrl=http://catalog.api
-      - OrderingUrl=http://ordering.api
+      - ASPNETCORE_URLS=https://0.0.0.0:80
+      - CatalogUrl=https://catalog.api
+      - OrderingUrl=https://ordering.api
       - IdentityUrl=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5105     #Local: Use ${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}, if using external IP or DNS name from browser.          
-      - BasketUrl=http://basket.api
-      - MarketingUrl=http://marketing.api
+      - BasketUrl=https://basket.api
+      - MarketingUrl=https://marketing.api
       - UseCustomizationData=True   #Remote: Use ${ESHOP_EXTERNAL_DNS_NAME_OR_IP} if using external IP or DNS name from browser. 
     ports:
       - "5100:80"
@@ -114,12 +114,12 @@ services:
   marketing.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ConnectionString=${ESHOP_AZURE_MARKETING_DB:-Server=sql.data;Database=Microsoft.eShopOnContainers.Services.MarketingDb;User Id=sa;Password=Pass@word}
       - MongoConnectionString=${ESHOP_AZURE_COSMOSDB:-mongodb://nosql.data}
       - MongoDatabase=MarketingDb
       - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
-      - identityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110. 
+      - identityUrl=https://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110. 
       - IdentityUrlExternal=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5105
       - CampaignDetailFunctionUri=${ESHOP_AZUREFUNC_CAMPAIGN_DETAILS_URI}
       - PicBaseUrl=${ESHOP_AZURE_STORAGE_MARKETING:-http://localhost:5110/api/v1/campaigns/[0]/pic/}
@@ -144,15 +144,15 @@ services:
   webstatus:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0:80
-      - CatalogUrl=http://catalog.api/hc
-      - OrderingUrl=http://ordering.api/hc
-      - BasketUrl=http://basket.api/hc
-      - IdentityUrl=http://identity.api/hc
-      - LocationsUrl=http://locations.api/hc
-      - MarketingUrl=http://marketing.api/hc
-      - mvc=http://webmvc/hc
-      - spa=http://webspa/hc
+      - ASPNETCORE_URLS=https://0.0.0.0:80
+      - CatalogUrl=https://catalog.api/hc
+      - OrderingUrl=https://ordering.api/hc
+      - BasketUrl=https://basket.api/hc
+      - IdentityUrl=https://identity.api/hc
+      - LocationsUrl=https://locations.api/hc
+      - MarketingUrl=https://marketing.api/hc
+      - mvc=https://webmvc/hc
+      - spa=https://webspa/hc
       
     ports:
       - "5107:80"
@@ -160,7 +160,7 @@ services:
   payment.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0:5108
+      - ASPNETCORE_URLS=https://0.0.0.0:5108
       - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
       - AzureServiceBusEnabled=False
     ports:
@@ -169,10 +169,10 @@ services:
   locations.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ConnectionString=${ESHOP_AZURE_COSMOSDB:-mongodb://nosql.data}
       - Database=LocationsDb
-      - identityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110. 
+      - identityUrl=https://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110. 
       - IdentityUrlExternal=http://${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}:5105
       - EventBusConnection=${ESHOP_AZURE_SERVICE_BUS:-rabbitmq}
       - AzureServiceBusEnabled=False

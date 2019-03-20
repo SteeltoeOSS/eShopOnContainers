@@ -11,4 +11,4 @@ Simple cross platform plugin to get GPS location including heading, speed, and m
 
 Works from any shared code or PCL project.
 
-Find more plugins at: http://www.github.com/xamarin/plugins
+Find more plugins at: https://www.github.com/xamarin/plugins
