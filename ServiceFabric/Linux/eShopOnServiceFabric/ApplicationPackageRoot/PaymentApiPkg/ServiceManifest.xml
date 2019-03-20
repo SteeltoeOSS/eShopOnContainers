@@ -21,7 +21,7 @@
     <!-- Pass environment variables to your container: -->
     <EnvironmentVariables>
       <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="Development"/>
-      <EnvironmentVariable Name="ASPNETCORE_URLS" Value="http://0.0.0.0:80"/>
+      <EnvironmentVariable Name="ASPNETCORE_URLS" Value="https://0.0.0.0:80"/>
       <EnvironmentVariable Name="EventBusConnection" Value="rabbitmq.eshoponservicefabricbus"/>
       <EnvironmentVariable Name="AzureServiceBusEnabled" Value="False"/>
       <EnvironmentVariable Name="ApplicationInsights__InstrumentationKey" Value=""/>

@@ -21,7 +21,7 @@
     <!-- Pass environment variables to your container: -->
     <EnvironmentVariables>
       <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="Development"/>
-      <EnvironmentVariable Name="ASPNETCORE_URLS" Value="http://0.0.0.0:80"/>
+      <EnvironmentVariable Name="ASPNETCORE_URLS" Value="https://0.0.0.0:80"/>
       <EnvironmentVariable Name="ConnectionString" Value="Data Source=sqlserver.eshoponservicefabricsql,5433;Database=Microsoft.eShopOnContainers.Services.MarketingDb;User Id=sa;Password=Pass@word"/>
       <EnvironmentVariable Name="IdentityUrlExternal" Value=""/>
       <EnvironmentVariable Name="EventBusConnection" Value="rabbitmq.eshoponservicefabricbus"/>
@@ -35,7 +35,7 @@
       <EnvironmentVariable Name="EventBusPassword" Value="password"/>
       <EnvironmentVariable Name="MongoConnectionString" Value="mongodb://mongodb.eshoponservicefabricnosql"/>
       <EnvironmentVariable Name="MongoDatabase" Value="MarketingDb"/>
-      <EnvironmentVariable Name="identityUrl" Value="http://identityapi.eshoponservicefabric:5105"/>
+      <EnvironmentVariable Name="identityUrl" Value="https://identityapi.eshoponservicefabric:5105"/>
       <EnvironmentVariable Name="ApplicationInsights:InstrumentationKey" Value=""/>
       <EnvironmentVariable Name="OrchestratorType" Value="SF"/>
       <EnvironmentVariable Name="UseLoadTest" Value="False"/>

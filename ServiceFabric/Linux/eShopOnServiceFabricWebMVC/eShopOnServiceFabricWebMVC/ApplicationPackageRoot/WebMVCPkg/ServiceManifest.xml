@@ -21,19 +21,19 @@
     <!-- Pass environment variables to your container: -->
     <EnvironmentVariables>
       <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="Development"/>
-      <EnvironmentVariable Name="ASPNETCORE_URLS" Value="http://0.0.0.0:80"/>
-      <EnvironmentVariable Name="CatalogUrl" Value="http://catalogapi.eshoponservicefabric:5101"/>
-      <EnvironmentVariable Name="OrderingUrl" Value="http://orderingapi.eshoponservicefabric:5102"/>
-      <EnvironmentVariable Name="BasketUrl" Value="http://basketapi.eshoponservicefabric:5103"/>
+      <EnvironmentVariable Name="ASPNETCORE_URLS" Value="https://0.0.0.0:80"/>
+      <EnvironmentVariable Name="CatalogUrl" Value="https://catalogapi.eshoponservicefabric:5101"/>
+      <EnvironmentVariable Name="OrderingUrl" Value="https://orderingapi.eshoponservicefabric:5102"/>
+      <EnvironmentVariable Name="BasketUrl" Value="https://basketapi.eshoponservicefabric:5103"/>
       <EnvironmentVariable Name="IdentityUrl" Value=""/>
-      <EnvironmentVariable Name="MarketingUrl" Value="http://marketingapi.eshoponservicefabric:5110"/>
-      <EnvironmentVariable Name="LocationsUrl" Value="http://locationsapi.eshoponservicefabric:5109"/>
-      <EnvironmentVariable Name="CatalogUrlHC" Value="http://catalogapi.eshoponservicefabric:5101/hc"/>
-      <EnvironmentVariable Name="OrderingUrlHC" Value="http://orderingapi.eshoponservicefabric:5102/hc"/>
-      <EnvironmentVariable Name="IdentityUrlHC" Value="http://identityapi.eshoponservicefabric:5105/hc"/>
-      <EnvironmentVariable Name="BasketUrlHC" Value="http://basketapi.eshoponservicefabric:5103/hc"/>
-      <EnvironmentVariable Name="PaymentUrlHC" Value="http://paymentapi.eshoponservicefabric:5108/hc"/>
-      <EnvironmentVariable Name="MarketingUrlHC" Value="http://marketingapi.eshoponservicefabric:5110/hc"/>
+      <EnvironmentVariable Name="MarketingUrl" Value="https://marketingapi.eshoponservicefabric:5110"/>
+      <EnvironmentVariable Name="LocationsUrl" Value="https://locationsapi.eshoponservicefabric:5109"/>
+      <EnvironmentVariable Name="CatalogUrlHC" Value="https://catalogapi.eshoponservicefabric:5101/hc"/>
+      <EnvironmentVariable Name="OrderingUrlHC" Value="https://orderingapi.eshoponservicefabric:5102/hc"/>
+      <EnvironmentVariable Name="IdentityUrlHC" Value="https://identityapi.eshoponservicefabric:5105/hc"/>
+      <EnvironmentVariable Name="BasketUrlHC" Value="https://basketapi.eshoponservicefabric:5103/hc"/>
+      <EnvironmentVariable Name="PaymentUrlHC" Value="https://paymentapi.eshoponservicefabric:5108/hc"/>
+      <EnvironmentVariable Name="MarketingUrlHC" Value="https://marketingapi.eshoponservicefabric:5110/hc"/>
       <EnvironmentVariable Name="ApplicationInsights__InstrumentationKey" Value=""/>
       <EnvironmentVariable Name="OrchestratorType" Value="SF"/>
       <EnvironmentVariable Name="UseLoadTest" Value="True"/>
