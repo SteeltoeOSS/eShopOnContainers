@@ -2,8 +2,8 @@
 <ServiceManifest Name="CatalogApiPkg"
                  Version="1.0.0"
                  xmlns="http://schemas.microsoft.com/2011/01/fabric"
-                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+                 xmlns:xsd="https://www.w3.org/2001/XMLSchema"
+                 xmlns:xsi="https://www.w3.org/2001/XMLSchema-instance">
   <ServiceTypes>
     <!-- This is the name of your ServiceType.
          The UseImplicitHost attribute indicates this is a guest service. -->
@@ -21,9 +21,9 @@
     <!-- Pass environment variables to your container: -->
     <EnvironmentVariables>
       <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="Development"/>
-      <EnvironmentVariable Name="ASPNETCORE_URLS" Value="http://0.0.0.0:80"/>
+      <EnvironmentVariable Name="ASPNETCORE_URLS" Value="https://0.0.0.0:80"/>
       <EnvironmentVariable Name="ConnectionString" Value="Data Source=sqlserver.eshoponservicefabricsql,5433;Database=Microsoft.eShopOnContainers.Services.CatalogDb;User Id=sa;Password=Pass@word"/>
-      <EnvironmentVariable Name="PicBaseUrl" Value="http://catalogapi.eshoponservicefabric:5101/api/v1/catalog/items/[0]/pic/"/>
+      <EnvironmentVariable Name="PicBaseUrl" Value="https://catalogapi.eshoponservicefabric:5101/api/v1/catalog/items/[0]/pic/"/>
       <EnvironmentVariable Name="AzureStorageAccountName" Value=""/>
       <EnvironmentVariable Name="AzureStorageAccountKey" Value=""/>
       <EnvironmentVariable Name="UseCustomizationData" Value="True"/>

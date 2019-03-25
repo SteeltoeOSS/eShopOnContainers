@@ -2,7 +2,7 @@
 <component format="1" id="GeolocatorPlugin" is-shell="true">
   <name>Geolocator Plugin</name>
   <publisher>James Montemagno</publisher>
-  <publisher-url>http://www.github.com/jamesmontemagno/Xamarin.Plugins</publisher-url>
+  <publisher-url>https://www.github.com/jamesmontemagno/Xamarin.Plugins</publisher-url>
   <version>1.0.3</version>
   <summary>Simple cross platform plugin to get GPS location including heading, speed, and more.</summary>
   <packages>
