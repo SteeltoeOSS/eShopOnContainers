@@ -22,7 +22,7 @@
 
     <EnvironmentVariables>
       <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="Development"/>
-      <EnvironmentVariable Name="ASPNETCORE_URLS" Value="http://0.0.0.0:80"/>
+      <EnvironmentVariable Name="ASPNETCORE_URLS" Value="https://0.0.0.0:80"/>
       <EnvironmentVariable Name="SpaClient" Value=""/>
       <EnvironmentVariable Name="XamarinCallback" Value=""/>
       <EnvironmentVariable Name="ConnectionString" Value="Data Source=sqlserver.eshoponservicefabricsql,5433;Database=Microsoft.eShopOnContainers.Service.IdentityDb;User Id=sa;Password=Pass@word"/>

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TestRun id="2c3747dd-fc05-4392-a731-de2f32a62eef" name="@2b67e7387bb9 2018-12-05 11:24:14" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+<TestRun id="2c3747dd-fc05-4392-a731-de2f32a62eef" name="@2b67e7387bb9 2018-12-05 11:24:14" xmlns="https://microsoft.com/schemas/VisualStudio/TeamTest/2010">
   <Times creation="2018-12-05T11:24:14.5102211+00:00" queuing="2018-12-05T11:24:14.5102222+00:00" start="2018-12-05T11:23:50.0598477+00:00" finish="2018-12-05T11:24:15.8957360+00:00" />
   <TestSettings name="default" id="cda9c3c1-e5e4-4684-8b96-7eed6663bec0">
     <Deployment runDeploymentRoot="_2b67e7387bb9_2018-12-05_11_24_14" />
