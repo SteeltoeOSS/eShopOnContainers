@@ -63,7 +63,7 @@ env:
     - name: ASPNETCORE_ENVIRONMENT
       value: Development
     - name: ASPNETCORE_URLS
-      value: http://0.0.0.0:80
+      value: https://0.0.0.0:80
     - name: OrchestratorType
       value: 'K8S'
     - name: IsClusterEnv

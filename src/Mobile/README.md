@@ -66,7 +66,7 @@ This project uses some third-party assets with a license that requires attributi
 
 ## Setup
 
-#### [1. Ensure the Xamarin platform is installed](http://developer.xamarin.com/guides/cross-platform/getting_started/installation/)
+#### [1. Ensure the Xamarin platform is installed](https://developer.xamarin.com/guides/cross-platform/getting_started/installation/)
 
 #### 2. Ensure Xamarin are updated
 Xamarin will periodically automatically check for updates. You can also manually check for updates.
@@ -125,7 +125,7 @@ We have two possible fixes.
 
 The first one is based on updating Java JDK and ensure its use. The version 52.0 referenced in the error refers to the JDK, specifically to version 8. Xamarin Android 7.0 requires the JDK 1.8 to use the Android Nougat APIs (API Level 24). It is also necessary a 64-bit version to be able to use personal controls in the Android editor among other actions.
 
-Download the corresponding version of the JDK in this [link](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
+Download the corresponding version of the JDK in this [link](https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html).
 
 After downloading and installing, we must ensure that the installed version is used. For that:
 

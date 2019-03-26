@@ -40,7 +40,7 @@ services:
   identity.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -50,7 +50,7 @@ services:
   basket.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -61,7 +61,7 @@ services:
   catalog.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -72,7 +72,7 @@ services:
   ordering.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -83,7 +83,7 @@ services:
   ordering.backgroundtasks:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -93,7 +93,7 @@ services:
   marketing.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -104,7 +104,7 @@ services:
   payment.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -115,7 +115,7 @@ services:
   locations.api:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -126,7 +126,7 @@ services:
   mobileshoppingapigw:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - IdentityUrl=https://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - spring__cloud__config__uri=http://configserver:8888
       - spring__application__name=mobileshoppingapigw
       - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5200
@@ -138,7 +138,7 @@ services:
   mobilemarketingapigw:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - IdentityUrl=https://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - spring__cloud__config__uri=http://configserver:8888
       - spring__application__name=mobilemarketingapigw
       - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5201
@@ -150,7 +150,7 @@ services:
   webshoppingapigw:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - IdentityUrl=https://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - spring__cloud__config__uri=http://configserver:8888
       - spring__application__name=webshoppingapigw
       - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5202
@@ -162,7 +162,7 @@ services:
   webmarketingapigw:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - IdentityUrl=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - IdentityUrl=https://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - spring__cloud__config__uri=http://configserver:8888
       - spring__application__name=webmarketingapigw
       - externalUrl=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}:5203
@@ -174,7 +174,7 @@ services:
   mobileshoppingagg:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - urls__identity=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - urls__identity=https://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - spring__cloud__config__uri=http://configserver:8888
     ports:
       - "5120:80"   # Important: In a production environment your should remove the external port (5120) kept here for microservice debugging purposes. 
@@ -183,7 +183,7 @@ services:
   webshoppingagg:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - urls__identity=http://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
+      - urls__identity=https://identity.api              #Local: You need to open your local dev-machine firewall at range 5100-5110.
       - spring__cloud__config__uri=http://configserver:8888
     ports:
       - "5121:80"   # Important: In a production environment your should remove the external port (5121) kept here for microservice debugging purposes. 
@@ -192,7 +192,7 @@ services:
   ordering.signalrhub:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -202,7 +202,7 @@ services:
   webstatus:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -212,7 +212,7 @@ services:
   webspa:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888
@@ -222,7 +222,7 @@ services:
   webmvc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - ASPNETCORE_URLS=https://0.0.0.0:80
       - ESHOP_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_EXTERNAL_DNS_NAME_OR_IP}
       - ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP=${ESHOP_PROD_EXTERNAL_DNS_NAME_OR_IP}
       - spring__cloud__config__uri=http://configserver:8888

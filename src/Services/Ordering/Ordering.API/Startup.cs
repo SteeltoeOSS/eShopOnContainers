@@ -166,7 +166,7 @@
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
             }).AddControllersAsServices();  //Injecting Controllers themselves thru DI
-                                            //For further info see: http://docs.autofac.org/en/latest/integration/aspnetcore.html#controllers-as-services
+                                            //For further info see: https://docs.autofac.org/en/latest/integration/aspnetcore.html#controllers-as-services
 
             services.AddCors(options =>
             {

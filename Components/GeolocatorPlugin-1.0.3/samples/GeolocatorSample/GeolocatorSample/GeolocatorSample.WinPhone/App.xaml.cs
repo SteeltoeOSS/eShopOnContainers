@@ -179,7 +179,7 @@ namespace GeolocatorSample.WinPhone
     //     ResourceLanguage's value should be "ar-SA"
     //     ResourceFlowDirection's value should be "RightToLeft"
     //
-    // For more info on localizing Windows Phone apps see http://go.microsoft.com/fwlink/?LinkId=262072.
+    // For more info on localizing Windows Phone apps see https://go.microsoft.com/fwlink/?LinkId=262072.
     //
     private void InitializeLanguage()
     {

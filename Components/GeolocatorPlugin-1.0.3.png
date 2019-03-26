@@ -98,7 +98,7 @@
                                     </li>
                                     <li><a href="https://xamarin.com/customers">Customers</a></li>
                                     <li class=""><a href="https://store.xamarin.com/">Pricing</a></li>
-                                    <li class=""><a href="http://developer.xamarin.com">Developers</a></li>
+                                    <li class=""><a href="https://developer.xamarin.com">Developers</a></li>
                                     <li class="dropdown ">
                                         <a href="//xamarin.com/support">Support</a>
                                         <ul role="menu">
@@ -111,14 +111,14 @@
                                     <li class="hide-on-mobile dropdown ">
                                         <a data-toggle="dropdown" href="//xamarin.com/resources">Resources</a>
                                         <ul role="menu">
-                                            <li><a href="http://blog.xamarin.com">Blog</a></li>
+                                            <li><a href="https://blog.xamarin.com/">Blog</a></li>
                                             <li><a href="//xamarin.com/faq">FAQ</a></li>
                                             <li><a href="//xamarin.com/partners">Partners</a></li>
                                             <li><a href="//xamarin.com/resources/webinars">Webinars</a></li>
                                             <li><a href="//xamarin.com/about">About Xamarin</a></li>
                                         </ul>
                                     </li>
-                                    <li class="show-on-mobile"><a href="http://blog.xamarin.com">Blog</a></li>
+                                    <li class="show-on-mobile"><a href="https://blog.xamarin.com/">Blog</a></li>
                                     <li class="show-on-mobile"><a href="//xamarin.com/about">About Xamarin</a></li>
 
                                         <li class="user "><a href="/auth">Sign In</a></li>
@@ -200,16 +200,16 @@
                 <li>
                     Developer Center
                     <ul>
-                        <li><a href="http://developer.xamarin.com">Get Started</a></li>
-                        <li><a href="http://developer.xamarin.com/guides">Guides</a></li>
-                        <li><a href="http://developer.xamarin.com/recipes">Recipes</a></li>
-                        <li><a href="http://iosapi.xamarin.com/">Xamarin.iOS APIs</a></li>
-                        <li><a href="http://androidapi.xamarin.com/">Xamarin.Android APIs</a></li>
-                        <li><a href="http://macapi.xamarin.com/">Xamarin.Mac APIs</a></li>
+                        <li><a href="https://developer.xamarin.com">Get Started</a></li>
+                        <li><a href="https://developer.xamarin.com/guides">Guides</a></li>
+                        <li><a href="https://developer.xamarin.com/recipes">Recipes</a></li>
+                        <li><a href="https://iosapi.xamarin.com/">Xamarin.iOS APIs</a></li>
+                        <li><a href="https://androidapi.xamarin.com/">Xamarin.Android APIs</a></li>
+                        <li><a href="https://macapi.xamarin.com/">Xamarin.Mac APIs</a></li>
                         <li><a href="https://forums.xamarin.com">Forums</a></li>
-                        <li><a href="http://planet.xamarin.com">Community Blogs</a></li>
+                        <li><a href="https://blog.xamarin.com">Community Blogs</a></li>
                         <li><a href="https://components.xamarin.com">Components</a></li>
-                        <li><a href="http://developer.xamarin.com/videos/">Videos</a></li>
+                        <li><a href="https://developer.xamarin.com/videos/">Videos</a></li>
                     </ul>
                 </li>
 
@@ -222,7 +222,7 @@
                         <li><a href="https://www.xamarin.com/contact-us">Contact Sales</a></li>
                         <li><a href="https://twitter.com/xamarinhq">Twitter</a></li>
                         <li><a href="https://github.com/xamarin">GitHub</a></li>
-                        <li><a href="http://stackoverflow.com/questions/tagged/xamarin">Stack Overflow</a></li>
+                        <li><a href="https://stackoverflow.com/questions/tagged/xamarin">Stack Overflow</a></li>
                         <li><a href="https://www.facebook.com/xamarinhq">Facebook</a></li>
                         <li><a href="https://plus.google.com/101300081691995092351/posts">Google+</a></li>
                         <li><a href="https://www.youtube.com/user/XamarinVideos">YouTube</a></li>

@@ -21,8 +21,8 @@ if ($buildBits) {
 
 
 $env:ESHOP_EXTERNAL_DNS_NAME_OR_IP = "10.0.75.1"
-$env:ESHOP_AZURE_STORAGE_CATALOG_URL ="http://10.0.75.1:5101/api/v1/catalog/items/[0]/pic/"
-$env:ESHOP_AZURE_STORAGE_MARKETING_URL ="http://10.0.75.1:5110/api/v1/campaigns/[0]/pic/"
+$env:ESHOP_AZURE_STORAGE_CATALOG_URL ="https://10.0.75.1:5101/api/v1/catalog/items/[0]/pic/"
+$env:ESHOP_AZURE_STORAGE_MARKETING_URL ="https://10.0.75.1:5110/api/v1/campaigns/[0]/pic/"
 $env:ESHOP_OCELOT_VOLUME_SPEC ="C:\app\configuration"
 
 if (-Not $customEventBusLoginPassword) {
